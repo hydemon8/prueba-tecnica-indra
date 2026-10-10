@@ -9,10 +9,10 @@ clásico sobre COIL-100. *Documento en construcción: el índice de entregables 
 |---|---|---|---|
 | 2 | Notebook de experimentación reproducible | [`notebooks/01_reto2_experimentacion.ipynb`](notebooks/01_reto2_experimentacion.ipynb) | listo |
 | 3 | Reporte por protocolo, análisis de errores y model card | [`reports/model_card.md`](reports/model_card.md), [`reports/results.json`](reports/results.json) (PDF pendiente) | en curso |
-| 5 | Repositorio de código | este repo (`src/linevision`) | en curso |
-| 7 | Catálogo de tools y contratos | `doc/` | pendiente |
-| 8 | Threat model y controles | `doc/` | pendiente |
-| 10 | Servicio desplegado | servicio de visión: [`doc/12_servicio_de_vision.md`](doc/12_servicio_de_vision.md), contrato en [`doc/openapi/vision.json`](doc/openapi/vision.json); asistente pendiente | en curso |
+| 5 | Repositorio de código | este repo: `src/linevision` (visión) y `src/lineops` (asistente) | listo |
+| 7 | Catálogo de tools y contratos | [`doc/13_catalogo_de_tools.md`](doc/13_catalogo_de_tools.md), [`doc/openapi/tools.json`](doc/openapi/tools.json) | listo |
+| 8 | Threat model y controles | [`doc/15_threat_model.md`](doc/15_threat_model.md) | listo |
+| 10 | Servicio desplegado | despliegue local de un comando (abajo); visión: [`doc/12_servicio_de_vision.md`](doc/12_servicio_de_vision.md); asistente: [`doc/14_asistente_agentico.md`](doc/14_asistente_agentico.md); URL pública pendiente | en curso |
 | 12 | Arquitectura Azure y modelo de costos | `doc/` | pendiente |
 
 ## Reto 2 en una página
@@ -55,7 +55,24 @@ uv run jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db
 ```
 
-### Servicio de visión (Reto 4)
+### Sistema completo con un comando (Retos 3 y 4)
+
+```bash
+cp .env.example .env                                  # y completar GEMINI_API_KEY
+uv run --extra service --extra agent lineops-up       # visión en :8001, asistente e interfaz en http://127.0.0.1:8002
+```
+
+Levanta dos procesos independientes: el servicio de visión y el asistente con su interfaz web. La planta es
+simulada y se siembra sola en `var/plant.db` (borrar `var/` la reinicia). Evaluación del agente:
+
+```bash
+uv run --extra service --extra agent python -m lineops.evals.run    # 45 casos -> reports/agent_eval.md
+```
+
+Diseño, escenarios adversos y diagrama del flujo con aprobación humana:
+[`doc/14_asistente_agentico.md`](doc/14_asistente_agentico.md). Resultados: [`reports/agent_eval.md`](reports/agent_eval.md).
+
+### Solo el servicio de visión (Reto 4)
 
 ```bash
 uv run --extra service linevision-serve      # http://127.0.0.1:8001 (documentación en /docs)
@@ -73,6 +90,10 @@ configs/            configuración separada del código (protocolos, modelo, umb
 src/linevision/     librería: datos, protocolos, características, identidad, plato (pose), control de
                     seguridad, sistema, experimentos, selección, referencia, tracking, registro y reportes
   service/          servicio de visión: API HTTP, validación de captura y orden para el robot
+src/lineops/        asistente agéntico: tools, capa de política, bucle del agente, memoria, API e interfaz,
+                    planta simulada y arnés de evaluación
+knowledge/sops/     procedimientos de planta que el asistente consulta con cita
+evals/              set de evaluación del agente (45 casos) y sus imágenes
 tests/              tests unitarios (sin dependencia del dataset)
 notebooks/          experimentación de punta a punta (Reto 2)
 reports/            model card y resultados por protocolo (generados por el notebook)

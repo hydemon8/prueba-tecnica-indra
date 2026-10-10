@@ -1,0 +1,1193 @@
+{
+  "tools": [
+    {
+      "name": "inspect_images",
+      "kind": "read",
+      "risk": "low",
+      "description": "Analiza con el servicio de visión una o varias imágenes cargadas: valida la captura, identifica el producto, estima el ángulo con su incertidumbre, da la decisión del control de seguridad con sus motivos y devuelve las vistas de referencia más parecidas como evidencia.",
+      "roles": [
+        "maintenance",
+        "ml_engineer",
+        "operator",
+        "plant_manager",
+        "quality",
+        "supervisor"
+      ],
+      "approver_roles": [],
+      "use_cases": [
+        "inspección de imagen"
+      ],
+      "side_effects": "ninguno",
+      "idempotency": "lectura pura: repetirla da el mismo resultado para la misma versión de modelo",
+      "errors": [
+        "image_not_found",
+        "vision_unavailable (reintentable)",
+        "vision_rejected"
+      ],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "image_ids": {
+            "description": "Identificadores de imágenes cargadas en esta sesión (img-...)",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 8,
+            "minItems": 1,
+            "title": "Image Ids",
+            "type": "array"
+          },
+          "top_k": {
+            "default": 3,
+            "description": "Vistas similares a devolver como evidencia",
+            "maximum": 5,
+            "minimum": 1,
+            "title": "Top K",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "image_ids"
+        ],
+        "title": "InspectImagesArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "get_model_info",
+      "kind": "read",
+      "risk": "low",
+      "description": "Versión del modelo que está sirviendo el servicio de visión, sus umbrales del control de seguridad y el registro de versiones (producción, staging, archivadas).",
+      "roles": [
+        "maintenance",
+        "ml_engineer",
+        "plant_manager",
+        "quality",
+        "supervisor"
+      ],
+      "approver_roles": [],
+      "use_cases": [
+        "consulta operativa",
+        "operación de riesgo"
+      ],
+      "side_effects": "ninguno",
+      "idempotency": "n/a",
+      "errors": [
+        "vision_unavailable (reintentable)"
+      ],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {},
+        "title": "NoArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "get_shift_metrics",
+      "kind": "read",
+      "risk": "low",
+      "description": "Métricas de un turno de una línea: objetos procesados, porcentaje atendido por el robot, rechazos por tipo, agarres fallidos, desglose por hora y la referencia de las 24 horas anteriores.",
+      "roles": [
+        "maintenance",
+        "ml_engineer",
+        "plant_manager",
+        "quality",
+        "supervisor"
+      ],
+      "approver_roles": [],
+      "use_cases": [
+        "consulta operativa",
+        "entrega de turno"
+      ],
+      "side_effects": "ninguno",
+      "idempotency": "n/a",
+      "errors": [],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "line_id": {
+            "description": "Identificador de la línea, por ejemplo L1",
+            "pattern": "^L\\d{1,2}$",
+            "title": "Line Id",
+            "type": "string"
+          },
+          "shift": {
+            "description": "Turno: 1 (06-14), 2 (14-22), 3 (22-06). Devuelve su ocurrencia más reciente",
+            "enum": [
+              1,
+              2,
+              3
+            ],
+            "title": "Shift",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "line_id",
+          "shift"
+        ],
+        "title": "ShiftArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "get_line_timeline",
+      "kind": "read",
+      "risk": "low",
+      "description": "Línea de tiempo de una línea en una ventana: por intervalo, rechazos, agarres fallidos, brillo y estado de la cámara y versión de modelo, más los eventos de la línea (promoción de modelo, mantenimiento, pausas, cambios de umbral). Sirve para explicar por qué cambió una métrica.",
+      "roles": [
+        "maintenance",
+        "ml_engineer",
+        "plant_manager",
+        "quality",
+        "supervisor"
+      ],
+      "approver_roles": [],
+      "use_cases": [
+        "consulta operativa",
+        "diagnóstico de falla"
+      ],
+      "side_effects": "ninguno",
+      "idempotency": "n/a",
+      "errors": [
+        "invalid_arguments (ventana > 72 h o mal formada)"
+      ],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "line_id": {
+            "description": "Identificador de la línea, por ejemplo L1",
+            "pattern": "^L\\d{1,2}$",
+            "title": "Line Id",
+            "type": "string"
+          },
+          "start": {
+            "description": "Inicio de la ventana, fecha y hora ISO local, por ejemplo 2026-10-10T02:00",
+            "title": "Start",
+            "type": "string"
+          },
+          "end": {
+            "description": "Fin de la ventana, fecha y hora ISO local",
+            "title": "End",
+            "type": "string"
+          },
+          "bucket_minutes": {
+            "default": 30,
+            "description": "Tamaño del intervalo",
+            "enum": [
+              10,
+              30,
+              60
+            ],
+            "title": "Bucket Minutes",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "line_id",
+          "start",
+          "end"
+        ],
+        "title": "TimelineArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "get_camera_health",
+      "kind": "read",
+      "risk": "low",
+      "description": "Salud de la cámara de una línea en una ventana: brillo medio y mínimo frente al nominal, enfoque, fotogramas perdidos e intervalo en estado degradado.",
+      "roles": [
+        "maintenance",
+        "ml_engineer",
+        "plant_manager",
+        "quality",
+        "supervisor"
+      ],
+      "approver_roles": [],
+      "use_cases": [
+        "consulta operativa",
+        "diagnóstico de falla"
+      ],
+      "side_effects": "ninguno",
+      "idempotency": "n/a",
+      "errors": [
+        "invalid_arguments",
+        "no_data"
+      ],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "line_id": {
+            "description": "Identificador de la línea, por ejemplo L1",
+            "pattern": "^L\\d{1,2}$",
+            "title": "Line Id",
+            "type": "string"
+          },
+          "start": {
+            "description": "Inicio de la ventana, fecha y hora ISO local, por ejemplo 2026-10-10T02:00",
+            "title": "Start",
+            "type": "string"
+          },
+          "end": {
+            "description": "Fin de la ventana, fecha y hora ISO local",
+            "title": "End",
+            "type": "string"
+          }
+        },
+        "required": [
+          "line_id",
+          "start",
+          "end"
+        ],
+        "title": "WindowArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "get_grasp_failures",
+      "kind": "read",
+      "risk": "low",
+      "description": "Agarres fallidos del robot en una ventana: total, tasa, primer fallo y desglose por producto (SKU), con la concentración en los tres más afectados.",
+      "roles": [
+        "maintenance",
+        "ml_engineer",
+        "plant_manager",
+        "quality",
+        "supervisor"
+      ],
+      "approver_roles": [],
+      "use_cases": [
+        "diagnóstico de falla"
+      ],
+      "side_effects": "ninguno",
+      "idempotency": "n/a",
+      "errors": [
+        "invalid_arguments"
+      ],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "line_id": {
+            "description": "Identificador de la línea, por ejemplo L1",
+            "pattern": "^L\\d{1,2}$",
+            "title": "Line Id",
+            "type": "string"
+          },
+          "start": {
+            "description": "Inicio de la ventana, fecha y hora ISO local, por ejemplo 2026-10-10T02:00",
+            "title": "Start",
+            "type": "string"
+          },
+          "end": {
+            "description": "Fin de la ventana, fecha y hora ISO local",
+            "title": "End",
+            "type": "string"
+          }
+        },
+        "required": [
+          "line_id",
+          "start",
+          "end"
+        ],
+        "title": "WindowArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "list_review_cases",
+      "kind": "read",
+      "risk": "low",
+      "description": "Lista los casos de la cola de revisión humana de una línea (rechazados por baja confianza).",
+      "roles": [
+        "ml_engineer",
+        "plant_manager",
+        "quality",
+        "supervisor"
+      ],
+      "approver_roles": [],
+      "use_cases": [
+        "cola de revisión humana",
+        "entrega de turno"
+      ],
+      "side_effects": "ninguno",
+      "idempotency": "n/a",
+      "errors": [],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "line_id": {
+            "description": "Identificador de la línea, por ejemplo L1",
+            "pattern": "^L\\d{1,2}$",
+            "title": "Line Id",
+            "type": "string"
+          },
+          "status": {
+            "default": "PENDING",
+            "enum": [
+              "PENDING",
+              "RESOLVED"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "limit": {
+            "default": 10,
+            "maximum": 25,
+            "minimum": 1,
+            "title": "Limit",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "line_id"
+        ],
+        "title": "ListReviewArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "get_review_case",
+      "kind": "read",
+      "risk": "low",
+      "description": "Detalle de un caso de revisión con su evidencia: lo que propuso el modelo, su confianza, los motivos del rechazo y las vistas de referencia más parecidas.",
+      "roles": [
+        "ml_engineer",
+        "plant_manager",
+        "quality",
+        "supervisor"
+      ],
+      "approver_roles": [],
+      "use_cases": [
+        "cola de revisión humana"
+      ],
+      "side_effects": "ninguno",
+      "idempotency": "n/a",
+      "errors": [
+        "not_found"
+      ],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "case_id": {
+            "description": "Identificador del caso, por ejemplo RC-0003",
+            "pattern": "^RC-\\d{4}$",
+            "title": "Case Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "case_id"
+        ],
+        "title": "CaseArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "search_procedures",
+      "kind": "read",
+      "risk": "low",
+      "description": "Busca en los procedimientos y manuales de planta (SOP) y devuelve las secciones más relevantes con su cita (documento y sección).",
+      "roles": [
+        "maintenance",
+        "ml_engineer",
+        "operator",
+        "plant_manager",
+        "quality",
+        "supervisor"
+      ],
+      "approver_roles": [],
+      "use_cases": [
+        "diagnóstico de falla",
+        "operación de riesgo",
+        "alta de producto nuevo"
+      ],
+      "side_effects": "ninguno",
+      "idempotency": "n/a",
+      "errors": [],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "query": {
+            "description": "Qué se busca en los procedimientos y manuales",
+            "maxLength": 300,
+            "minLength": 3,
+            "title": "Query",
+            "type": "string"
+          },
+          "k": {
+            "default": 3,
+            "maximum": 5,
+            "minimum": 1,
+            "title": "K",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "title": "SearchArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "list_tickets",
+      "kind": "read",
+      "risk": "low",
+      "description": "Tickets de mantenimiento e incidencias de una línea, con su estado y severidad.",
+      "roles": [
+        "maintenance",
+        "ml_engineer",
+        "plant_manager",
+        "quality",
+        "supervisor"
+      ],
+      "approver_roles": [],
+      "use_cases": [
+        "diagnóstico de falla",
+        "entrega de turno",
+        "consulta operativa"
+      ],
+      "side_effects": "ninguno",
+      "idempotency": "n/a",
+      "errors": [],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "line_id": {
+            "description": "Identificador de la línea, por ejemplo L1",
+            "pattern": "^L\\d{1,2}$",
+            "title": "Line Id",
+            "type": "string"
+          },
+          "status": {
+            "default": "ANY",
+            "enum": [
+              "OPEN",
+              "ESCALATED",
+              "RESOLVED",
+              "ANY"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "line_id"
+        ],
+        "title": "ListTicketsArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "get_line_status",
+      "kind": "read",
+      "risk": "low",
+      "description": "Estado actual de una línea: en marcha o en pausa, umbral de confianza, versión de modelo, cámara, últimos eventos y solicitudes de aprobación pendientes.",
+      "roles": [
+        "maintenance",
+        "ml_engineer",
+        "operator",
+        "plant_manager",
+        "quality",
+        "supervisor"
+      ],
+      "approver_roles": [],
+      "use_cases": [
+        "consulta operativa",
+        "operación de riesgo",
+        "entrega de turno"
+      ],
+      "side_effects": "ninguno",
+      "idempotency": "n/a",
+      "errors": [
+        "not_found"
+      ],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "line_id": {
+            "description": "Identificador de la línea, por ejemplo L1",
+            "pattern": "^L\\d{1,2}$",
+            "title": "Line Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "line_id"
+        ],
+        "title": "LineArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "resolve_review_case",
+      "kind": "write",
+      "risk": "low",
+      "description": "Registra la etiqueta (SKU) y el ángulo que una persona ha confirmado para un caso de la cola de revisión. Úsala solo con valores que el usuario haya dado explícitamente en la conversación.",
+      "roles": [
+        "quality",
+        "supervisor"
+      ],
+      "approver_roles": [],
+      "use_cases": [
+        "cola de revisión humana"
+      ],
+      "side_effects": "marca el caso como resuelto con el usuario de la sesión como responsable",
+      "idempotency": "repetir con los mismos valores devuelve already_resolved; con otros valores, error conflict",
+      "errors": [
+        "not_found",
+        "conflict",
+        "permission_denied"
+      ],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "case_id": {
+            "description": "Caso a resolver, por ejemplo RC-0003",
+            "pattern": "^RC-\\d{4}$",
+            "title": "Case Id",
+            "type": "string"
+          },
+          "confirmed_object_id": {
+            "description": "Producto (SKU) confirmado por la persona",
+            "maximum": 100000,
+            "minimum": 1,
+            "title": "Confirmed Object Id",
+            "type": "integer"
+          },
+          "confirmed_angle_deg": {
+            "description": "Ángulo confirmado por la persona, en grados",
+            "exclusiveMaximum": 360,
+            "minimum": 0,
+            "title": "Confirmed Angle Deg",
+            "type": "number"
+          }
+        },
+        "required": [
+          "case_id",
+          "confirmed_object_id",
+          "confirmed_angle_deg"
+        ],
+        "title": "ResolveArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "add_to_retraining_dataset",
+      "kind": "write",
+      "risk": "low",
+      "description": "Añade un caso de revisión ya resuelto al dataset de reentrenamiento, con su etiqueta y su ángulo confirmados.",
+      "roles": [
+        "quality",
+        "supervisor"
+      ],
+      "approver_roles": [],
+      "use_cases": [
+        "cola de revisión humana"
+      ],
+      "side_effects": "inserta un elemento en el dataset de reentrenamiento",
+      "idempotency": "un caso solo entra una vez (restricción única); repetir devuelve already_in_dataset",
+      "errors": [
+        "not_found",
+        "precondition_failed"
+      ],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "case_id": {
+            "description": "Identificador del caso, por ejemplo RC-0003",
+            "pattern": "^RC-\\d{4}$",
+            "title": "Case Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "case_id"
+        ],
+        "title": "CaseArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "create_ticket",
+      "kind": "write",
+      "risk": "low",
+      "description": "Crea un ticket de mantenimiento o incidencia para una línea.",
+      "roles": [
+        "maintenance",
+        "plant_manager",
+        "quality",
+        "supervisor"
+      ],
+      "approver_roles": [],
+      "use_cases": [
+        "diagnóstico de falla"
+      ],
+      "side_effects": "crea un ticket abierto",
+      "idempotency": "mismo usuario, línea y título con un ticket aún abierto: devuelve el existente (deduplicated)",
+      "errors": [
+        "not_found",
+        "invalid_arguments"
+      ],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "line_id": {
+            "description": "Identificador de la línea, por ejemplo L1",
+            "pattern": "^L\\d{1,2}$",
+            "title": "Line Id",
+            "type": "string"
+          },
+          "title": {
+            "maxLength": 120,
+            "minLength": 5,
+            "title": "Title",
+            "type": "string"
+          },
+          "description": {
+            "description": "Ventana horaria, SKU afectados, comprobaciones hechas y diagnóstico",
+            "maxLength": 2000,
+            "minLength": 10,
+            "title": "Description",
+            "type": "string"
+          },
+          "severity": {
+            "enum": [
+              "low",
+              "medium",
+              "high",
+              "critical"
+            ],
+            "title": "Severity",
+            "type": "string"
+          }
+        },
+        "required": [
+          "line_id",
+          "title",
+          "description",
+          "severity"
+        ],
+        "title": "CreateTicketArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "escalate_ticket",
+      "kind": "write",
+      "risk": "low",
+      "description": "Escala un ticket abierto al gerente de planta, con el motivo.",
+      "roles": [
+        "maintenance",
+        "plant_manager",
+        "quality",
+        "supervisor"
+      ],
+      "approver_roles": [],
+      "use_cases": [
+        "diagnóstico de falla"
+      ],
+      "side_effects": "cambia el estado a ESCALATED y asigna al gerente de planta",
+      "idempotency": "escalar un ticket ya escalado no cambia nada (already_escalated)",
+      "errors": [
+        "not_found",
+        "precondition_failed"
+      ],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "ticket_id": {
+            "pattern": "^TCK-\\d{3,6}$",
+            "title": "Ticket Id",
+            "type": "string"
+          },
+          "reason": {
+            "maxLength": 500,
+            "minLength": 10,
+            "title": "Reason",
+            "type": "string"
+          }
+        },
+        "required": [
+          "ticket_id",
+          "reason"
+        ],
+        "title": "EscalateArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "create_shift_handover",
+      "kind": "write",
+      "risk": "low",
+      "description": "Genera y guarda el reporte de entrega de un turno: métricas, incidentes detectados con las reglas del procedimiento, tickets abiertos, casos pendientes de revisión y aprobaciones pendientes.",
+      "roles": [
+        "plant_manager",
+        "supervisor"
+      ],
+      "approver_roles": [],
+      "use_cases": [
+        "entrega de turno"
+      ],
+      "side_effects": "guarda el reporte con un identificador por línea, fecha y turno",
+      "idempotency": "un reporte por línea y turno: regenerarlo reemplaza el anterior (replaced_previous)",
+      "errors": [],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "line_id": {
+            "description": "Identificador de la línea, por ejemplo L1",
+            "pattern": "^L\\d{1,2}$",
+            "title": "Line Id",
+            "type": "string"
+          },
+          "shift": {
+            "description": "Turno: 1 (06-14), 2 (14-22), 3 (22-06). Devuelve su ocurrencia más reciente",
+            "enum": [
+              1,
+              2,
+              3
+            ],
+            "title": "Shift",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "line_id",
+          "shift"
+        ],
+        "title": "ShiftArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "register_sku_candidate",
+      "kind": "write",
+      "risk": "low",
+      "description": "Alta de un producto nuevo en staging a partir de un lote de vistas: valida que el material sea suficiente (número de vistas, cobertura angular, calidad de captura y que no se confunda con el catálogo), lo incorpora en el entorno controlado y devuelve la verificación de desempeño.",
+      "roles": [
+        "ml_engineer",
+        "quality"
+      ],
+      "approver_roles": [],
+      "use_cases": [
+        "alta de producto nuevo"
+      ],
+      "side_effects": "crea un candidato en staging; nunca toca producción",
+      "idempotency": "un candidato por nombre y planta: repetir devuelve el existente (already_registered)",
+      "errors": [
+        "batch_not_found",
+        "vision_unavailable (reintentable)"
+      ],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "description": "Nombre del producto nuevo",
+            "maxLength": 60,
+            "minLength": 3,
+            "title": "Name",
+            "type": "string"
+          },
+          "batch_id": {
+            "description": "Lote de imágenes cargado en esta sesión (lote-...)",
+            "pattern": "^lote-[0-9a-f]{8}$",
+            "title": "Batch Id",
+            "type": "string"
+          },
+          "step_deg": {
+            "description": "Giro del plato entre vistas consecutivas, en grados. Las vistas se ordenan por nombre de archivo empezando en 0°",
+            "exclusiveMinimum": 0,
+            "maximum": 120,
+            "title": "Step Deg",
+            "type": "number"
+          }
+        },
+        "required": [
+          "name",
+          "batch_id",
+          "step_deg"
+        ],
+        "title": "RegisterSkuArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "request_sku_promotion",
+      "kind": "write",
+      "risk": "high",
+      "description": "Solicita pasar a producción un producto que está en staging y cumple el criterio de aceptación. No lo ejecuta: crea una solicitud que debe aprobar calidad o el gerente de planta.",
+      "roles": [
+        "ml_engineer",
+        "quality"
+      ],
+      "approver_roles": [
+        "plant_manager",
+        "quality"
+      ],
+      "use_cases": [
+        "alta de producto nuevo",
+        "operación de riesgo"
+      ],
+      "side_effects": "al aprobarse, el candidato pasa a producción",
+      "idempotency": "una solicitud pendiente por operación y argumentos; aprobar dos veces no la re-ejecuta",
+      "errors": [
+        "not_found",
+        "precondition_failed"
+      ],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "candidate_id": {
+            "pattern": "^SKU-C-\\d{3}$",
+            "title": "Candidate Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "candidate_id"
+        ],
+        "title": "CandidateArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "set_confidence_threshold",
+      "kind": "write",
+      "risk": "high",
+      "description": "Solicita cambiar el umbral de confianza de una línea (entre 0,20 y 0,95). No lo ejecuta: crea una solicitud que debe aprobar calidad o el gerente de planta.",
+      "roles": [
+        "ml_engineer",
+        "quality"
+      ],
+      "approver_roles": [
+        "plant_manager",
+        "quality"
+      ],
+      "use_cases": [
+        "operación de riesgo"
+      ],
+      "side_effects": "al aprobarse, cambia el umbral de la línea y registra el evento",
+      "idempotency": "una solicitud pendiente por operación y argumentos; aprobar dos veces no la re-ejecuta",
+      "errors": [
+        "invalid_arguments (fuera de 0,20–0,95)",
+        "not_found"
+      ],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "line_id": {
+            "description": "Identificador de la línea, por ejemplo L1",
+            "pattern": "^L\\d{1,2}$",
+            "title": "Line Id",
+            "type": "string"
+          },
+          "value": {
+            "description": "Nuevo umbral mínimo de confianza de clase",
+            "maximum": 0.95,
+            "minimum": 0.2,
+            "title": "Value",
+            "type": "number"
+          },
+          "reason": {
+            "maxLength": 300,
+            "minLength": 10,
+            "title": "Reason",
+            "type": "string"
+          }
+        },
+        "required": [
+          "line_id",
+          "value",
+          "reason"
+        ],
+        "title": "ThresholdArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "set_line_state",
+      "kind": "write",
+      "risk": "high",
+      "description": "Solicita pausar o reanudar una línea. No lo ejecuta: crea una solicitud que debe aprobar un supervisor o el gerente de planta.",
+      "roles": [
+        "maintenance",
+        "plant_manager",
+        "supervisor"
+      ],
+      "approver_roles": [
+        "plant_manager",
+        "supervisor"
+      ],
+      "use_cases": [
+        "operación de riesgo",
+        "diagnóstico de falla"
+      ],
+      "side_effects": "al aprobarse, cambia el estado de la línea y registra el evento",
+      "idempotency": "si la línea ya está en ese estado devuelve no_change; una solicitud pendiente por argumentos",
+      "errors": [
+        "not_found",
+        "no_change"
+      ],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "line_id": {
+            "description": "Identificador de la línea, por ejemplo L1",
+            "pattern": "^L\\d{1,2}$",
+            "title": "Line Id",
+            "type": "string"
+          },
+          "state": {
+            "description": "PAUSED para pausar, RUNNING para reanudar",
+            "enum": [
+              "PAUSED",
+              "RUNNING"
+            ],
+            "title": "State",
+            "type": "string"
+          },
+          "reason": {
+            "maxLength": 300,
+            "minLength": 10,
+            "title": "Reason",
+            "type": "string"
+          }
+        },
+        "required": [
+          "line_id",
+          "state",
+          "reason"
+        ],
+        "title": "LineStateArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "send_manual_angle",
+      "kind": "write",
+      "risk": "high",
+      "description": "Solicita enviar al robot un ángulo indicado manualmente para el objeto que está en la posición de agarre. Solo con la línea en pausa. No lo ejecuta: requiere aprobación de un supervisor o gerente.",
+      "roles": [
+        "maintenance",
+        "supervisor"
+      ],
+      "approver_roles": [
+        "plant_manager",
+        "supervisor"
+      ],
+      "use_cases": [
+        "operación de riesgo"
+      ],
+      "side_effects": "al aprobarse, el robot recibe la orden y se registra el evento",
+      "idempotency": "una solicitud pendiente por argumentos; una solicitud ejecutada no se puede repetir",
+      "errors": [
+        "precondition_failed (línea en marcha)",
+        "invalid_arguments"
+      ],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "line_id": {
+            "description": "Identificador de la línea, por ejemplo L1",
+            "pattern": "^L\\d{1,2}$",
+            "title": "Line Id",
+            "type": "string"
+          },
+          "object_id": {
+            "description": "Producto que está en la posición de agarre",
+            "maximum": 100000,
+            "minimum": 1,
+            "title": "Object Id",
+            "type": "integer"
+          },
+          "angle_deg": {
+            "description": "Ángulo que el robot debe compensar",
+            "exclusiveMaximum": 360,
+            "minimum": 0,
+            "title": "Angle Deg",
+            "type": "number"
+          },
+          "reason": {
+            "maxLength": 300,
+            "minLength": 10,
+            "title": "Reason",
+            "type": "string"
+          }
+        },
+        "required": [
+          "line_id",
+          "object_id",
+          "angle_deg",
+          "reason"
+        ],
+        "title": "ManualAngleArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    },
+    {
+      "name": "promote_model_version",
+      "kind": "write",
+      "risk": "high",
+      "description": "Solicita promover a producción en una línea una versión de modelo que está en staging. No lo ejecuta: crea una solicitud que debe aprobar calidad o el gerente de planta.",
+      "roles": [
+        "ml_engineer"
+      ],
+      "approver_roles": [
+        "plant_manager",
+        "quality"
+      ],
+      "use_cases": [
+        "operación de riesgo"
+      ],
+      "side_effects": "al aprobarse, la línea pasa a usar la versión y se registra el evento",
+      "idempotency": "una solicitud pendiente por argumentos; tras ejecutarse la versión ya no está en staging",
+      "errors": [
+        "not_found",
+        "precondition_failed"
+      ],
+      "input_schema": {
+        "additionalProperties": false,
+        "properties": {
+          "line_id": {
+            "description": "Identificador de la línea, por ejemplo L1",
+            "pattern": "^L\\d{1,2}$",
+            "title": "Line Id",
+            "type": "string"
+          },
+          "version": {
+            "description": "Versión de modelo en staging que se quiere poner en producción",
+            "maxLength": 40,
+            "minLength": 3,
+            "title": "Version",
+            "type": "string"
+          },
+          "reason": {
+            "maxLength": 300,
+            "minLength": 10,
+            "title": "Reason",
+            "type": "string"
+          }
+        },
+        "required": [
+          "line_id",
+          "version",
+          "reason"
+        ],
+        "title": "PromoteModelArgs",
+        "type": "object"
+      },
+      "output_envelope": {
+        "ok": "boolean",
+        "data": "object si ok",
+        "error": "{code, message, retryable} si no ok"
+      }
+    }
+  ]
+}

@@ -25,6 +25,9 @@ iteración v3 de robustez, reporte PDF, commits, Retos 3, 4 y 6, plan de proyect
 | 10 | [Registro de decisiones e incidencias](10_registro_de_decisiones_e_incidencias.md) | Cronología, decisiones del usuario y técnicas, errores cometidos y cómo se corrigieron, pendientes |
 | 11 | [Implementación y reproducibilidad](11_implementacion_y_reproducibilidad.md) | Estructura del código, cómo ejecutar, MLflow, artefacto, tests |
 | 12 | [Servicio de visión](12_servicio_de_vision.md) | Reto 4: API, qué recibe el robot, validación de captura, controles, latencia medida, arquitectura y secuencia imagen → robot |
+| 13 | [Catálogo de tools](13_catalogo_de_tools.md) | Reto 3: las 22 tools con contrato, permisos, errores, repeticiones y auditoría (generado desde el código) |
+| 14 | [Asistente agéntico](14_asistente_agentico.md) | Reto 3: patrón y alternativas, límites, memoria, aislamiento, flujo con aprobación humana, escenarios adversos y evaluación |
+| 15 | [Threat model](15_threat_model.md) | Reto 3: activos, fronteras de confianza, amenazas y controles con su evidencia, riesgo residual |
 
 `img/` contiene las figuras citadas; `scripts_analisis/` los scripts exploratorios que produjeron los números de
 las fases de análisis (antes de existir la librería).
