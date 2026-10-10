@@ -57,6 +57,10 @@ CREATE TABLE IF NOT EXISTS sku_candidates (
     n_views INTEGER NOT NULL, max_gap_deg REAL NOT NULL, validation TEXT,   -- JSON
     created_by TEXT NOT NULL, created_at TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS handovers (
+    handover_id TEXT PRIMARY KEY, plant_id TEXT NOT NULL, line_id TEXT NOT NULL, shift INTEGER NOT NULL,
+    window_start TEXT NOT NULL, created_by TEXT NOT NULL, created_at TEXT NOT NULL, report TEXT NOT NULL
+);
 CREATE TABLE IF NOT EXISTS approvals (
     approval_id TEXT PRIMARY KEY, action TEXT NOT NULL, args TEXT NOT NULL, plant_id TEXT NOT NULL,
     line_id TEXT, requested_by TEXT NOT NULL, session_id TEXT, created_at TEXT NOT NULL,

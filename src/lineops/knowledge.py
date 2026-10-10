@@ -13,7 +13,7 @@ from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 
-_STOP = set("a al ante con de del el en es la las lo los o para por que se si sin su un una y no".split())
+_STOP = set("a al ante con de del el en es la las lo los o para por que se si sin su un una y no".split())  # noqa: SIM905
 
 
 def tokens(text: str) -> list[str]:

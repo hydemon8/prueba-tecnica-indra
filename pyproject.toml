@@ -23,6 +23,8 @@ notebook = ["jupyterlab>=4", "nbconvert>=7", "ipykernel>=6", "plotly>=5"]
 reference = ["torch>=2.2", "transformers>=4.40"]
 # servicio de inferencia de visión (Reto 4)
 service = ["fastapi>=0.115", "uvicorn>=0.30", "python-multipart>=0.0.9"]
+# asistente agéntico (Reto 3)
+agent = ["fastapi>=0.115", "uvicorn>=0.30", "python-multipart>=0.0.9", "httpx>=0.27"]
 dev = ["pytest>=8", "ruff>=0.5", "httpx>=0.27"]
 
 [project.scripts]
