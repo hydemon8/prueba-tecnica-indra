@@ -38,6 +38,20 @@ class AppearanceNeighbour(BaseModel):
     distance: float = Field(description="Distancia en el espacio de características de identidad")
 
 
+class LineAlert(BaseModel):
+    line_id: str
+    active: bool
+    unknown_rate: float = Field(description="Fracción de UNKNOWN en la ventana reciente de capturas válidas")
+    window_samples: int
+    total_samples: int
+    raise_at: float
+    clear_at: float
+    brightness_change: float | None = Field(None, description="Cambio relativo del brillo frente al normal de la línea")
+    probable_cause: str | None = None
+    times_raised: int
+    effect: str | None = None
+
+
 class Inspection(BaseModel):
     filename: str | None
     image_sha256: str
@@ -58,6 +72,7 @@ class PredictResponse(BaseModel):
     request_id: str
     model_version: str
     latency_ms: float
+    line_alert: LineAlert | None = Field(None, description="Estado de la alerta de captura; solo si se envía X-Line-ID")
     results: list[Inspection]
 
 

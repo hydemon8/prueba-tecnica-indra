@@ -33,6 +33,7 @@ curl -F "images=@coil-100/obj5__40.png" "http://127.0.0.1:8001/v1/predict?top_k=
 | `GET /v1/catalog` | SKUs del catálogo: vistas de referencia, hueco angular máximo, certificación de ángulo, simetría |
 | `GET /v1/reference/{object_id}/{angle_deg}` | Vista de referencia en PNG (evidencia) |
 | `POST /v1/predict` | Una o varias imágenes → decisión, orden para el robot, calidad, identidad, ángulo y top-k |
+| `GET /v1/lines/{line_id}/monitor` | Estado de la alerta de captura de una línea (sección 12.9) |
 | `GET`/`POST /admin/fault` | Solo con `VISION_FAULT_INJECTION=true`: simula 5xx o timeouts en las siguientes inferencias |
 
 Todos los errores tienen el mismo cuerpo: `{"code", "message", "request_id"}`. Códigos: `unauthorized` (401),
@@ -49,6 +50,7 @@ Tabla fija en `service/robot.py`. El robot solo recibe un ángulo con `PICK`.
 | `ANGLE_UNCERTIFIED` | control de seguridad | `SECOND_CAPTURE` | Giro de 180° o 2a cámara y nueva estimación; si persiste, alineación manual |
 | `REVIEW` | control de seguridad | `DIVERT_TO_REVIEW` | Cola de revisión humana |
 | `UNKNOWN` | control de seguridad | `DIVERT_TO_REJECT` | Carril de rechazo |
+| `UNKNOWN` con alerta de captura activa | control de seguridad + alerta | `DIVERT_TO_REVIEW` | Se retiene para revisión humana (sección 12.9) |
 | `BAD_CAPTURE` | validación de captura | `RECAPTURE` | Se repite la captura; el modelo no llega a ejecutarse |
 
 ## 12.4 Validación de captura
@@ -146,3 +148,47 @@ sequenceDiagram
     end
     Note over L,V: sin respuesta en el plazo o 5xx: el controlador no mueve el robot y desvía a revisión
 ```
+
+## 12.9 Alerta de captura
+
+**El problema.** Un objeto `UNKNOWN` va al carril de rechazo sin que nadie lo revise. Eso es correcto para un
+objeto ajeno, pero las pruebas de robustez (sección 9) mostraron que un cambio de iluminación hace que producto
+conocido salga como desconocido: con un 15 % más de brillo, el 66 %. Sin más control, una lámpara degradada
+mandaría producto bueno al rechazo, objeto tras objeto.
+
+**La regla** (`service/monitor.py`, determinista, sin LLM). El controlador de línea envía la cabecera `X-Line-ID`
+con cada captura. Por cada línea el servicio mantiene una ventana con las últimas 100 capturas válidas:
+
+| Parámetro | Valor | Por qué |
+|---|---|---|
+| Ventana | 100 capturas | A una captura cada 30 s son 50 minutos; reacciona en minutos a un cambio brusco |
+| Mínimo para evaluar | 30 capturas | No dispara con muestras pequeñas |
+| Activación | ≥ 10 % de `UNKNOWN` | El umbral de novedad se calibró para dejar fuera al 1 % de los conocidos: 10 % es diez veces lo esperado. Coincide con la definición de incidente de SOP-OPS-006 § 2 |
+| Desactivación | ≤ 3 % | Histéresis: la alerta no parpadea alrededor del umbral |
+
+Todos son configuración (`VISION_ALERT_WINDOW`, `VISION_ALERT_MIN_SAMPLES`, `VISION_ALERT_UNKNOWN_RATE`).
+
+**Qué cambia mientras está activa.** Un `UNKNOWN` recibe `DIVERT_TO_REVIEW` en lugar de `DIVERT_TO_REJECT`, con el
+motivo añadido a `reasons`. El resto de decisiones no cambia: `ACT` sigue siendo `PICK`. La decisión del modelo no
+se toca; cambia solo el destino físico del objeto dudoso.
+
+**Causa probable.** El servicio aprende el brillo normal de la línea con las capturas que acabaron en `ACT` y lo
+compara con el de las últimas 30. Si difiere un 10 % o más, apunta a la iluminación y cita SOP-CAM-002; si no,
+apunta a la cámara, la posición del objeto o un lote no dado de alta.
+
+**Qué no cuenta.** Las inspecciones manuales del asistente no envían `X-Line-ID`: no entran en la ventana ni se
+retienen. Las capturas `BAD_CAPTURE` tampoco cuentan.
+
+**Evidencia** (`tests/test_capture_alert.py`): con 40 vistas limpias de COIL-100 seguidas de 20 atenuadas un 30 %,
+la alerta se activa, señala la iluminación como causa, y de las atenuadas se rechazan como mucho las 5 primeras;
+las demás se retienen para revisión.
+
+**Limitaciones.**
+
+- El estado vive en memoria del proceso: se pierde al reiniciar y no se comparte entre réplicas. En producción iría
+  a un almacén compartido (sección del Reto 6).
+- No detecta un deterioro lento que nunca llegue al 10 %, ni un fallo que afecte a pocos productos.
+- Los objetos anteriores a la activación ya se rechazaron (unos 10 con los valores por defecto, partiendo de una
+  línea sana).
+- La planta simulada y el asistente todavía no consumen esta alerta: sus datos sembrados son anteriores. El
+  asistente llega a la misma conclusión por otra vía, cruzando rechazos y salud de cámara.

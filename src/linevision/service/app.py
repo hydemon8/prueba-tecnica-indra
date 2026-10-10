@@ -21,12 +21,14 @@ from fastapi.responses import FileResponse, JSONResponse
 
 from ..system import VisionSystem
 from . import quality
+from .monitor import CaptureMonitor, MonitorConfig
 from .robot import BAD_CAPTURE, robot_command
-from .schemas import CatalogEntry, ErrorBody, FaultRequest, Inspection, ModelInfo, PredictResponse
+from .schemas import CatalogEntry, ErrorBody, FaultRequest, Inspection, LineAlert, ModelInfo, PredictResponse
 from .settings import ServiceSettings
 
 log = logging.getLogger("linevision.service")
 _REQUEST_ID = re.compile(r"^[A-Za-z0-9_.-]{1,64}$")
+_LINE_ID = re.compile(r"^[A-Za-z0-9_-]{1,32}$")
 
 
 class ApiError(HTTPException):
@@ -104,6 +106,8 @@ def create_app(settings: ServiceSettings | None = None, system: VisionSystem | N
     app = FastAPI(title="linevision — servicio de visión", version="1.0.0", lifespan=lifespan,
                   description="Identificación de producto, giro (yaw) y decisión segura para pick & pack.")
     faults = FaultState()
+    monitor = CaptureMonitor(MonitorConfig(settings.alert_window, settings.alert_min_samples, settings.alert_unknown_rate,
+                                           settings.alert_unknown_rate * 0.3))
 
     @app.exception_handler(HTTPException)
     async def http_error(request: Request, exc: HTTPException):
@@ -174,7 +178,11 @@ def create_app(settings: ServiceSettings | None = None, system: VisionSystem | N
               responses=errors, tags=["inferencia"])
     def predict(request: Request, rid: str = Depends(request_id),
                 images: list[UploadFile] = File(..., description="Una o varias imágenes PNG/JPEG"),  # noqa: B008
-                top_k: int = Query(5, ge=1, le=20, description="Vistas similares a devolver")):
+                top_k: int = Query(5, ge=1, le=20, description="Vistas similares a devolver"),
+                x_line_id: str | None = Header(None, description="Línea de producción que envía la captura. Activa la "
+                                               "alerta de captura para esa línea; las inspecciones manuales no la envían")):
+        if x_line_id is not None and not _LINE_ID.match(x_line_id):
+            raise ApiError(422, "invalid_line_id", "X-Line-ID admite letras, números, guion y guion bajo (máximo 32)")
         if len(images) > settings.max_batch:
             raise ApiError(413, "batch_too_large", f"máximo {settings.max_batch} imágenes por petición")
         mode, delay = faults.take() if settings.fault_injection else ("none", 0.0)
@@ -213,7 +221,17 @@ def create_app(settings: ServiceSettings | None = None, system: VisionSystem | N
                 item = {**e, **p}
             else:
                 item = {**e, "decision": BAD_CAPTURE, "reasons": e["quality"]["issues"]}
-            item["robot_command"] = robot_command(item["decision"], item.get("object_id"), item.get("angle_deg"))
+            hold = False
+            if x_line_id and item["decision"] != BAD_CAPTURE:  # la alerta se evalúa captura a captura, en orden
+                alert, change = monitor.observe(x_line_id, item["decision"], e["quality"]["mean_brightness"])
+                hold = alert["active"]
+                if change:
+                    log.warning(json.dumps({"event": f"capture_alert_{change}", "request_id": rid, **alert}, ensure_ascii=False))
+                if hold and item["decision"] == "UNKNOWN":
+                    why = (f"alerta de captura activa en {x_line_id}: {alert['unknown_rate']:.0%} de desconocidos en las "
+                           f"últimas {alert['window_samples']} capturas; se retiene para revisión en lugar de rechazarse")
+                    item["reasons"] = [*item["reasons"], why]
+            item["robot_command"] = robot_command(item["decision"], item.get("object_id"), item.get("angle_deg"), hold)
             results.append(Inspection(**item))
         latency_ms = (time.perf_counter() - t0) * 1000
 
@@ -224,7 +242,14 @@ def create_app(settings: ServiceSettings | None = None, system: VisionSystem | N
                 "object_id": r.object_id, "angle_deg": r.angle_deg, "latency_ms": round(latency_ms, 2),
             }, ensure_ascii=False))
         return PredictResponse(request_id=rid, model_version=s.version, latency_ms=round(latency_ms, 2),
-                               results=results)
+                               results=results, line_alert=monitor.snapshot(x_line_id) if x_line_id else None)
+
+    @app.get("/v1/lines/{line_id}/monitor", response_model=LineAlert, dependencies=secured, tags=["operación"])
+    def line_monitor(line_id: str):
+        """Estado de la alerta de captura de una línea: tasa reciente de desconocidos, cambio de brillo y causa probable."""
+        if not _LINE_ID.match(line_id):
+            raise ApiError(422, "invalid_line_id", "identificador de línea no válido")
+        return monitor.snapshot(line_id)
 
     if settings.fault_injection:
         @app.get("/admin/fault", dependencies=secured, tags=["demo de robustez"])

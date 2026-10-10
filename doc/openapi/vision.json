@@ -293,6 +293,24 @@
             "description": "Vistas similares a devolver"
           },
           {
+            "name": "x-line-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Línea de producción que envía la captura. Activa la alerta de captura para esa línea; las inspecciones manuales no la envían",
+              "title": "X-Line-Id"
+            },
+            "description": "Línea de producción que envía la captura. Activa la alerta de captura para esa línea; las inspecciones manuales no la envían"
+          },
+          {
             "name": "x-api-key",
             "in": "header",
             "required": false,
@@ -385,6 +403,81 @@
               }
             },
             "description": "Service Unavailable"
+          }
+        }
+      }
+    },
+    "/v1/lines/{line_id}/monitor": {
+      "get": {
+        "tags": [
+          "operación"
+        ],
+        "summary": "Line Monitor",
+        "description": "Estado de la alerta de captura de una línea: tasa reciente de desconocidos, cambio de brillo y causa probable.",
+        "operationId": "line_monitor_v1_lines__line_id__monitor_get",
+        "parameters": [
+          {
+            "name": "line_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Line Id"
+            }
+          },
+          {
+            "name": "x-request-id",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Request-Id"
+            }
+          },
+          {
+            "name": "x-api-key",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LineAlert"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
           }
         }
       }
@@ -805,6 +898,89 @@
         ],
         "title": "Inspection"
       },
+      "LineAlert": {
+        "properties": {
+          "line_id": {
+            "type": "string",
+            "title": "Line Id"
+          },
+          "active": {
+            "type": "boolean",
+            "title": "Active"
+          },
+          "unknown_rate": {
+            "type": "number",
+            "title": "Unknown Rate",
+            "description": "Fracción de UNKNOWN en la ventana reciente de capturas válidas"
+          },
+          "window_samples": {
+            "type": "integer",
+            "title": "Window Samples"
+          },
+          "total_samples": {
+            "type": "integer",
+            "title": "Total Samples"
+          },
+          "raise_at": {
+            "type": "number",
+            "title": "Raise At"
+          },
+          "clear_at": {
+            "type": "number",
+            "title": "Clear At"
+          },
+          "brightness_change": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Brightness Change",
+            "description": "Cambio relativo del brillo frente al normal de la línea"
+          },
+          "probable_cause": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Probable Cause"
+          },
+          "times_raised": {
+            "type": "integer",
+            "title": "Times Raised"
+          },
+          "effect": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Effect"
+          }
+        },
+        "type": "object",
+        "required": [
+          "line_id",
+          "active",
+          "unknown_rate",
+          "window_samples",
+          "total_samples",
+          "raise_at",
+          "clear_at",
+          "times_raised"
+        ],
+        "title": "LineAlert"
+      },
       "ModelInfo": {
         "properties": {
           "name": {
@@ -902,6 +1078,17 @@
           "latency_ms": {
             "type": "number",
             "title": "Latency Ms"
+          },
+          "line_alert": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/LineAlert"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Estado de la alerta de captura; solo si se envía X-Line-ID"
           },
           "results": {
             "items": {

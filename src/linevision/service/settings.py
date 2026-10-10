@@ -30,6 +30,9 @@ class ServiceSettings:
     max_image_bytes: int = 5_000_000
     max_batch: int = 16
     fault_injection: bool = False  # habilita /admin/fault (solo demo y pruebas de robustez)
+    alert_window: int = 100  # alerta de captura: capturas recientes observadas por línea
+    alert_min_samples: int = 30
+    alert_unknown_rate: float = 0.10  # tasa de UNKNOWN que activa la alerta
 
     @classmethod
     def from_env(cls) -> ServiceSettings:
@@ -42,6 +45,9 @@ class ServiceSettings:
             max_image_bytes=int(os.environ.get("VISION_MAX_IMAGE_BYTES", "5000000")),
             max_batch=int(os.environ.get("VISION_MAX_BATCH", "16")),
             fault_injection=_flag("VISION_FAULT_INJECTION"),
+            alert_window=int(os.environ.get("VISION_ALERT_WINDOW", "100")),
+            alert_min_samples=int(os.environ.get("VISION_ALERT_MIN_SAMPLES", "30")),
+            alert_unknown_rate=float(os.environ.get("VISION_ALERT_UNKNOWN_RATE", "0.10")),
         )
 
     @property

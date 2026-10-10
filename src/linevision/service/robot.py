@@ -17,8 +17,10 @@ ROBOT_ACTION = {
 }
 
 
-def robot_command(decision: str, object_id: int | None, angle_deg: float | None) -> dict:
-    action = ROBOT_ACTION[decision]
+def robot_command(decision: str, object_id: int | None, angle_deg: float | None, hold_unknown: bool = False) -> dict:
+    """`hold_unknown`: hay una alerta de captura activa en la línea; un UNKNOWN se retiene para revisión humana
+    en lugar de rechazarse, porque lo más probable es que sea producto conocido mal capturado."""
+    action = "DIVERT_TO_REVIEW" if hold_unknown and decision == "UNKNOWN" else ROBOT_ACTION[decision]
     act = action == "PICK"
     return {
         "action": action,
