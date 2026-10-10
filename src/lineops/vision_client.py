@@ -55,4 +55,12 @@ class VisionClient:
         return self._request("GET", "/v1/model")
 
     def reference_url(self, object_id: int, angle_deg: float) -> str:
-        return f"{self.base_url}/v1/reference/{object_id}/{int(angle_deg)}"
+        """Ruta relativa en la API del asistente, que hace de intermediario: el navegador no ve el servicio de visión."""
+        return f"/api/reference/{object_id}/{int(angle_deg)}"
+
+    def reference_png(self, object_id: int, angle_deg: int) -> bytes | None:
+        try:
+            r = self.http.get(f"/v1/reference/{object_id}/{angle_deg}")
+        except httpx.HTTPError:
+            return None
+        return r.content if r.status_code == 200 else None
