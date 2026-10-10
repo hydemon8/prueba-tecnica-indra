@@ -1,0 +1,51 @@
+features:
+  fg_threshold: 60          # el fondo de COIL-100 no es negro puro (~26/255, p99 ~53)
+  hsv_bins: [16, 4, 4]
+  hog_size: 64
+  hog_cell: 8
+  hog_orientations: 9
+  lbp: [[8, 1], [16, 2]]
+  raw_size: 32
+
+identity:
+  # Criterio de selección PRE-REGISTRADO (fijado antes de mirar cualquier resultado de prueba):
+  #   1) maximizar la exactitud del peor caso entre las validaciones internas de A, B y C;
+  #   2) restricción de seguridad: en la validación interna de D, desconocidos aceptados <= 5 %
+  #      cuando se acepta el 95 % de los conocidos;
+  #   3) desempate: menor latencia de inferencia.
+  selection:
+    max_unknown_accepted: 0.05   # restricción 2)
+    tie_tolerance_pp: 0.5        # empate en 1) si la diferencia es menor a 0,5 puntos porcentuales
+  candidates:
+    blocks: [[raw], [hsv], [hog], [lbp], [hsv, hog, lbp]]
+    classifiers:
+      knn1: [{}]
+      logreg: [{C: 1.0}, {C: 10.0}]
+      svm_rbf: [{C: 1.0}, {C: 10.0}, {C: 100.0}]
+      rf: [{n_estimators: 500}]
+  pca_dim: 150
+  default: {blocks: [hsv, hog, lbp], classifier: svm_rbf, params: {C: 10.0}}
+
+pose:
+  block: raw                # entrada del plato: píxeles 32x32
+  pca_dim: 50               # espacio propio global (Murase & Nayar)
+  grid_step_deg: 0.5
+  credible_mass: 0.9        # el ancho del conjunto creíble del 90 % es la incertidumbre reportada
+
+gate:
+  tolerance_deg: 10         # tolerancia de agarre del robot (supuesto del enunciado)
+  novelty_known_quantile: 0.99
+  target_class_error_on_act: 0.005  # error de clase máximo entre los casos en que el robot actúa
+  # v2: criterio de aceptación del ángulo = traducción de la tolerancia a riesgo: >= 99,5 % de los ACT
+  # dentro de +-tolerancia; se calibra en validación interna del régimen con cobertura
+  target_angle_error_on_act: 0.005
+  max_gallery_gap_deg: 30   # certificación de SKU: hueco angular máximo en su galería de referencia
+  require_evidence_agreement: true
+
+two_shot:
+  delta_deg: 180            # giro conocido (o 2a cámara) para la 2a captura en sectores sin cobertura
+
+reference:                  # referencia moderna obligatoria (solo comparación)
+  model: facebook/dinov2-small
+  classifier: logreg
+  params: {C: 10.0}

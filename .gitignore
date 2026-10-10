@@ -1,0 +1,23 @@
+# Datos y material del enunciado (no se versionan)
+coil-100/
+*.pdf
+!reports/*.pdf
+
+# Entorno y cachés
+.venv/
+__pycache__/
+*.pyc
+.cache/
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+
+# Secretos
+.env
+
+# Tracking local de experimentos
+mlruns/
+mlflow.db
+
+# SO
+.DS_Store

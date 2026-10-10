@@ -1,0 +1,15 @@
+# Protocolos de partición del enunciado (sección 4). Semillas fijas para reproducibilidad.
+# Regla del enunciado: ningún hiperparámetro ni umbral se ajusta sobre la prueba; la validación sale
+# exclusivamente de las vistas de entrenamiento (ver linevision.protocols.inner_splits).
+seed: 2026
+
+A:   # Interpolación: entrena 0,10,20,... / prueba 5,15,25,...
+  train_step_deg: 10
+B:   # Sector ciego: por objeto se excluye un arco contiguo de 60 grados (inicio aleatorio con semilla)
+  arc_deg: 60
+  repeats: 3
+C:   # Escasez: 1 vista cada 30 grados / prueba las 60 restantes
+  train_step_deg: 30
+D:   # Objeto desconocido: 90 objetos de catálogo / 10 excluidos por completo
+  n_unknown: 10
+  repeats: 3
