@@ -59,10 +59,10 @@ class VisionSystem:
         self.pose.fit(feats[self.cfg.pose.block], obj, angle)
         return self
 
-    def infer(self, feats: dict[str, np.ndarray]) -> dict[str, np.ndarray]:
+    def infer(self, feats: dict[str, np.ndarray], top_k: int | None = None) -> dict[str, np.ndarray]:
         """Inferencia por lotes; devuelve arrays (útil para evaluación)."""
         label, conf = self.identity.predict(feats)
-        nn_dist, nn_idx = self.identity.neighbours(feats, self.cfg.top_k)
+        nn_dist, nn_idx = self.identity.neighbours(feats, top_k or self.cfg.top_k)
         nn_obj = self.identity.gallery_obj[nn_idx]
         pose = self.pose.estimate(feats[self.cfg.pose.block], label)
         agrees = nn_obj[:, 0] == label
@@ -76,10 +76,10 @@ class VisionSystem:
             "nn_obj": nn_obj, "nn_angle": self.identity.gallery_angle[nn_idx], "nn_dist": nn_dist,
         }
 
-    def predict(self, feats: dict[str, np.ndarray]) -> list[dict]:
+    def predict(self, feats: dict[str, np.ndarray], top_k: int | None = None) -> list[dict]:
         """Salida estructurada por imagen (contrato del servicio de visión)."""
-        r = self.infer(feats)
-        k = self.cfg.top_k
+        r = self.infer(feats, top_k)
+        k = r["nn_obj"].shape[1]
         out = []
         for i in range(len(r["label"])):
             label, ang = int(r["label"][i]), float(r["angle"][i])
@@ -101,9 +101,9 @@ class VisionSystem:
             })
         return out
 
-    def predict_images(self, images: np.ndarray) -> list[dict]:
+    def predict_images(self, images: np.ndarray, top_k: int | None = None) -> list[dict]:
         blocks = sorted(set(self.cfg.identity.blocks) | {self.cfg.pose.block})
-        return self.predict(extract(images, self.cfg.features, blocks))
+        return self.predict(extract(images, self.cfg.features, blocks), top_k)
 
     def save(self, path: Path | str) -> None:
         joblib.dump(self, path, compress=3)

@@ -21,7 +21,12 @@ dependencies = [
 notebook = ["jupyterlab>=4", "nbconvert>=7", "ipykernel>=6", "plotly>=5"]
 # referencia moderna (solo comparación, no va a producción)
 reference = ["torch>=2.2", "transformers>=4.40"]
-dev = ["pytest>=8", "ruff>=0.5"]
+# servicio de inferencia de visión (Reto 4)
+service = ["fastapi>=0.115", "uvicorn>=0.30", "python-multipart>=0.0.9"]
+dev = ["pytest>=8", "ruff>=0.5", "httpx>=0.27"]
+
+[project.scripts]
+linevision-serve = "linevision.service.cli:main"
 
 [build-system]
 requires = ["hatchling"]
