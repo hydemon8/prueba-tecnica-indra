@@ -1,0 +1,89 @@
+{
+  "name": "linevision",
+  "version": "4e39f878-rf",
+  "package_version": "0.1.0",
+  "created_utc": "2026-10-10T04:13:59+00:00",
+  "data_version": "4e39f8783785bc2d",
+  "config_fingerprint": "72b7b3cb",
+  "artifact": "linevision-4e39f878-rf.joblib",
+  "artifact_sha256": "6cf13c982c20411c1a393b45d848e26c3747afa0a2e67f9ec68b66434c012fa9",
+  "artifact_mb": 34.6,
+  "config": {
+    "features": {
+      "fg_threshold": 60,
+      "hsv_bins": [
+        16,
+        4,
+        4
+      ],
+      "hog_size": 64,
+      "hog_cell": 8,
+      "hog_orientations": 9,
+      "lbp": [
+        [
+          8,
+          1
+        ],
+        [
+          16,
+          2
+        ]
+      ],
+      "raw_size": 32
+    },
+    "identity": {
+      "blocks": [
+        "hsv"
+      ],
+      "classifier": "rf",
+      "params": {
+        "n_estimators": 500
+      },
+      "pca_dim": 150
+    },
+    "pose": {
+      "pca_dim": 50,
+      "grid_step_deg": 0.5,
+      "credible_mass": 0.9,
+      "block": "raw"
+    },
+    "policy": {
+      "novelty_max": 0.18541447818279266,
+      "class_conf_min": 0.334,
+      "angle_width_max": 20,
+      "ambiguity_max": 0.7686044573783875,
+      "max_gallery_gap": 30,
+      "require_evidence_agreement": true
+    },
+    "top_k": 5
+  },
+  "temperature_scale": 0.039778588003956394,
+  "metrics": {
+    "inner": {
+      "inner_class_acc": 0.9995884773662551,
+      "inner_pose": {
+        "n": 7200,
+        "within_tol": 0.9740277777777778,
+        "mae": 1.6923611111111112,
+        "median": 0.5,
+        "p90": 3.5,
+        "gt90": 0.0006944444444444445
+      },
+      "temperature_scale": 0.039778588003956394,
+      "credible_coverage": 0.9118055555555555,
+      "novelty_max": 0.18541447818279266,
+      "class_conf_min": 0.334,
+      "ambiguity_max": 0.7686044573783875,
+      "inner_angle_gate": {
+        "pass_rate": 0.8723611111111111,
+        "error_rate_on_pass": 0.0049355198216844455
+      },
+      "inner_openset": {
+        "auroc": 0.9718134859396433,
+        "unknown_accepted": 0.047685185185185185,
+        "known_recall": 0.95
+      }
+    },
+    "e2e_latency_ms": 0.8728664550108078
+  }
+}
