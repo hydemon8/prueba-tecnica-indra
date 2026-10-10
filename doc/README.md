@@ -24,6 +24,7 @@ iteración v3 de robustez, reporte PDF, commits, Retos 3, 4 y 6, plan de proyect
 | 9 | [Pruebas funcionales y robustez](09_pruebas_funcionales_y_robustez.md) | El artefacto final ante capturas perturbadas y fuera de dominio; fallos encontrados; propuesta v3 |
 | 10 | [Registro de decisiones e incidencias](10_registro_de_decisiones_e_incidencias.md) | Cronología, decisiones del usuario y técnicas, errores cometidos y cómo se corrigieron, pendientes |
 | 11 | [Implementación y reproducibilidad](11_implementacion_y_reproducibilidad.md) | Estructura del código, cómo ejecutar, MLflow, artefacto, tests |
+| 12 | [Servicio de visión](12_servicio_de_vision.md) | Reto 4: API, qué recibe el robot, validación de captura, controles, latencia medida, arquitectura y secuencia imagen → robot |
 
 `img/` contiene las figuras citadas; `scripts_analisis/` los scripts exploratorios que produjeron los números de
 las fases de análisis (antes de existir la librería).

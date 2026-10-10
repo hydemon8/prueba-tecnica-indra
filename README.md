@@ -12,7 +12,7 @@ clásico sobre COIL-100. *Documento en construcción: el índice de entregables 
 | 5 | Repositorio de código | este repo (`src/linevision`) | en curso |
 | 7 | Catálogo de tools y contratos | `doc/` | pendiente |
 | 8 | Threat model y controles | `doc/` | pendiente |
-| 10 | Servicio desplegado | — | pendiente |
+| 10 | Servicio desplegado | servicio de visión: [`doc/12_servicio_de_vision.md`](doc/12_servicio_de_vision.md), contrato en [`doc/openapi/vision.json`](doc/openapi/vision.json); asistente pendiente | en curso |
 | 12 | Arquitectura Azure y modelo de costos | `doc/` | pendiente |
 
 ## Reto 2 en una página
@@ -55,6 +55,15 @@ uv run jupyter nbconvert --to notebook --execute --inplace --ExecutePreprocessor
 uv run mlflow ui --backend-store-uri sqlite:///mlflow.db
 ```
 
+### Servicio de visión (Reto 4)
+
+```bash
+uv run --extra service linevision-serve      # http://127.0.0.1:8001 (documentación en /docs)
+curl -F "images=@coil-100/obj5__40.png" "http://127.0.0.1:8001/v1/predict?top_k=3"
+```
+
+Con contenedor: `docker compose up --build`. Detalle, diagramas y latencia: [`doc/12_servicio_de_vision.md`](doc/12_servicio_de_vision.md).
+
 El extra `reference` (torch + transformers) solo hace falta para la referencia moderna DINOv2 de la sección 7.
 
 ## Estructura
@@ -63,6 +72,7 @@ El extra `reference` (torch + transformers) solo hace falta para la referencia m
 configs/            configuración separada del código (protocolos, modelo, umbrales, criterio de selección)
 src/linevision/     librería: datos, protocolos, características, identidad, plato (pose), control de
                     seguridad, sistema, experimentos, selección, referencia, tracking, registro y reportes
+  service/          servicio de visión: API HTTP, validación de captura y orden para el robot
 tests/              tests unitarios (sin dependencia del dataset)
 notebooks/          experimentación de punta a punta (Reto 2)
 reports/            model card y resultados por protocolo (generados por el notebook)
