@@ -75,6 +75,15 @@ CREATE TABLE IF NOT EXISTS images (
     plant_id TEXT NOT NULL, line_id TEXT, session_id TEXT NOT NULL, uploaded_by TEXT NOT NULL,
     created_at TEXT NOT NULL, expires_at TEXT NOT NULL
 );
+CREATE TABLE IF NOT EXISTS sessions (
+    session_id TEXT PRIMARY KEY, user_id TEXT NOT NULL, plant_id TEXT NOT NULL, created_at TEXT NOT NULL,
+    summary TEXT NOT NULL DEFAULT '', turns INTEGER NOT NULL DEFAULT 0
+);
+CREATE TABLE IF NOT EXISTS messages (
+    id INTEGER PRIMARY KEY, session_id TEXT NOT NULL, turn INTEGER NOT NULL, role TEXT NOT NULL,   -- user | assistant
+    text TEXT NOT NULL, meta TEXT NOT NULL DEFAULT '{}', created_at TEXT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS ix_messages ON messages (session_id, id);
 CREATE TABLE IF NOT EXISTS audit_log (
     id INTEGER PRIMARY KEY, ts TEXT NOT NULL, session_id TEXT, user_id TEXT, role TEXT, plant_id TEXT,
     tool TEXT NOT NULL, args TEXT NOT NULL, outcome TEXT NOT NULL,   -- ok | denied | invalid | error | pending_approval

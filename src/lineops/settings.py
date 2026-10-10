@@ -31,7 +31,11 @@ class AgentSettings:
     max_repeated_calls: int = 2       # misma tool con los mismos argumentos
     max_turn_tokens: int = 60_000     # presupuesto de tokens por turno
     history_max_messages: int = 24    # a partir de aquí se resume el historial
+    history_keep_chars: int = 600     # lo que se conserva de cada mensaje antiguo al resumir
     image_ttl_hours: int = 72
+    # precios por millón de tokens para estimar el costo (supuesto configurable; verificar la tarifa vigente)
+    price_in_per_mtok: float = 0.10
+    price_out_per_mtok: float = 0.40
     host: str = "127.0.0.1"
     port: int = 8002
 
@@ -52,6 +56,8 @@ class AgentSettings:
             max_steps=int(e.get("AGENT_MAX_STEPS", "8")),
             max_tool_calls=int(e.get("AGENT_MAX_TOOL_CALLS", "12")),
             max_turn_tokens=int(e.get("AGENT_MAX_TURN_TOKENS", "60000")),
+            price_in_per_mtok=float(e.get("LLM_PRICE_IN_PER_MTOK", "0.10")),
+            price_out_per_mtok=float(e.get("LLM_PRICE_OUT_PER_MTOK", "0.40")),
             host=e.get("AGENT_HOST", "127.0.0.1"),
             port=int(e.get("AGENT_PORT", "8002")),
         )
