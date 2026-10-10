@@ -21,3 +21,6 @@ mlflow.db
 
 # SO
 .DS_Store
+
+# Estado local del asistente (base de planta simulada, imágenes subidas)
+var/
