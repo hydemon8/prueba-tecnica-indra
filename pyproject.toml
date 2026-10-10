@@ -43,3 +43,6 @@ testpaths = ["tests"]
 
 [tool.ruff]
 line-length = 110
+
+[tool.ruff.lint.per-file-ignores]
+"src/lineops/evals/run.py" = ["ISC004"]  # el reporte se arma como lista de líneas
