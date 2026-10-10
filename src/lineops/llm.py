@@ -8,6 +8,8 @@ Mensajes neutros:
 
 from __future__ import annotations
 
+import re
+import threading
 import time
 from dataclasses import dataclass, field
 from typing import Any, Protocol
@@ -93,11 +95,13 @@ def to_gemini_schema(schema: dict) -> dict:
 class GeminiProvider:
     URL = "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
 
-    def __init__(self, api_key: str, model: str, timeout_s: float = 60, retries: int = 3,
+    def __init__(self, api_key: str, model: str, timeout_s: float = 60, retries: int = 4, rpm: int = 0,
                  client: httpx.Client | None = None):
         if not api_key:
             raise LLMError("falta GEMINI_API_KEY")
         self.model, self.retries = model, retries
+        # límite de peticiones por minuto del lado del cliente (0 = sin límite), para no agotar la cuota
+        self._interval, self._next, self._lock = (60.0 / rpm if rpm else 0.0), 0.0, threading.Lock()
         # la clave viaja en una cabecera, nunca en la URL
         self.http = client or httpx.Client(timeout=timeout_s, headers={"x-goog-api-key": api_key})
 
@@ -130,8 +134,10 @@ class GeminiProvider:
                 {"name": t["name"], "description": t["description"], "parameters": to_gemini_schema(t["schema"])}
                 if t["schema"].get("properties") else {"name": t["name"], "description": t["description"]}
                 for t in tools]}]
-        last = ""
+        last, wait = "", None
         for attempt in range(self.retries + 1):
+            wait = None
+            self._throttle()
             try:
                 r = self.http.post(self.URL.format(model=self.model), json=body)
             except httpx.HTTPError as e:
@@ -140,11 +146,21 @@ class GeminiProvider:
                 if r.status_code == 200:
                     return self._parse(r.json())
                 last = f"HTTP {r.status_code}: {r.text[:300]}"
+                wait = re.search(r"retry in ([\d.]+)s", r.text)  # con 429 el proveedor indica cuánto esperar
                 if r.status_code not in (429, 500, 502, 503, 504):
                     break
             if attempt < self.retries:
-                time.sleep(min(2 ** attempt * 2, 20))
+                time.sleep(min(float(wait.group(1)) + 1, 65) if wait else min(2 ** attempt * 2, 20))
         raise LLMError(f"el proveedor de LLM falló: {last}")
+
+    def _throttle(self) -> None:
+        if not self._interval:
+            return
+        with self._lock:
+            wait = self._next - time.monotonic()
+            if wait > 0:
+                time.sleep(wait)
+            self._next = time.monotonic() + self._interval
 
     @staticmethod
     def _parse(data: dict) -> LLMResponse:
@@ -188,5 +204,5 @@ def call(name: str, tokens: tuple[int, int] = (100, 20), **args) -> LLMResponse:
 
 def build_provider(settings) -> LLMProvider:
     if settings.llm_provider == "gemini":
-        return GeminiProvider(settings.gemini_api_key or "", settings.llm_model)
+        return GeminiProvider(settings.gemini_api_key or "", settings.llm_model, rpm=settings.llm_rpm)
     raise LLMError(f"proveedor de LLM no soportado: {settings.llm_provider}")

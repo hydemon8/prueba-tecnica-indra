@@ -26,6 +26,7 @@ class AgentSettings:
     llm_provider: str = "gemini"
     llm_model: str = "gemini-3.5-flash-lite"
     gemini_api_key: str | None = None
+    llm_rpm: int = 0                  # peticiones por minuto al LLM (0 = sin límite; 14 para el nivel gratuito)
     max_steps: int = 8                # llamadas al LLM por turno
     max_tool_calls: int = 12          # tools ejecutadas por turno
     max_repeated_calls: int = 2       # misma tool con los mismos argumentos
@@ -53,6 +54,7 @@ class AgentSettings:
             llm_provider=e.get("LLM_PROVIDER", "gemini"),
             llm_model=e.get("LLM_MODEL", "gemini-3.5-flash-lite"),
             gemini_api_key=e.get("GEMINI_API_KEY") or None,
+            llm_rpm=int(e.get("LLM_RPM", "0")),
             max_steps=int(e.get("AGENT_MAX_STEPS", "8")),
             max_tool_calls=int(e.get("AGENT_MAX_TOOL_CALLS", "12")),
             max_turn_tokens=int(e.get("AGENT_MAX_TURN_TOKENS", "60000")),
