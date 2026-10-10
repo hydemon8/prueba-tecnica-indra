@@ -1,0 +1,12 @@
+# Despliegue local de un comando:  docker compose up --build
+services:
+  vision:
+    build: .
+    ports: ["8001:8001"]
+    environment:
+      VISION_API_KEY: ${VISION_API_KEY:-}
+      VISION_FAULT_INJECTION: ${VISION_FAULT_INJECTION:-false}
+      COIL_DIR: /data/coil-100
+    volumes:
+      # vistas de referencia para servir evidencia (opcional; el modelo no las necesita para inferir)
+      - ${COIL_DIR:-./coil-100}:/data/coil-100:ro

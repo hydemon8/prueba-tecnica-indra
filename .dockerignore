@@ -1,0 +1,13 @@
+.git
+.venv
+.cache
+.env
+coil-100
+mlruns
+mlflow.db
+notebooks
+doc
+reports
+tests
+**/__pycache__
+*.pdf
