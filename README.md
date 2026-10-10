@@ -66,7 +66,7 @@ Levanta dos procesos independientes: el servicio de visión y el asistente con s
 simulada y se siembra sola en `var/plant.db` (borrar `var/` la reinicia). Evaluación del agente:
 
 ```bash
-uv run --extra service --extra agent python -m lineops.evals.run    # 45 casos -> reports/agent_eval.md
+uv run --extra service --extra agent python -m lineops.evals.run --repeats 3    # 45 casos x 3 -> reports/agent_eval.md
 ```
 
 Diseño, escenarios adversos y diagrama del flujo con aprobación humana:
