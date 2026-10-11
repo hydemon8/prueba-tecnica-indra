@@ -1,0 +1,3451 @@
+{
+ "region": "eastus2",
+ "consultado": "2026-10-10",
+ "fuente": "https://prices.azure.com/api/retail/prices",
+ "moneda": "USD",
+ "medidores": {
+  "container_apps": [
+   {
+    "product": "Azure Container Apps",
+    "sku": "Standard",
+    "meter": "Standard Memory Active Usage",
+    "unit": "1 GiB Second",
+    "usd": 3e-06,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure Container Apps",
+    "sku": "Standard",
+    "meter": "Standard Memory Idle Usage",
+    "unit": "1 GiB Second",
+    "usd": 3e-06,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure Container Apps",
+    "sku": "Standard",
+    "meter": "Standard NC A100 v4 GPU Usage",
+    "unit": "1 Second",
+    "usd": 0.000529,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure Container Apps",
+    "sku": "Standard",
+    "meter": "Standard NC T4 v3 GPU Usage",
+    "unit": "1 Second",
+    "usd": 7.3e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure Container Apps",
+    "sku": "Standard",
+    "meter": "Standard Requests",
+    "unit": "1M",
+    "usd": 0.4,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure Container Apps",
+    "sku": "Standard",
+    "meter": "Standard vCPU Active Usage",
+    "unit": "1 Second",
+    "usd": 2.4e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure Container Apps",
+    "sku": "Standard",
+    "meter": "Standard vCPU Idle Usage",
+    "unit": "1 Second",
+    "usd": 3e-06,
+    "tier_min": 0.0
+   }
+  ],
+  "postgres_burstable": [
+   {
+    "product": "Azure Database for PostgreSQL Flexible Server Burstable BS Series Compute",
+    "sku": "B12ms",
+    "meter": "B12ms vCore",
+    "unit": "1 Hour",
+    "usd": 0.816,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure Database for PostgreSQL Flexible Server Burstable BS Series Compute",
+    "sku": "B16ms",
+    "meter": "B16ms vCore",
+    "unit": "1 Hour",
+    "usd": 1.088,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure Database for PostgreSQL Flexible Server Burstable BS Series Compute",
+    "sku": "B1MS",
+    "meter": "B1MS",
+    "unit": "1 Hour",
+    "usd": 0.017,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure Database for PostgreSQL Flexible Server Burstable BS Series Compute",
+    "sku": "B20ms",
+    "meter": "B20ms vCore",
+    "unit": "1 Hour",
+    "usd": 1.36,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure Database for PostgreSQL Flexible Server Burstable BS Series Compute",
+    "sku": "B2S",
+    "meter": "B2S",
+    "unit": "1 Hour",
+    "usd": 0.068,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure Database for PostgreSQL Flexible Server Burstable BS Series Compute",
+    "sku": "B2ms",
+    "meter": "B2ms vCore",
+    "unit": "1 Hour",
+    "usd": 0.136,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure Database for PostgreSQL Flexible Server Burstable BS Series Compute",
+    "sku": "B4ms",
+    "meter": "B4ms vCore",
+    "unit": "1 Hour",
+    "usd": 0.272,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure Database for PostgreSQL Flexible Server Burstable BS Series Compute",
+    "sku": "B8ms",
+    "meter": "B8ms vCore",
+    "unit": "1 Hour",
+    "usd": 0.544,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure Database for PostgreSQL Flexible Server Burstable BS Series Compute",
+    "sku": "Basic",
+    "meter": "Basic",
+    "unit": "1 Hour",
+    "usd": 0.017,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure Database for PostgreSQL Flexible Server Burstable Bafsv2",
+    "sku": "1 vCore",
+    "meter": "1 vCore",
+    "unit": "1 Hour",
+    "usd": 0.036,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure Database for PostgreSQL Flexible Server Burstable Balsv2",
+    "sku": "1 vCore",
+    "meter": "1 vCore",
+    "unit": "1 Hour",
+    "usd": 0.072,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure Database for PostgreSQL Flexible Server Burstable Basv2",
+    "sku": "1 vCore",
+    "meter": "1 vCore",
+    "unit": "1 Hour",
+    "usd": 0.145,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure Database for PostgreSQL Flexible Server Burstable Batsv2",
+    "sku": "1 vCore",
+    "meter": "1 vCore",
+    "unit": "1 Hour",
+    "usd": 0.018,
+    "tier_min": 0.0
+   }
+  ],
+  "postgres_storage": [],
+  "blob_hot_lrs": [
+   {
+    "product": "Blob Storage",
+    "sku": "Hot LRS",
+    "meter": "All Other Operations",
+    "unit": "10K",
+    "usd": 0.004,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Blob Storage",
+    "sku": "Hot LRS",
+    "meter": "Hot LRS Data Stored",
+    "unit": "1 GB/Month",
+    "usd": 0.016928,
+    "tier_min": 512000.0
+   },
+   {
+    "product": "Blob Storage",
+    "sku": "Hot LRS",
+    "meter": "Hot LRS Data Stored",
+    "unit": "1 GB/Month",
+    "usd": 0.017664,
+    "tier_min": 51200.0
+   },
+   {
+    "product": "Blob Storage",
+    "sku": "Hot LRS",
+    "meter": "Hot LRS Data Stored",
+    "unit": "1 GB/Month",
+    "usd": 0.0184,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Blob Storage",
+    "sku": "Hot LRS",
+    "meter": "Hot LRS Write Operations",
+    "unit": "10K",
+    "usd": 0.05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Blob Storage",
+    "sku": "Hot LRS",
+    "meter": "Hot Read Operations",
+    "unit": "10K",
+    "usd": 0.004,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Blob Storage",
+    "sku": "Hot LRS",
+    "meter": "Index Tags",
+    "unit": "10K/Month",
+    "usd": 0.03,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Blob Storage",
+    "sku": "Hot LRS",
+    "meter": "LRS List and Create Container Operations",
+    "unit": "10K",
+    "usd": 0.05,
+    "tier_min": 0.0
+   }
+  ],
+  "container_registry": [
+   {
+    "product": "Container Registry",
+    "sku": "Basic",
+    "meter": "Basic Registry Unit",
+    "unit": "1/Day",
+    "usd": 0.1666,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Container Registry",
+    "sku": "Basic",
+    "meter": "Data Stored",
+    "unit": "1 GB/Month",
+    "usd": 0.1,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Container Registry",
+    "sku": "Basic",
+    "meter": "Task vCPU Duration",
+    "unit": "1 Second",
+    "usd": 0.0001,
+    "tier_min": 6000.0
+   }
+  ],
+  "key_vault": [
+   {
+    "product": "Azure Dedicated HSM",
+    "sku": "Standard",
+    "meter": "Standard Instance",
+    "unit": "1 Hour",
+    "usd": 4.85,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Key Vault",
+    "sku": "Standard",
+    "meter": "Advanced Key Operations",
+    "unit": "10K",
+    "usd": 0.15,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Key Vault",
+    "sku": "Standard",
+    "meter": "Automated Key Rotation",
+    "unit": "1 Rotation",
+    "usd": 1.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Key Vault",
+    "sku": "Standard",
+    "meter": "Certificate Renewal Request",
+    "unit": "1",
+    "usd": 3.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Key Vault",
+    "sku": "Standard",
+    "meter": "Operations",
+    "unit": "10K",
+    "usd": 0.03,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Key Vault",
+    "sku": "Standard",
+    "meter": "Secret Renewal",
+    "unit": "1",
+    "usd": 1.0,
+    "tier_min": 0.0
+   }
+  ],
+  "log_analytics": [
+   {
+    "product": "Log Analytics",
+    "sku": "Analytics Logs",
+    "meter": "Analytics Logs Data Analyzed",
+    "unit": "1 GB",
+    "usd": 2.3,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Log Analytics",
+    "sku": "Analytics Logs",
+    "meter": "Analytics Logs Data Ingestion",
+    "unit": "1 GB",
+    "usd": 2.76,
+    "tier_min": 5.0
+   },
+   {
+    "product": "Log Analytics",
+    "sku": "Analytics Logs",
+    "meter": "Analytics Logs Data Retention",
+    "unit": "1 GB/Month",
+    "usd": 0.12,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Log Analytics",
+    "sku": "Premium",
+    "meter": "Premium Data Analyzed",
+    "unit": "1 GB",
+    "usd": 3.5,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Log Analytics",
+    "sku": "Standard",
+    "meter": "Standard Data Analyzed",
+    "unit": "1 GB",
+    "usd": 2.3,
+    "tier_min": 0.0
+   }
+  ],
+  "iot_hub": [
+   {
+    "product": "Device Update for IoT Hub",
+    "sku": "Standard",
+    "meter": "Standard 1 DU instance",
+    "unit": "1 Month",
+    "usd": 70.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Device Update for IoT Hub",
+    "sku": "Standard",
+    "meter": "Standard 1 Device Unit",
+    "unit": "1 Month",
+    "usd": 0.07,
+    "tier_min": 0.0
+   },
+   {
+    "product": "IoT Hub",
+    "sku": "B1",
+    "meter": "B1 Unit",
+    "unit": "1/Month",
+    "usd": 10.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "IoT Hub",
+    "sku": "B2",
+    "meter": "B2 Unit",
+    "unit": "1/Month",
+    "usd": 50.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "IoT Hub",
+    "sku": "B3",
+    "meter": "B3 Unit",
+    "unit": "1/Month",
+    "usd": 500.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "IoT Hub",
+    "sku": "S1",
+    "meter": "S1 Unit",
+    "unit": "1/Month",
+    "usd": 25.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "IoT Hub",
+    "sku": "S2",
+    "meter": "S2 Unit",
+    "unit": "1/Month",
+    "usd": 250.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "IoT Hub",
+    "sku": "S3",
+    "meter": "S3 Unit",
+    "unit": "1/Month",
+    "usd": 2500.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "IoT Hub Device Provisioning",
+    "sku": "S1",
+    "meter": "S1 Operations",
+    "unit": "1K",
+    "usd": 0.1,
+    "tier_min": 0.0
+   }
+  ],
+  "event_hubs": [
+   {
+    "product": "Event Hubs",
+    "sku": "Standard",
+    "meter": "Standard Capture",
+    "unit": "1 Hour",
+    "usd": 0.1,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Event Hubs",
+    "sku": "Standard",
+    "meter": "Standard Ingress Events",
+    "unit": "1M",
+    "usd": 0.028,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Event Hubs",
+    "sku": "Standard",
+    "meter": "Standard Kafka Endpoint",
+    "unit": "1 Hour",
+    "usd": 0.09,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Event Hubs",
+    "sku": "Standard",
+    "meter": "Standard Throughput Unit",
+    "unit": "1 Hour",
+    "usd": 0.03,
+    "tier_min": 0.0
+   }
+  ],
+  "ai_search": [
+   {
+    "product": "Azure AI Search",
+    "sku": "Agentic Retrieval Low Reasoning",
+    "meter": "Agentic Retrieval Low Reasoning Tokens",
+    "unit": "1K",
+    "usd": 2.2e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Agentic Retrieval Medium Reasoning",
+    "meter": "Agentic Retrieval Medium Reasoning Tokens",
+    "unit": "1K",
+    "usd": 0.0001,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Agentic Retrieval Minimum Reasoning",
+    "meter": "Agentic Retrieval Minimum Reasoning Tokens",
+    "unit": "1K",
+    "usd": 2.2e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Basic",
+    "meter": "Basic Unit",
+    "unit": "1 Hour",
+    "usd": 0.101,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Basic CC",
+    "meter": "Basic CC Unit",
+    "unit": "1 Hour",
+    "usd": 0.1111,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Custom Entity Skills",
+    "meter": "Custom Entity Skills Text Records",
+    "unit": "1K",
+    "usd": 0.25,
+    "tier_min": 10000.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Custom Entity Skills",
+    "meter": "Custom Entity Skills Text Records",
+    "unit": "1K",
+    "usd": 0.3,
+    "tier_min": 2500.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Custom Entity Skills",
+    "meter": "Custom Entity Skills Text Records",
+    "unit": "1K",
+    "usd": 0.75,
+    "tier_min": 500.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Custom Entity Skills",
+    "meter": "Custom Entity Skills Text Records",
+    "unit": "1K",
+    "usd": 1.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Document Cracking",
+    "meter": "Document Cracking Image Extraction",
+    "unit": "1K",
+    "usd": 0.65,
+    "tier_min": 5000.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Document Cracking",
+    "meter": "Document Cracking Image Extraction",
+    "unit": "1K",
+    "usd": 0.8,
+    "tier_min": 1000.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Document Cracking",
+    "meter": "Document Cracking Image Extraction",
+    "unit": "1K",
+    "usd": 1.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Semantic Ranker",
+    "meter": "Semantic Ranker Overage Queries",
+    "unit": "1K",
+    "usd": 2.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Semantic Ranker",
+    "meter": "Semantic Ranker Unit",
+    "unit": "1/Day",
+    "usd": 16.12,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Semantic Ranker",
+    "meter": "Semantic Ranker queries",
+    "unit": "1K",
+    "usd": 1.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Standard S1",
+    "meter": "Standard S1 Unit",
+    "unit": "1 Hour",
+    "usd": 0.336,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Standard S1 CC",
+    "meter": "Standard S1 CC Unit",
+    "unit": "1 Hour",
+    "usd": 0.3696,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Standard S2",
+    "meter": "Standard S2 Unit",
+    "unit": "1 Hour",
+    "usd": 1.344,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Standard S2 CC",
+    "meter": "Standard S2 CC Unit",
+    "unit": "1 Hour",
+    "usd": 1.4784,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Standard S3",
+    "meter": "Standard S3 Unit",
+    "unit": "1 Hour",
+    "usd": 2.688,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Standard S3 CC",
+    "meter": "Standard S3 CC Unit",
+    "unit": "1 Hour",
+    "usd": 2.9568,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Storage Optimized L1",
+    "meter": "Storage Optimized L1 Unit",
+    "unit": "1 Hour",
+    "usd": 3.839,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Storage Optimized L1 CC",
+    "meter": "Storage Optimized L1 CC Unit",
+    "unit": "1 Hour",
+    "usd": 4.2229,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Storage Optimized L2",
+    "meter": "Storage Optimized L2 Unit",
+    "unit": "1 Hour",
+    "usd": 7.677,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure AI Search",
+    "sku": "Storage Optimized L2 CC",
+    "meter": "Storage Optimized L2 CC Unit",
+    "unit": "1 Hour",
+    "usd": 8.4447,
+    "tier_min": 0.0
+   }
+  ],
+  "api_management": [
+   {
+    "product": "API Management",
+    "sku": "Basic",
+    "meter": "Basic Unit",
+    "unit": "1 Hour",
+    "usd": 0.2016,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Basic v2",
+    "meter": "Basic v2 Calls",
+    "unit": "10K",
+    "usd": 0.03,
+    "tier_min": 1000.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Basic v2",
+    "meter": "Basic v2 Secondary Unit",
+    "unit": "1 Hour",
+    "usd": 0.20548,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Basic v2",
+    "meter": "Basic v2 Unit",
+    "unit": "1 Hour",
+    "usd": 0.20548,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Consumption",
+    "meter": "Consumption Calls",
+    "unit": "10K",
+    "usd": 0.035,
+    "tier_min": 100.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Developer",
+    "meter": "Developer Unit",
+    "unit": "1 Hour",
+    "usd": 0.0658,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Gateway",
+    "meter": "Gateway Unit",
+    "unit": "1 Hour",
+    "usd": 0.342466,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Isolated",
+    "meter": "Isolated Workspace Pack",
+    "unit": "1/Hour",
+    "usd": 0.136986,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Premium",
+    "meter": "Premium Unit",
+    "unit": "1 Hour",
+    "usd": 3.829,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Premium",
+    "meter": "Premium Workspace Pack",
+    "unit": "1/Hour",
+    "usd": 0.136986,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Premium v2",
+    "meter": "Premium v2 Secondary Unit",
+    "unit": "1 Hour",
+    "usd": 1.91781,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Premium v2",
+    "meter": "Premium v2 Self-hosted Gateway",
+    "unit": "1 Hour",
+    "usd": 0.34247,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Premium v2",
+    "meter": "Premium v2 Unit",
+    "unit": "1 Hour",
+    "usd": 3.83562,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Premium v2",
+    "meter": "Premium v2 Workspace Pack",
+    "unit": "1/Hour",
+    "usd": 0.13699,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Secondary",
+    "meter": "Secondary Unit",
+    "unit": "1 Hour",
+    "usd": 1.9145,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Standard",
+    "meter": "Standard Unit",
+    "unit": "1 Hour",
+    "usd": 0.9407,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Standard",
+    "meter": "Standard Workspace Pack",
+    "unit": "1/Hour",
+    "usd": 0.136986,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Standard v2",
+    "meter": "Standard v2 Calls",
+    "unit": "10K",
+    "usd": 0.025,
+    "tier_min": 5000.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Standard v2",
+    "meter": "Standard v2 Secondary Unit",
+    "unit": "1 Hour",
+    "usd": 0.68493,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Standard v2",
+    "meter": "Standard v2 Self-hosted Gateway",
+    "unit": "1 Hour",
+    "usd": 0.34247,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Standard v2",
+    "meter": "Standard v2 Unit",
+    "unit": "1 Hour",
+    "usd": 0.9589,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Standard v2",
+    "meter": "Standard v2 Workspace Pack",
+    "unit": "1/Hour",
+    "usd": 0.13699,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Workspace Gateway Premium",
+    "meter": "Workspace Gateway Premium Unit",
+    "unit": "1 Hour",
+    "usd": 1.91781,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Workspace Gateway Premium",
+    "meter": "Workspace Gateway Premium Workspace Pack",
+    "unit": "1/Hour",
+    "usd": 0.13698,
+    "tier_min": 0.0
+   },
+   {
+    "product": "API Management",
+    "sku": "Workspace Gateway Standard",
+    "meter": "Workspace Gateway Standard Unit",
+    "unit": "1 Hour",
+    "usd": 0.68493,
+    "tier_min": 0.0
+   }
+  ],
+  "vm_d4s_v5": [
+   {
+    "product": "Virtual Machines Dsv5 Series",
+    "sku": "Standard_D4s_v5",
+    "meter": "D4s v5",
+    "unit": "1 Hour",
+    "usd": 0.192,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Virtual Machines Dsv5 Series",
+    "sku": "Standard_D4s_v5 Low Priority",
+    "meter": "D4s v5 Low Priority",
+    "unit": "1 Hour",
+    "usd": 0.0384,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Virtual Machines Dsv5 Series",
+    "sku": "Standard_D4s_v5 Spot",
+    "meter": "D4s v5 Spot",
+    "unit": "1 Hour",
+    "usd": 0.061171,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Virtual Machines Dsv5 Series Windows",
+    "sku": "Standard_D4s_v5",
+    "meter": "D4s v5",
+    "unit": "1 Hour",
+    "usd": 0.376,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Virtual Machines Dsv5 Series Windows",
+    "sku": "Standard_D4s_v5 Low Priority",
+    "meter": "D4s v5 Low Priority",
+    "unit": "1 Hour",
+    "usd": 0.15,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Virtual Machines Dsv5 Series Windows",
+    "sku": "Standard_D4s_v5 Spot",
+    "meter": "D4s v5 Spot",
+    "unit": "1 Hour",
+    "usd": 0.119794,
+    "tier_min": 0.0
+   }
+  ],
+  "openai_mini": [
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 mini Batch Inp DZone",
+    "meter": "gpt 4.1 mini Batch Inp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.00022,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 mini Batch Inp glbl",
+    "meter": "gpt 4.1 mini Batch Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0002,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 mini Batch Outp DZone",
+    "meter": "gpt 4.1 mini Batch Outp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.00088,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 mini Batch Outp glbl",
+    "meter": "gpt 4.1 mini Batch Outp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0008,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 mini Inp Data Zone",
+    "meter": "gpt 4.1 mini Inp Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.00044,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 mini Inp glbl",
+    "meter": "gpt 4.1 mini Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0004,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 mini Inp regnl",
+    "meter": "gpt 4.1 mini Inp regnl Tokens",
+    "unit": "1K",
+    "usd": 0.00044,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 mini Outp Data Zone",
+    "meter": "gpt 4.1 mini Outp Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.00176,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 mini Outp glbl",
+    "meter": "gpt 4.1 mini Outp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0016,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 mini Outp regnl",
+    "meter": "gpt 4.1 mini Outp regnl Tokens",
+    "unit": "1K",
+    "usd": 0.00176,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 mini cached Inp DZone",
+    "meter": "gpt 4.1 mini cached Inp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.00011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 mini cached Inp glbl",
+    "meter": "gpt 4.1 mini cached Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0001,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 mini cached Inp regnl",
+    "meter": "gpt 4.1 mini cached Inp regnl Tokens",
+    "unit": "1K",
+    "usd": 0.00011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 mini dev ft training glbl",
+    "meter": "gpt 4.1 mini dev ft training glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0025,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4o mini 0718 Batch Inp Data Zone",
+    "meter": "gpt 4o mini 0718 Batch Inp Data Zone Tokens",
+    "unit": "1K",
+    "usd": 8.3e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4o mini 0718 Inp Data Zone",
+    "meter": "gpt 4o mini 0718 Inp Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.000165,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4o mini 0718 Outp Data Zone",
+    "meter": "gpt 4o mini 0718 Outp Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.00066,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4o mini 0718 cached Inp Data Zone",
+    "meter": "gpt 4o mini 0718 cached Inp Data Zone Tokens",
+    "unit": "1K",
+    "usd": 8.3e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4o mini 0718 cached Inp glbl",
+    "meter": "gpt 4o mini 0718 cached Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 7.5e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4o mini 0718 cached Inp regnl",
+    "meter": "gpt 4o mini 0718 cached Inp regnl Tokens",
+    "unit": "1K",
+    "usd": 8.3e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4o mini dev ft cchd inpt glbl",
+    "meter": "gpt 4o mini dev ft cchd inpt glbl Tokens",
+    "unit": "1K",
+    "usd": 0.011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4o mini dev ft inpt glbl",
+    "meter": "gpt 4o mini dev ft inpt glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0055,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4o mini dev ft opt glbl",
+    "meter": "gpt 4o mini dev ft opt glbl Tokens",
+    "unit": "1K",
+    "usd": 0.011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4o mini0718 BatchOutp DataZone",
+    "meter": "gpt 4o mini0718 BatchOutp DataZone Tokens",
+    "unit": "1K",
+    "usd": 0.00033,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-mini FT Training global",
+    "meter": "gpt-4.1-mini FT Training global Tokens",
+    "unit": "1K",
+    "usd": 0.005,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-mini FT Training regional",
+    "meter": "gpt-4.1-mini FT Training regional Tokens",
+    "unit": "1K",
+    "usd": 0.0055,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-mini-dev-ft cchd inpt glbl",
+    "meter": "gpt-4.1-mini-dev-ft cchd inpt glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0001,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-mini-dev-ft inpt glbl",
+    "meter": "gpt-4.1-mini-dev-ft inpt glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0004,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-mini-dev-ft opt glbl",
+    "meter": "gpt-4.1-mini-dev-ft opt glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0016,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-mini-ft cached input global",
+    "meter": "gpt-4.1-mini-ft cached input global Tokens",
+    "unit": "1K",
+    "usd": 0.0001,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-mini-ft cached input regnl",
+    "meter": "gpt-4.1-mini-ft cached input regnl Tokens",
+    "unit": "1K",
+    "usd": 0.00011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-mini-ft hosting global",
+    "meter": "gpt-4.1-mini-ft hosting global Unit",
+    "unit": "1 Hour",
+    "usd": 1.7,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-mini-ft hosting regional",
+    "meter": "gpt-4.1-mini-ft hosting regional Unit",
+    "unit": "1 Hour",
+    "usd": 1.7,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-mini-ft input global",
+    "meter": "gpt-4.1-mini-ft input global Tokens",
+    "unit": "1K",
+    "usd": 0.0004,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-mini-ft input regional",
+    "meter": "gpt-4.1-mini-ft input regional Tokens",
+    "unit": "1K",
+    "usd": 0.00044,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-mini-ft mdl grdr cchd inpt",
+    "meter": "gpt-4.1-mini-ft mdl grdr cchd inpt Tokens",
+    "unit": "1K",
+    "usd": 0.00011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-mini-ft mdl grdr inpt",
+    "meter": "gpt-4.1-mini-ft mdl grdr inpt Tokens",
+    "unit": "1K",
+    "usd": 0.00044,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-mini-ft mdl grdr opt",
+    "meter": "gpt-4.1-mini-ft mdl grdr opt Tokens",
+    "unit": "1K",
+    "usd": 0.00176,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-mini-ft output global",
+    "meter": "gpt-4.1-mini-ft output global Tokens",
+    "unit": "1K",
+    "usd": 0.0016,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-mini-ft output regional",
+    "meter": "gpt-4.1-mini-ft output regional Tokens",
+    "unit": "1K",
+    "usd": 0.00176,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-0718-Batch-Inp-glbl",
+    "meter": "gpt-4o-mini-0718-Batch-Inp-glbl Tokens",
+    "unit": "1K",
+    "usd": 7.5e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-0718-Batch-Outp-glbl",
+    "meter": "gpt-4o-mini-0718-Batch-Outp-glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0003,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-0718-Inp-glbl",
+    "meter": "gpt-4o-mini-0718-Inp-glbl Tokens",
+    "unit": "1K",
+    "usd": 0.00015,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-0718-Inp-regnl",
+    "meter": "gpt-4o-mini-0718-Inp-regnl Tokens",
+    "unit": "1K",
+    "usd": 0.000165,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-0718-Outp-glbl",
+    "meter": "gpt-4o-mini-0718-Outp-glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0006,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-0718-Outp-regnl",
+    "meter": "gpt-4o-mini-0718-Outp-regnl Tokens",
+    "unit": "1K",
+    "usd": 0.00066,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-ft mdel grdr cched inpt",
+    "meter": "gpt-4o-mini-ft mdel grdr cched inpt Tokens",
+    "unit": "1K",
+    "usd": 8.3e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-ft model grader input",
+    "meter": "gpt-4o-mini-ft model grader input Tokens",
+    "unit": "1K",
+    "usd": 0.000165,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-ft model grader output",
+    "meter": "gpt-4o-mini-ft model grader output Tokens",
+    "unit": "1K",
+    "usd": 0.00066,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-transcribe-aud-inp-dz",
+    "meter": "gpt-4o-mini-transcribe-aud-inp-dz Tokens",
+    "unit": "1K",
+    "usd": 0.0033,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-transcribe-aud-inp-glbl",
+    "meter": "gpt-4o-mini-transcribe-aud-inp-glbl Tokens",
+    "unit": "1K",
+    "usd": 0.003,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-transcribe-aud-inp-rgnl",
+    "meter": "gpt-4o-mini-transcribe-aud-inp-rgnl Tokens",
+    "unit": "1K",
+    "usd": 0.0033,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-transcribe-txt-inp-dz",
+    "meter": "gpt-4o-mini-transcribe-txt-inp-dz Tokens",
+    "unit": "1K",
+    "usd": 0.001375,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-transcribe-txt-inp-glbl",
+    "meter": "gpt-4o-mini-transcribe-txt-inp-glbl Tokens",
+    "unit": "1K",
+    "usd": 0.00125,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-transcribe-txt-inp-rgnl",
+    "meter": "gpt-4o-mini-transcribe-txt-inp-rgnl Tokens",
+    "unit": "1K",
+    "usd": 0.001375,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-transcribe-txt-out-dz",
+    "meter": "gpt-4o-mini-transcribe-txt-out-dz Tokens",
+    "unit": "1K",
+    "usd": 0.0055,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-transcribe-txt-out-glbl",
+    "meter": "gpt-4o-mini-transcribe-txt-out-glbl Tokens",
+    "unit": "1K",
+    "usd": 0.005,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-transcribe-txt-out-rgnl",
+    "meter": "gpt-4o-mini-transcribe-txt-out-rgnl Tokens",
+    "unit": "1K",
+    "usd": 0.0055,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-tts-aud-out-dz",
+    "meter": "gpt-4o-mini-tts-aud-out-dz Tokens",
+    "unit": "1K",
+    "usd": 0.0132,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-tts-aud-out-glbl",
+    "meter": "gpt-4o-mini-tts-aud-out-glbl Tokens",
+    "unit": "1K",
+    "usd": 0.012,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-tts-aud-out-rgnl",
+    "meter": "gpt-4o-mini-tts-aud-out-rgnl Tokens",
+    "unit": "1K",
+    "usd": 0.0132,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-tts-txt-inp-dz",
+    "meter": "gpt-4o-mini-tts-txt-inp-dz Tokens",
+    "unit": "1K",
+    "usd": 0.00066,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-tts-txt-inp-glbl",
+    "meter": "gpt-4o-mini-tts-txt-inp-glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0006,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4o-mini-tts-txt-inp-rgnl",
+    "meter": "gpt-4o-mini-tts-txt-inp-rgnl Tokens",
+    "unit": "1K",
+    "usd": 0.00066,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-aud1217 Inp DZone",
+    "meter": "gpt4omini-aud1217 Inp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-aud1217 Inp glbl",
+    "meter": "gpt4omini-aud1217 Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.01,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-aud1217 Inp regnl",
+    "meter": "gpt4omini-aud1217 Inp regnl Tokens",
+    "unit": "1K",
+    "usd": 0.011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-aud1217 Outp DZone",
+    "meter": "gpt4omini-aud1217 Outp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.022,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-aud1217 Outp glbl",
+    "meter": "gpt4omini-aud1217 Outp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.02,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-aud1217 Outp regnl",
+    "meter": "gpt4omini-aud1217 Outp regnl Tokens",
+    "unit": "1K",
+    "usd": 0.022,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-aud1217-txt Inp DZone",
+    "meter": "gpt4omini-aud1217-txt Inp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.000165,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-aud1217-txt Inp glbl",
+    "meter": "gpt4omini-aud1217-txt Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.00015,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-aud1217-txt Inp regnl",
+    "meter": "gpt4omini-aud1217-txt Inp regnl Tokens",
+    "unit": "1K",
+    "usd": 0.000165,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-aud1217-txt Outp DZone",
+    "meter": "gpt4omini-aud1217-txt Outp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.00066,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-aud1217-txt Outp glbl",
+    "meter": "gpt4omini-aud1217-txt Outp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0006,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-aud1217-txt Outp regnl",
+    "meter": "gpt4omini-aud1217-txt Outp regnl Tokens",
+    "unit": "1K",
+    "usd": 0.00066,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-rt-aud1217 Inp DZone",
+    "meter": "gpt4omini-rt-aud1217 Inp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-rt-aud1217 Inp glbl",
+    "meter": "gpt4omini-rt-aud1217 Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.01,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-rt-aud1217 Inp regnl",
+    "meter": "gpt4omini-rt-aud1217 Inp regnl Tokens",
+    "unit": "1K",
+    "usd": 0.011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-rt-aud1217 Outp DZone",
+    "meter": "gpt4omini-rt-aud1217 Outp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.022,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-rt-aud1217 Outp glbl",
+    "meter": "gpt4omini-rt-aud1217 Outp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.02,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-rt-aud1217 Outp regnl",
+    "meter": "gpt4omini-rt-aud1217 Outp regnl Tokens",
+    "unit": "1K",
+    "usd": 0.022,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-rt-aud1217 cchd Inp DZn",
+    "meter": "gpt4omini-rt-aud1217 cchd Inp DZn Tokens",
+    "unit": "1K",
+    "usd": 0.00033,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-rt-aud1217 cchd Inp glbl",
+    "meter": "gpt4omini-rt-aud1217 cchd Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0003,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-rt-aud1217 cchd Inp rgnl",
+    "meter": "gpt4omini-rt-aud1217 cchd Inp rgnl Tokens",
+    "unit": "1K",
+    "usd": 0.00033,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-rt-txt1217 Inp DZone",
+    "meter": "gpt4omini-rt-txt1217 Inp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.00066,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-rt-txt1217 Inp glbl",
+    "meter": "gpt4omini-rt-txt1217 Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0006,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-rt-txt1217 Inp regnl",
+    "meter": "gpt4omini-rt-txt1217 Inp regnl Tokens",
+    "unit": "1K",
+    "usd": 0.00066,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-rt-txt1217 Outp DZone",
+    "meter": "gpt4omini-rt-txt1217 Outp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.00264,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-rt-txt1217 Outp glbl",
+    "meter": "gpt4omini-rt-txt1217 Outp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0024,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-rt-txt1217 Outp regnl",
+    "meter": "gpt4omini-rt-txt1217 Outp regnl Tokens",
+    "unit": "1K",
+    "usd": 0.00264,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-rt-txt1217 cchd Inp DZn",
+    "meter": "gpt4omini-rt-txt1217 cchd Inp DZn Tokens",
+    "unit": "1K",
+    "usd": 0.00033,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-rt-txt1217 cchd Inp glbl",
+    "meter": "gpt4omini-rt-txt1217 cchd Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0003,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt4omini-rt-txt1217 cchd Inp rgnl",
+    "meter": "gpt4omini-rt-txt1217 cchd Inp rgnl Tokens",
+    "unit": "1K",
+    "usd": 0.00033,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o1 mini Batch Inp Data Zone",
+    "meter": "o1 mini Batch Inp Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.000605,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o1 mini Batch Inp glbl",
+    "meter": "o1 mini Batch Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.00055,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o1 mini Batch Outp Data Zone",
+    "meter": "o1 mini Batch Outp Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.00242,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o1 mini Batch Outp glbl",
+    "meter": "o1 mini Batch Outp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0022,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o1 mini cached input Data Zone",
+    "meter": "o1 mini cached input Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.000605,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o1 mini cached input glbl",
+    "meter": "o1 mini cached input glbl Tokens",
+    "unit": "1K",
+    "usd": 0.00055,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o1 mini cached input regnl",
+    "meter": "o1 mini cached input regnl Tokens",
+    "unit": "1K",
+    "usd": 0.000605,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o1 mini input Data Zone",
+    "meter": "o1 mini input Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.00121,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o1 mini input glbl",
+    "meter": "o1 mini input glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o1 mini input regnl",
+    "meter": "o1 mini input regnl Tokens",
+    "unit": "1K",
+    "usd": 0.00121,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o1 mini output Data Zone",
+    "meter": "o1 mini output Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.00484,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o1 mini output glbl",
+    "meter": "o1 mini output glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0044,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o1 mini output regnl",
+    "meter": "o1 mini output regnl Tokens",
+    "unit": "1K",
+    "usd": 0.00484,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o3 mini 0131 Batch Inp Data Zone",
+    "meter": "o3 mini 0131 Batch Inp Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.000605,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o3 mini 0131 Batch Inp glbl",
+    "meter": "o3 mini 0131 Batch Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.00055,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o3 mini 0131 Batch Outp Data Zone",
+    "meter": "o3 mini 0131 Batch Outp Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.00242,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o3 mini 0131 Batch Outp glbl",
+    "meter": "o3 mini 0131 Batch Outp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0022,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o3 mini 0131 cached input Data Zone",
+    "meter": "o3 mini 0131 cached input Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.000605,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o3 mini 0131 cached input glbl",
+    "meter": "o3 mini 0131 cached input glbl Tokens",
+    "unit": "1K",
+    "usd": 0.00055,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o3 mini 0131 cached input regnl",
+    "meter": "o3 mini 0131 cached input regnl Tokens",
+    "unit": "1K",
+    "usd": 0.000605,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o3 mini 0131 input Data Zone",
+    "meter": "o3 mini 0131 input Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.00121,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o3 mini 0131 input glbl",
+    "meter": "o3 mini 0131 input glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o3 mini 0131 input regnl",
+    "meter": "o3 mini 0131 input regnl Tokens",
+    "unit": "1K",
+    "usd": 0.00121,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o3 mini 0131 output Data Zone",
+    "meter": "o3 mini 0131 output Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.00484,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o3 mini 0131 output glbl",
+    "meter": "o3 mini 0131 output glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0044,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o3 mini 0131 output regnl",
+    "meter": "o3 mini 0131 output regnl Tokens",
+    "unit": "1K",
+    "usd": 0.00484,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o3-mini-ft model grader cchd inpt",
+    "meter": "o3-mini-ft model grader cchd inpt Tokens",
+    "unit": "1K",
+    "usd": 0.000605,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o3-mini-ft model grader input",
+    "meter": "o3-mini-ft model grader input Tokens",
+    "unit": "1K",
+    "usd": 0.00121,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "o3-mini-ft model grader output",
+    "meter": "o3-mini-ft model grader output Tokens",
+    "unit": "1K",
+    "usd": 0.00484,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5 mini pp Inp Dz",
+    "meter": "5 mini pp Inp Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 0.495,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5 mini pp Inp Gl",
+    "meter": "5 mini pp Inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.45,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5 mini pp Opt Dz",
+    "meter": "5 mini pp Opt Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 3.96,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5 mini pp Opt Gl",
+    "meter": "5 mini pp Opt Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 3.6,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5 mini pp cd Inp Dz",
+    "meter": "5 mini pp cd Inp Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 0.0495,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5 mini pp cd Inp Gl",
+    "meter": "5 mini pp cd Inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.045,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.1 codex mini cd inp Dz",
+    "meter": "5.1 codex mini cd inp Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 0.0275,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.1 codex mini cd inp Gl",
+    "meter": "5.1 codex mini cd inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.025,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.1 codex mini inp Dz",
+    "meter": "5.1 codex mini inp Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 0.275,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.1 codex mini inp Gl",
+    "meter": "5.1 codex mini inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.25,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.1 codex mini opt Dz",
+    "meter": "5.1 codex mini opt Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 2.2,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.1 codex mini opt Gl",
+    "meter": "5.1 codex mini opt Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 2.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 mini Batch Inp Dz",
+    "meter": "5.4 mini Batch Inp Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 0.4125,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 mini Batch Inp Gl",
+    "meter": "5.4 mini Batch Inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.375,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 mini Batch Opt Dz",
+    "meter": "5.4 mini Batch Opt Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 2.475,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 mini Batch Opt Gl",
+    "meter": "5.4 mini Batch Opt Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 2.25,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 mini Batch cd Inp Dz",
+    "meter": "5.4 mini Batch cd Inp Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 0.04125,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 mini Batch cd Inp Gl",
+    "meter": "5.4 mini Batch cd Inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.0375,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 mini Inp Dz",
+    "meter": "5.4 mini Inp Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 0.825,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 mini Inp Gl",
+    "meter": "5.4 mini Inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.75,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 mini Opt Dz",
+    "meter": "5.4 mini Opt Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 4.95,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 mini Opt Gl",
+    "meter": "5.4 mini Opt Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 4.5,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 mini cd Inp Dz",
+    "meter": "5.4 mini cd Inp Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 0.0825,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 mini cd Inp Gl",
+    "meter": "5.4 mini cd Inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.075,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 mini pp Inp Dz",
+    "meter": "5.4 mini pp Inp Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 1.65,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 mini pp Inp Gl",
+    "meter": "5.4 mini pp Inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 1.5,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 mini pp Opt Dz",
+    "meter": "5.4 mini pp Opt Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 9.9,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 mini pp Opt Gl",
+    "meter": "5.4 mini pp Opt Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 9.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 mini pp cd Inp Dz",
+    "meter": "5.4 mini pp cd Inp Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 0.165,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 mini pp cd Inp Gl",
+    "meter": "5.4 mini pp cd Inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.15,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "54 mini Inp Flex Gl",
+    "meter": "54 mini Inp Flex Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.375,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "54 mini Opt Flex Gl",
+    "meter": "54 mini Opt Flex Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 2.25,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "54 mini cd Inp Flex Gl",
+    "meter": "54 mini cd Inp Flex Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.0375,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt aud mini Inp DZone",
+    "meter": "gpt aud mini Inp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt aud mini Inp glbl",
+    "meter": "gpt aud mini Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.01,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt aud mini Outp DZone",
+    "meter": "gpt aud mini Outp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.022,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt aud mini Outp glbl",
+    "meter": "gpt aud mini Outp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.02,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt aud mini txt Inp DZone",
+    "meter": "gpt aud mini txt Inp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.00066,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt aud mini txt Inp glbl",
+    "meter": "gpt aud mini txt Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0006,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt aud mini txt Outp DZone",
+    "meter": "gpt aud mini txt Outp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.00264,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt aud mini txt Outp glbl",
+    "meter": "gpt aud mini txt Outp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0024,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt img 1 mini inp cchd img dzone",
+    "meter": "gpt img 1 mini inp cchd img dzone Tokens",
+    "unit": "1K",
+    "usd": 0.000275,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt img 1 mini inp cchd img glbl",
+    "meter": "gpt img 1 mini inp cchd img glbl Tokens",
+    "unit": "1K",
+    "usd": 0.00025,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt img 1 mini inp cchd txt dzone",
+    "meter": "gpt img 1 mini inp cchd txt dzone Tokens",
+    "unit": "1K",
+    "usd": 0.00022,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt img 1 mini inp cchd txt glbl",
+    "meter": "gpt img 1 mini inp cchd txt glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0002,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt img 1 mini inp img dzone",
+    "meter": "gpt img 1 mini inp img dzone Tokens",
+    "unit": "1K",
+    "usd": 0.00275,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt img 1 mini inp img glbl",
+    "meter": "gpt img 1 mini inp img glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0025,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt img 1 mini inp txt dzone",
+    "meter": "gpt img 1 mini inp txt dzone Tokens",
+    "unit": "1K",
+    "usd": 0.0022,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt img 1 mini inp txt glbl",
+    "meter": "gpt img 1 mini inp txt glbl Tokens",
+    "unit": "1K",
+    "usd": 0.002,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt img 1 mini out img dzone",
+    "meter": "gpt img 1 mini out img dzone Tokens",
+    "unit": "1K",
+    "usd": 0.0088,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt img 1 mini out img glbl",
+    "meter": "gpt img 1 mini out img glbl Tokens",
+    "unit": "1K",
+    "usd": 0.008,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt rt aud mini Inp DZone",
+    "meter": "gpt rt aud mini Inp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt rt aud mini Inp glbl",
+    "meter": "gpt rt aud mini Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.01,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt rt aud mini Outp DZone",
+    "meter": "gpt rt aud mini Outp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.022,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt rt aud mini Outp glbl",
+    "meter": "gpt rt aud mini Outp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.02,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt rt aud mini cchd Inp DZn",
+    "meter": "gpt rt aud mini cchd Inp DZn Tokens",
+    "unit": "1K",
+    "usd": 0.00033,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt rt aud mini cchd Inp glbl",
+    "meter": "gpt rt aud mini cchd Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0003,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt rt img mini Inp DZn",
+    "meter": "gpt rt img mini Inp DZn Tokens",
+    "unit": "1K",
+    "usd": 0.00088,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt rt img mini Inp glbl",
+    "meter": "gpt rt img mini Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0008,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt rt img mini cchd Inp DZn",
+    "meter": "gpt rt img mini cchd Inp DZn Tokens",
+    "unit": "1K",
+    "usd": 8.8e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt rt img mini cchd Inp glbl",
+    "meter": "gpt rt img mini cchd Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 8e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt rt txt mini Inp DZone",
+    "meter": "gpt rt txt mini Inp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.00066,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt rt txt mini Inp glbl",
+    "meter": "gpt rt txt mini Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0006,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt rt txt mini Outp DZone",
+    "meter": "gpt rt txt mini Outp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.00264,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt rt txt mini Outp glbl",
+    "meter": "gpt rt txt mini Outp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0024,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt rt txt mini cchd Inp DZn",
+    "meter": "gpt rt txt mini cchd Inp DZn Tokens",
+    "unit": "1K",
+    "usd": 6.6e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt rt txt mini cchd Inp glbl",
+    "meter": "gpt rt txt mini cchd Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 6e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt-realtime-2.1-mini Audio cd inp DZ",
+    "meter": "gpt-realtime-2.1-mini Audio cd inp DZ 1M Tokens",
+    "unit": "1M",
+    "usd": 0.33,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt-realtime-2.1-mini Audio cd inp Gl",
+    "meter": "gpt-realtime-2.1-mini Audio cd inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.3,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt-realtime-2.1-mini Audio inp DZ",
+    "meter": "gpt-realtime-2.1-mini Audio inp DZ 1M Tokens",
+    "unit": "1M",
+    "usd": 11.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt-realtime-2.1-mini Audio inp Gl",
+    "meter": "gpt-realtime-2.1-mini Audio inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 10.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt-realtime-2.1-mini Audio opt DZ",
+    "meter": "gpt-realtime-2.1-mini Audio opt DZ 1M Tokens",
+    "unit": "1M",
+    "usd": 22.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt-realtime-2.1-mini Audio opt Gl",
+    "meter": "gpt-realtime-2.1-mini Audio opt Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 20.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt-realtime-2.1-mini Image cd inp DZ",
+    "meter": "gpt-realtime-2.1-mini Image cd inp DZ 1M Tokens",
+    "unit": "1M",
+    "usd": 0.088,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt-realtime-2.1-mini Image cd inp Gl",
+    "meter": "gpt-realtime-2.1-mini Image cd inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.08,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt-realtime-2.1-mini Image inp DZ",
+    "meter": "gpt-realtime-2.1-mini Image inp DZ 1M Tokens",
+    "unit": "1M",
+    "usd": 0.88,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt-realtime-2.1-mini Image inp Gl",
+    "meter": "gpt-realtime-2.1-mini Image inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.8,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt-realtime-2.1-mini Text cd inp DZ",
+    "meter": "gpt-realtime-2.1-mini Text cd inp DZ 1M Tokens",
+    "unit": "1M",
+    "usd": 0.066,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt-realtime-2.1-mini Text cd inp Gl",
+    "meter": "gpt-realtime-2.1-mini Text cd inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.06,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt-realtime-2.1-mini Text inp DZ",
+    "meter": "gpt-realtime-2.1-mini Text inp DZ 1M Tokens",
+    "unit": "1M",
+    "usd": 0.66,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt-realtime-2.1-mini Text inp Gl",
+    "meter": "gpt-realtime-2.1-mini Text inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.6,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt-realtime-2.1-mini Text opt DZ",
+    "meter": "gpt-realtime-2.1-mini Text opt DZ 1M Tokens",
+    "unit": "1M",
+    "usd": 2.64,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Media",
+    "sku": "gpt-realtime-2.1-mini Text opt Gl",
+    "meter": "gpt-realtime-2.1-mini Text opt Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 2.4,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4.1 mini ft cd inp Dz",
+    "meter": "4.1 mini ft cd inp Dz Tokens",
+    "unit": "1K",
+    "usd": 0.00011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4.1 mini ft hosting Dz",
+    "meter": "4.1 mini ft hosting Dz Unit",
+    "unit": "1 Hour",
+    "usd": 1.7,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4.1 mini ft inp Dz",
+    "meter": "4.1 mini ft inp Dz Tokens",
+    "unit": "1K",
+    "usd": 0.00044,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4.1 mini ft opt Dz",
+    "meter": "4.1 mini ft opt Dz Tokens",
+    "unit": "1K",
+    "usd": 0.00176,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4.1 mini ft training Dz",
+    "meter": "4.1 mini ft training Dz Tokens",
+    "unit": "1K",
+    "usd": 0.0055,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4.1 mini pp Inp Dz",
+    "meter": "4.1 mini pp Inp Dz Tokens",
+    "unit": "1K",
+    "usd": 0.00077,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4.1 mini pp Inp Gl",
+    "meter": "4.1 mini pp Inp Gl Tokens",
+    "unit": "1K",
+    "usd": 0.0007,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4.1 mini pp Opt Dz",
+    "meter": "4.1 mini pp Opt Dz Tokens",
+    "unit": "1K",
+    "usd": 0.00308,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4.1 mini pp Opt Gl",
+    "meter": "4.1 mini pp Opt Gl Tokens",
+    "unit": "1K",
+    "usd": 0.0028,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4.1 mini pp cd Inp Dz",
+    "meter": "4.1 mini pp cd Inp Dz Tokens",
+    "unit": "1K",
+    "usd": 0.000193,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4.1 mini pp cd Inp Gl",
+    "meter": "4.1 mini pp cd Inp Gl Tokens",
+    "unit": "1K",
+    "usd": 0.000175,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4o mini 0718 ft cd inp Dz",
+    "meter": "4o mini 0718 ft cd inp Dz Tokens",
+    "unit": "1K",
+    "usd": 8.3e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4o mini 0718 ft hosting Dz",
+    "meter": "4o mini 0718 ft hosting Dz Unit",
+    "unit": "1 Hour",
+    "usd": 1.7,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4o mini 0718 ft inp Dz",
+    "meter": "4o mini 0718 ft inp Dz Tokens",
+    "unit": "1K",
+    "usd": 0.000165,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4o mini 0718 ft opt Dz",
+    "meter": "4o mini 0718 ft opt Dz Tokens",
+    "unit": "1K",
+    "usd": 0.00066,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4o mini 0718 ft training Dz",
+    "meter": "4o mini 0718 ft training Dz Tokens",
+    "unit": "1K",
+    "usd": 0.0033,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "codex mini inp cchd dzone",
+    "meter": "codex mini inp cchd dzone Tokens",
+    "unit": "1K",
+    "usd": 0.000413,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "codex mini inp cchd glbl",
+    "meter": "codex mini inp cchd glbl Tokens",
+    "unit": "1K",
+    "usd": 0.000375,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "codex mini inp cchd rgnl",
+    "meter": "codex mini inp cchd rgnl Tokens",
+    "unit": "1K",
+    "usd": 0.000413,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "codex mini inp dzone",
+    "meter": "codex mini inp dzone Tokens",
+    "unit": "1K",
+    "usd": 0.00165,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "codex mini inp glbl",
+    "meter": "codex mini inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0015,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "codex mini inp rgnl",
+    "meter": "codex mini inp rgnl Tokens",
+    "unit": "1K",
+    "usd": 0.00165,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "codex mini out dzone",
+    "meter": "codex mini out dzone Tokens",
+    "unit": "1K",
+    "usd": 0.0066,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "codex mini out glbl",
+    "meter": "codex mini out glbl Tokens",
+    "unit": "1K",
+    "usd": 0.006,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "codex mini out rgnl",
+    "meter": "codex mini out rgnl Tokens",
+    "unit": "1K",
+    "usd": 0.0066,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4 mini dev RFT Training glb",
+    "meter": "o4 mini dev RFT Training glb Unit",
+    "unit": "1 Hour",
+    "usd": 50.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4 mini dev RFT cd inp glb",
+    "meter": "o4 mini dev RFT cd inp glb Tokens",
+    "unit": "1K",
+    "usd": 0.000275,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4 mini dev RFT inp glb",
+    "meter": "o4 mini dev RFT inp glb Tokens",
+    "unit": "1K",
+    "usd": 0.0011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4 mini dev RFT opt glb",
+    "meter": "o4 mini dev RFT opt glb Tokens",
+    "unit": "1K",
+    "usd": 0.0044,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4 mini ft cd inp Dz",
+    "meter": "o4 mini ft cd inp Dz Tokens",
+    "unit": "1K",
+    "usd": 0.000303,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4 mini ft hosting Dz",
+    "meter": "o4 mini ft hosting Dz Unit",
+    "unit": "1 Hour",
+    "usd": 1.7,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4 mini ft inp Dz",
+    "meter": "o4 mini ft inp Dz Tokens",
+    "unit": "1K",
+    "usd": 0.00121,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4 mini ft opt Dz",
+    "meter": "o4 mini ft opt Dz Tokens",
+    "unit": "1K",
+    "usd": 0.00484,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4 mini rft training Dz",
+    "meter": "o4 mini rft training Dz Unit",
+    "unit": "1 Hour",
+    "usd": 110.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini 0416 Batch Inp Data Zone",
+    "meter": "o4-mini 0416 Batch Inp Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.000605,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini 0416 Batch Inp glbl",
+    "meter": "o4-mini 0416 Batch Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.00055,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini 0416 Batch Outp Data Zone",
+    "meter": "o4-mini 0416 Batch Outp Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.00242,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini 0416 Batch Outp glbl",
+    "meter": "o4-mini 0416 Batch Outp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0022,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini 0416 Inp Data Zone",
+    "meter": "o4-mini 0416 Inp Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.00121,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini 0416 Inp glbl",
+    "meter": "o4-mini 0416 Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini 0416 Inp regnl",
+    "meter": "o4-mini 0416 Inp regnl Tokens",
+    "unit": "1K",
+    "usd": 0.00121,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini 0416 Outp Data Zone",
+    "meter": "o4-mini 0416 Outp Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.00484,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini 0416 Outp glbl",
+    "meter": "o4-mini 0416 Outp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0044,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini 0416 Outp regnl",
+    "meter": "o4-mini 0416 Outp regnl Tokens",
+    "unit": "1K",
+    "usd": 0.00484,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini 0416 cached Inp DataZone",
+    "meter": "o4-mini 0416 cached Inp DataZone Tokens",
+    "unit": "1K",
+    "usd": 0.000303,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini 0416 cached Inp glbl",
+    "meter": "o4-mini 0416 cached Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.000275,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini 0416 cached Inp regnl",
+    "meter": "o4-mini 0416 cached Inp regnl Tokens",
+    "unit": "1K",
+    "usd": 0.000303,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini RFT Training global",
+    "meter": "o4-mini RFT Training global Unit",
+    "unit": "1 Hour",
+    "usd": 100.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini RFT Training regional",
+    "meter": "o4-mini RFT Training regional Unit",
+    "unit": "1 Hour",
+    "usd": 110.0,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini-ft cached input global",
+    "meter": "o4-mini-ft cached input global Tokens",
+    "unit": "1K",
+    "usd": 0.000275,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini-ft cached input regional",
+    "meter": "o4-mini-ft cached input regional Tokens",
+    "unit": "1K",
+    "usd": 0.000303,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini-ft hosting global",
+    "meter": "o4-mini-ft hosting global Unit",
+    "unit": "1 Hour",
+    "usd": 1.7,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini-ft hosting regional",
+    "meter": "o4-mini-ft hosting regional Unit",
+    "unit": "1 Hour",
+    "usd": 1.7,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini-ft input global",
+    "meter": "o4-mini-ft input global Tokens",
+    "unit": "1K",
+    "usd": 0.0011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini-ft input regional",
+    "meter": "o4-mini-ft input regional Tokens",
+    "unit": "1K",
+    "usd": 0.00121,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini-ft model grader cchd inp",
+    "meter": "o4-mini-ft model grader cchd inp Tokens",
+    "unit": "1K",
+    "usd": 0.000303,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini-ft model grader input",
+    "meter": "o4-mini-ft model grader input Tokens",
+    "unit": "1K",
+    "usd": 0.00121,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini-ft model grader output",
+    "meter": "o4-mini-ft model grader output Tokens",
+    "unit": "1K",
+    "usd": 0.00484,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini-ft output global",
+    "meter": "o4-mini-ft output global Tokens",
+    "unit": "1K",
+    "usd": 0.0044,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI Reasoning",
+    "sku": "o4-mini-ft output regional",
+    "meter": "o4-mini-ft output regional Tokens",
+    "unit": "1K",
+    "usd": 0.00484,
+    "tier_min": 0.0
+   }
+  ],
+  "openai_nano": [
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 nano Batch Inp DZone",
+    "meter": "gpt 4.1 nano Batch Inp DZone Tokens",
+    "unit": "1K",
+    "usd": 5.5e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 nano Batch Inp glbl",
+    "meter": "gpt 4.1 nano Batch Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 5e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 nano Batch Outp DZone",
+    "meter": "gpt 4.1 nano Batch Outp DZone Tokens",
+    "unit": "1K",
+    "usd": 0.00022,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 nano Batch Outp glbl",
+    "meter": "gpt 4.1 nano Batch Outp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0002,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 nano Inp Data Zone",
+    "meter": "gpt 4.1 nano Inp Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.00011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 nano Inp glbl",
+    "meter": "gpt 4.1 nano Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0001,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 nano Inp regnl",
+    "meter": "gpt 4.1 nano Inp regnl Tokens",
+    "unit": "1K",
+    "usd": 0.00011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 nano Outp Data Zone",
+    "meter": "gpt 4.1 nano Outp Data Zone Tokens",
+    "unit": "1K",
+    "usd": 0.00044,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 nano Outp glbl",
+    "meter": "gpt 4.1 nano Outp glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0004,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 nano Outp regnl",
+    "meter": "gpt 4.1 nano Outp regnl Tokens",
+    "unit": "1K",
+    "usd": 0.00044,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 nano cached Inp DZone",
+    "meter": "gpt 4.1 nano cached Inp DZone Tokens",
+    "unit": "1K",
+    "usd": 2.8e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 nano cached Inp glbl",
+    "meter": "gpt 4.1 nano cached Inp glbl Tokens",
+    "unit": "1K",
+    "usd": 2.5e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 nano cached Inp regnl",
+    "meter": "gpt 4.1 nano cached Inp regnl Tokens",
+    "unit": "1K",
+    "usd": 2.8e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt 4.1 nano dev ft training glbl",
+    "meter": "gpt 4.1 nano dev ft training glbl Tokens",
+    "unit": "1K",
+    "usd": 0.00075,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-nano FT Training global",
+    "meter": "gpt-4.1-nano FT Training global Tokens",
+    "unit": "1K",
+    "usd": 0.0015,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-nano FT Training regional",
+    "meter": "gpt-4.1-nano FT Training regional Tokens",
+    "unit": "1K",
+    "usd": 0.00165,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-nano-dev-ft cchd inpt glbl",
+    "meter": "gpt-4.1-nano-dev-ft cchd inpt glbl Tokens",
+    "unit": "1K",
+    "usd": 2.5e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-nano-dev-ft inpt glbl",
+    "meter": "gpt-4.1-nano-dev-ft inpt glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0001,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-nano-dev-ft opt glbl",
+    "meter": "gpt-4.1-nano-dev-ft opt glbl Tokens",
+    "unit": "1K",
+    "usd": 0.0004,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-nano-ft cached input global",
+    "meter": "gpt-4.1-nano-ft cached input global Tokens",
+    "unit": "1K",
+    "usd": 2.5e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-nano-ft cached input regnl",
+    "meter": "gpt-4.1-nano-ft cached input regnl Tokens",
+    "unit": "1K",
+    "usd": 2.8e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-nano-ft hosting global",
+    "meter": "gpt-4.1-nano-ft hosting global Unit",
+    "unit": "1 Hour",
+    "usd": 1.7,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-nano-ft hosting regional",
+    "meter": "gpt-4.1-nano-ft hosting regional Unit",
+    "unit": "1 Hour",
+    "usd": 1.7,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-nano-ft input global",
+    "meter": "gpt-4.1-nano-ft input global Tokens",
+    "unit": "1K",
+    "usd": 0.0001,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-nano-ft input regional",
+    "meter": "gpt-4.1-nano-ft input regional Tokens",
+    "unit": "1K",
+    "usd": 0.00011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-nano-ft mdl grdr cchd inpt",
+    "meter": "gpt-4.1-nano-ft mdl grdr cchd inpt Tokens",
+    "unit": "1K",
+    "usd": 2.8e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-nano-ft mdl grdr inpt",
+    "meter": "gpt-4.1-nano-ft mdl grdr inpt Tokens",
+    "unit": "1K",
+    "usd": 0.00011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-nano-ft mdl grdr opt",
+    "meter": "gpt-4.1-nano-ft mdl grdr opt Tokens",
+    "unit": "1K",
+    "usd": 0.00044,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-nano-ft output global",
+    "meter": "gpt-4.1-nano-ft output global Tokens",
+    "unit": "1K",
+    "usd": 0.0004,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI",
+    "sku": "gpt-4.1-nano-ft output regional",
+    "meter": "gpt-4.1-nano-ft output regional Tokens",
+    "unit": "1K",
+    "usd": 0.00044,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 nano Batch Inp Dz",
+    "meter": "5.4 nano Batch Inp Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 0.11,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 nano Batch Inp Gl",
+    "meter": "5.4 nano Batch Inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.1,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 nano Batch Opt Dz",
+    "meter": "5.4 nano Batch Opt Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 0.6875,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 nano Batch Opt Gl",
+    "meter": "5.4 nano Batch Opt Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.625,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 nano Batch cd Inp Dz",
+    "meter": "5.4 nano Batch cd Inp Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 0.011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 nano Batch cd Inp Gl",
+    "meter": "5.4 nano Batch cd Inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.01,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 nano Inp Dz",
+    "meter": "5.4 nano Inp Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 0.22,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 nano Inp Gl",
+    "meter": "5.4 nano Inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.2,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 nano Opt Dz",
+    "meter": "5.4 nano Opt Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 1.375,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 nano Opt Gl",
+    "meter": "5.4 nano Opt Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 1.25,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 nano cd Inp Dz",
+    "meter": "5.4 nano cd Inp Dz 1M Tokens",
+    "unit": "1M",
+    "usd": 0.022,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "5.4 nano cd Inp Gl",
+    "meter": "5.4 nano cd Inp Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.02,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "54 nano Inp Flex Gl",
+    "meter": "54 nano Inp Flex Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.1,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "54 nano Opt Flex Gl",
+    "meter": "54 nano Opt Flex Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.625,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI GPT5",
+    "sku": "54 nano cd Inp Flex Gl",
+    "meter": "54 nano cd Inp Flex Gl 1M Tokens",
+    "unit": "1M",
+    "usd": 0.01,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4.1 nano ft cd inp Dz",
+    "meter": "4.1 nano ft cd inp Dz Tokens",
+    "unit": "1K",
+    "usd": 2.8e-05,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4.1 nano ft hosting Dz",
+    "meter": "4.1 nano ft hosting Dz Unit",
+    "unit": "1 Hour",
+    "usd": 1.7,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4.1 nano ft inp Dz",
+    "meter": "4.1 nano ft inp Dz Tokens",
+    "unit": "1K",
+    "usd": 0.00011,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4.1 nano ft opt Dz",
+    "meter": "4.1 nano ft opt Dz Tokens",
+    "unit": "1K",
+    "usd": 0.00044,
+    "tier_min": 0.0
+   },
+   {
+    "product": "Azure OpenAI PP FT GPT4s",
+    "sku": "4.1 nano ft training Dz",
+    "meter": "4.1 nano ft training Dz Tokens",
+    "unit": "1K",
+    "usd": 0.00165,
+    "tier_min": 0.0
+   }
+  ]
+ }
+}

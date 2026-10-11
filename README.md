@@ -13,7 +13,7 @@ clásico sobre COIL-100. *Documento en construcción: el índice de entregables 
 | 7 | Catálogo de tools y contratos | [`doc/13_catalogo_de_tools.md`](doc/13_catalogo_de_tools.md), [`doc/openapi/tools.json`](doc/openapi/tools.json) | listo |
 | 8 | Threat model y controles | [`doc/15_threat_model.md`](doc/15_threat_model.md) | listo |
 | 10 | Servicio desplegado | despliegue local de un comando (abajo); visión: [`doc/12_servicio_de_vision.md`](doc/12_servicio_de_vision.md); asistente: [`doc/14_asistente_agentico.md`](doc/14_asistente_agentico.md); URL pública pendiente | en curso |
-| 12 | Arquitectura Azure y modelo de costos | `doc/` | pendiente |
+| 12 | Arquitectura Azure y modelo de costos | [`doc/16_arquitectura_azure_y_finops.md`](doc/16_arquitectura_azure_y_finops.md), hoja de cálculo [`doc/costos/modelo_de_costos_azure.xlsx`](doc/costos/modelo_de_costos_azure.xlsx) | listo |
 
 ## Reto 2 en una página
 
