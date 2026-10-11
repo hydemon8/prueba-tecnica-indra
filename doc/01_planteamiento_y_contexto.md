@@ -76,7 +76,7 @@ está cada entregable.
 
 ## 1.6 ¿El LLM usa el modelo en producción? Separación de planos
 
-Duda inicial del usuario: pensaba empezar por el agente porque entendía que en producción el LLM usa el modelo. La
+Duda inicial: ¿conviene empezar por el agente, dado que en producción el LLM usa el modelo? La
 respuesta es que el LLM **no está en la línea**:
 
 ```
@@ -97,7 +97,7 @@ Supervisor / calidad / mantenimiento ⇄ Agente (LLM) → tools → API de visi�
 ## 1.7 Ideas iniciales evaluadas
 
 ### YOLO para detectar, medir inclinación y similitud
-Propuesta del usuario: detección con YOLO, inclinación con procesamiento adicional (OpenCV), similitud con
+Idea inicial: detección con YOLO, inclinación con procesamiento adicional (OpenCV), similitud con
 embeddings de las últimas capas. Se descartó por tres razones:
 1. **No hay nada que detectar**: un objeto por imagen, centrado, recortado y sobre fondo oscuro; localizarlo es un
    umbral. El problema es clasificación + pose.
@@ -107,12 +107,12 @@ embeddings de las últimas capas. Se descartó por tres razones:
 Lo que se rescató: usar embeddings como **referencia moderna**, mejor con DINOv2 y con el mismo pipeline.
 
 ### PCA sobre imágenes aplanadas + clasificador clásico
-Propuesta del usuario como punto de partida. Se adoptó como **baseline** (PCA + 1-NN) y se buscó algo mejor; la
+Idea inicial, tomada como punto de partida. Se adoptó como **baseline** (PCA + 1-NN) y se buscó algo mejor; la
 literatura mostró que PCA sobre píxeles es justamente el método fundacional de este dataset (sección 4), y los
 experimentos mostraron que como identidad es claramente superado por representaciones de color (sección 6).
 
 ### Modelo o render 3D de los objetos
-Propuesta del usuario: aprovechar las 72 perspectivas para construir un modelo 3D real y estimar el ángulo por
+Idea inicial: aprovechar las 72 perspectivas para construir un modelo 3D real y estimar el ángulo por
 comparación con su render; alternativamente un "pseudo-3D", porque el objeto nunca se mueve en Z: solo gira en el
 plano horizontal. Resultado del análisis (detalle en las secciones 4 y 5):
 - La intuición del pseudo-3D es correcta y formalizable: con 1 grado de libertad, todas las apariencias de un objeto
@@ -121,19 +121,19 @@ plano horizontal. Resultado del análisis (detalle en las secciones 4 y 5):
   imagen, geometría que no cumple los supuestos (IoU de siluetas espejadas 0,74), concavidades no recuperables,
   NeRF es una red neuronal, 3DGS depende de CUDA, y costaría 12–20 h de 48. Además, donde el 3D aportaría
   información nueva (el sector ciego) lo correcto es abstenerse.
-- Decisión del usuario: aprobado el enfoque de curva, 3D real fuera (como mucho un extra opcional).
+- Decisión: enfoque de curva; 3D real fuera (como mucho un extra opcional).
 
 ### Similitud "por construcción"
-Propuesta del usuario: dos imágenes son similares si y solo si son del mismo SKU y tienen ángulos cercanos; así la
+Idea inicial: dos imágenes son similares si y solo si son del mismo SKU y tienen ángulos cercanos; así la
 similitud sale de los modelos de identidad y de ángulo. Decisión: **adoptada como top-k principal**, más una
 evidencia por apariencia independiente de la predicción (sección 7).
 
-## 1.8 Decisiones del usuario sobre el proceso
+## 1.8 Decisiones sobre el proceso
 
 | Decisión | Detalle |
 |---|---|
-| Trabajo por fases | Primero análisis, resúmenes en el chat; después construcción |
+| Trabajo por fases | Primero análisis; después construcción |
 | Orden | Modelo (Reto 2) primero; el agente al final |
 | LLM del asistente | API de Gemini para la demo (clave temporal, solo en `.env`, nunca en el repositorio); la arquitectura de destino será Azure (Reto 6), con una capa de proveedor intercambiable |
-| Commits | Más adelante, no durante la construcción del Reto 2 |
+| Commits | Al cerrar el Reto 2, ordenados por tema; después, por hito |
 | Notebook | Los 5 bloques (selección con MLflow, evaluación, baseline y referencia, análisis de errores con 2a captura, model card y artefacto) de una vez |

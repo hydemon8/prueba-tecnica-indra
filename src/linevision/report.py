@@ -89,6 +89,8 @@ tamaño). Versión de datos: `{data_version}`. Sustituto controlado de las imág
 ## Comparación con baseline y referencia moderna
 {comparison.reset_index().to_markdown(index=False)}
 
+La columna de latencia mide solo la decisión con las características ya extraídas, en lote. De punta a punta (imagen a decisión), una imagen suelta tarda ≈ 28 ms en CPU a través del servicio; en lotes de 64, ≈ 2 ms por imagen.
+
 ## Sector ciego: mitigación con 2a captura (protocolo B)
 Girar el objeto {two_shot['delta_deg']:.0f}° (o 2a cámara) y re-estimar: ángulo dentro de ±{tol:.0f}° en
 {two_shot['within_tol_all'] * 100:.1f} % de los casos; el robot actúa en {two_shot['act_rate'] * 100:.1f} % con

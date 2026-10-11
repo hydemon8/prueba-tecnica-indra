@@ -22,7 +22,7 @@ iteración v3 de robustez, reporte PDF, commits, Retos 3, 4 y 6, plan de proyect
 | 7 | [Similitud y control de seguridad](07_similitud_y_control_de_seguridad.md) | Similitud híbrida, reglas del control, calibración, traducción de la tolerancia ±10° |
 | 8 | [Resultados](08_resultados.md) | Todas las tablas: validación interna, prueba por protocolo (v1 y v2), comparación, 2a captura, análisis de errores |
 | 9 | [Pruebas funcionales y robustez](09_pruebas_funcionales_y_robustez.md) | El artefacto final ante capturas perturbadas y fuera de dominio; fallos encontrados; propuesta v3 |
-| 10 | [Registro de decisiones e incidencias](10_registro_de_decisiones_e_incidencias.md) | Cronología, decisiones del usuario y técnicas, errores cometidos y cómo se corrigieron, pendientes |
+| 10 | [Registro de decisiones e incidencias](10_registro_de_decisiones_e_incidencias.md) | Cronología, decisiones de proceso y técnicas, errores cometidos y cómo se corrigieron, pendientes |
 | 11 | [Implementación y reproducibilidad](11_implementacion_y_reproducibilidad.md) | Estructura del código, cómo ejecutar, MLflow, artefacto, tests |
 | 12 | [Servicio de visión](12_servicio_de_vision.md) | Reto 4: API, qué recibe el robot, validación de captura, controles, latencia medida, arquitectura y secuencia imagen → robot |
 | 13 | [Catálogo de tools](13_catalogo_de_tools.md) | Reto 3: las 22 tools con contrato, permisos, errores, repeticiones y auditoría (generado desde el código) |
@@ -52,4 +52,4 @@ las fases de análisis (antes de existir la librería).
   100 % del baseline. Sector ciego: con una 2a captura girando 180°, 97,4 % dentro de ±10°.
 - **Pruebas funcionales** (después de la v2): el sistema es frágil ante cambios de iluminación y ruido (rechaza
   producto conocido) y actúa con ángulo erróneo si el objeto llega desplazado (10,5 % de acciones inseguras con
-  8 px). Hay una propuesta v3 pendiente de aprobación.
+  8 px). Las correcciones (v3) están propuestas y no implementadas.

@@ -54,6 +54,8 @@ tamaño). Versión de datos: `4e39f8783785bc2d`. Sustituto controlado de las im�
 | D           | clásico (hsv|rf(n_estimators=500)) | —          | —                          | 0.0 ± 0.0            | 99.8 ± 0.3                | 0.1 ± 0.0           |
 | D           | referencia DINOv2                  | —          | —                          | 0.0 ± 0.1            | 93.1 ± 2.7                | 0.0 ± 0.0           |
 
+La columna de latencia mide solo la decisión con las características ya extraídas, en lote. De punta a punta (imagen a decisión), una imagen suelta tarda ≈ 28 ms en CPU a través del servicio; en lotes de 64, ≈ 2 ms por imagen.
+
 ## Sector ciego: mitigación con 2a captura (protocolo B)
 Girar el objeto 180° (o 2a cámara) y re-estimar: ángulo dentro de ±10° en
 97.4 % de los casos; el robot actúa en 93.9 % con

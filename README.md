@@ -1,7 +1,7 @@
 # Prueba técnica AI Engineer — visión para pick & pack
 
 Identificación de producto, estimación del giro (yaw) y decisión segura para un brazo robótico, con ML
-clásico sobre COIL-100. *Documento en construcción: el índice de entregables se completa al cierre.*
+clásico sobre COIL-100.
 
 ## Entregables
 
@@ -12,7 +12,7 @@ clásico sobre COIL-100. *Documento en construcción: el índice de entregables 
 | 5 | Repositorio de código | este repo: `src/linevision` (visión) y `src/lineops` (asistente) | listo |
 | 7 | Catálogo de tools y contratos | [`doc/13_catalogo_de_tools.md`](doc/13_catalogo_de_tools.md), [`doc/openapi/tools.json`](doc/openapi/tools.json) | listo |
 | 8 | Threat model y controles | [`doc/15_threat_model.md`](doc/15_threat_model.md) | listo |
-| 10 | Servicio desplegado | despliegue local de un comando (abajo); visión: [`doc/12_servicio_de_vision.md`](doc/12_servicio_de_vision.md); asistente: [`doc/14_asistente_agentico.md`](doc/14_asistente_agentico.md); URL pública pendiente | en curso |
+| 10 | Servicio desplegado | despliegue local de un comando, la opción sin URL pública que admite el enunciado (ver [Ejecución local](#ejecución-local)); visión: [`doc/12_servicio_de_vision.md`](doc/12_servicio_de_vision.md); asistente: [`doc/14_asistente_agentico.md`](doc/14_asistente_agentico.md) | listo |
 | 12 | Arquitectura Azure y modelo de costos | [`doc/16_arquitectura_azure_y_finops.md`](doc/16_arquitectura_azure_y_finops.md), hoja de cálculo [`doc/costos/modelo_de_costos_azure.xlsx`](doc/costos/modelo_de_costos_azure.xlsx) | listo |
 | — | Plan de proyecto (pedido en la ficha de la prueba) | [`doc/17_plan_de_proyecto.md`](doc/17_plan_de_proyecto.md) | listo |
 
@@ -37,7 +37,7 @@ clásico sobre COIL-100. *Documento en construcción: el índice de entregables 
 | C — escasez | 99,6 % | 95,0 % | 0 % (no se auto-certifica) | 0 % | 28,3 % |
 | D — desconocido (3 semillas) | 99,8 % rechazados | — | 0 % | 0 % | 100 % |
 
-Detalle, comparación con la referencia moderna (DINOv2) y limitaciones: [`reports/model_card.md`](reports/model_card.md).
+Detalle, comparación con la referencia moderna (DINOv2), análisis de errores y limitaciones: [`reports/entregable_3_reporte_errores_model_card.pdf`](reports/entregable_3_reporte_errores_model_card.pdf).
 
 ## Ejecución local
 
@@ -99,8 +99,9 @@ knowledge/sops/     procedimientos de planta que el asistente consulta con cita
 evals/              set de evaluación del agente (45 casos) y sus imágenes
 tests/              tests unitarios (sin dependencia del dataset)
 notebooks/          experimentación de punta a punta (Reto 2)
-reports/            model card y resultados por protocolo (generados por el notebook)
+reports/            resultados por protocolo y model card (generados por el notebook), PDF del entregable 3
+                    y evaluación del agente
 artifacts/          artefacto del modelo + manifiesto (sha256, versión de datos, huella de configuración)
-doc/                documentación de análisis y construcción: planteamiento, dataset, protocolos, estado del
-                    arte del plato 1995–2026, ML estadístico, resultados, robustez, decisiones e incidencias
+doc/                documentación numerada (índice en doc/README.md): Reto 2 (1–11), servicio de visión (12),
+                    asistente, tools y threat model (13–15), Azure y costos (16), plan de proyecto (17)
 ```

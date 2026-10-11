@@ -19,7 +19,7 @@ universal para reconocer y espacio del objeto para la pose).
 
 Las combinaciones concatenan bloques normalizados L2 por fila para que cada familia pese lo mismo. Costo de
 extracción: 2,7–5,3 ms por imagen en CPU para los cuatro bloques (según carga); el sistema final usa solo `hsv` y
-`raw` (1,5–1,7 ms por imagen de punta a punta, imagen → decisión).
+`raw` (1,5–1,7 ms por imagen de punta a punta procesando en lote; ≈ 28 ms una imagen suelta, sección 12.6).
 
 ## 6.3 Cribado inicial (fase 2, validación interna)
 
@@ -146,7 +146,7 @@ latencias quedaron infladas porque se ejecutó otra copia del notebook a la vez 
 | Identidad | PCA(150) sobre píxeles + 1-NN | HSV + Random Forest | **DINOv2-small** (`facebook/dinov2-small`): [token CLS, media de parches], 768-d, + PCA(150) + regresión logística (C=10) |
 | Ángulo | Vista más cercana (1-NN) | Lazo sobre PCA50 de píxeles | Lazo sobre PCA50 de los embeddings DINOv2 |
 | Control de seguridad | Ninguno (siempre actúa) | Calibrado en validación interna | El mismo, con la misma calibración |
-| Costo de características | Píxeles | 1,5–1,7 ms/img CPU de punta a punta | 8,6 ms/img en GPU (MPS de Apple); más en CPU |
+| Costo de características | Píxeles | 1,5–1,7 ms/img en lote, ≈ 28 ms una imagen suelta; CPU, de punta a punta | 8,6 ms/img en GPU (MPS de Apple); más en CPU |
 
 La referencia usa **el mismo pipeline** que el sistema clásico: así la comparación aísla el efecto de la
 representación profunda. Resultados en la sección 8; conclusión: DINOv2 gana 0,4–0,8 puntos de identidad en B y C,

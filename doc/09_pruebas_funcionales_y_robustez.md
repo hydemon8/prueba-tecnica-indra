@@ -66,16 +66,18 @@ En los casos fuera de dominio, cualquier ACT cuenta como inseguro.
 La segunda opción (HSV+HOG+LBP) es claramente más robusta a la luz y detecta mejor los volcados como desconocidos,
 pero también falla con el desplazamiento: ese problema está en el plato, no en la identidad.
 
-## 9.4 Propuesta v3 (pendiente de aprobación)
+## 9.4 Correcciones propuestas (v3, no implementadas)
 
 1. Normalización de captura al estilo COIL antes de extraer características.
 2. Normalización de brillo de la entrada del plato.
 3. Regla de residuo de pose en el control de seguridad, calibrada en validación interna.
 4. Condiciones nominales de captura declaradas; novedad calibrada con esas variaciones; criterio de selección con
-   un término de robustez (previsiblemente ganaría HSV+HOG+LBP, la intuición inicial del usuario).
+   un término de robustez (previsiblemente ganaría HSV+HOG+LBP).
 5. Nueva sección del notebook con las pruebas de robustez y fuera de dominio como demostración funcional; sirve
    también de base para los escenarios adversos del Reto 3.
 
-Se documentaría como las demás iteraciones: motivada por pruebas funcionales, sin usar la prueba de los protocolos.
-Costo estimado: ~1 h de trabajo y ~25 min de ejecución. Argumento para hacerlo: en la defensa preguntarán qué pasa
-si cambia la luz, y hoy la respuesta honesta es "se para la línea".
+No se implementaron por tiempo. Se harían como las demás iteraciones: motivadas por pruebas funcionales y sin usar
+la prueba de los protocolos. Son el primer trabajo de la fase 1 del plan de proyecto (documento 17).
+
+Mientras tanto, si cambia la luz el sistema rechaza producto conocido y la línea se detendría. El servicio de
+visión incluye una alerta de captura que detecta esa racha de rechazos y la atribuye a la captura (sección 12.9).

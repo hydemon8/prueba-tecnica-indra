@@ -16,7 +16,8 @@ desviación de 3 semillas.
 
 "Acción insegura" = el robot actúa (ACT) con la clase equivocada o con el ángulo fuera de ±10°. Latencia de
 inferencia (con características ya extraídas): 0,1–0,3 ms por imagen; de punta a punta en producción, imagen →
-decisión: 1,5–1,7 ms por imagen en CPU.
+decisión: 1,5–1,7 ms por imagen en CPU procesando en lote y ≈ 28 ms para una imagen suelta a través del
+servicio (el Random Forest de 500 árboles domina; sección 12.6). Para la línea, la cifra relevante es la segunda.
 
 ## 8.2 Lectura por protocolo
 
@@ -48,7 +49,7 @@ decisión: 1,5–1,7 ms por imagen en CPU.
 | D | **clásico** | — | — | 0,0 | **99,8 ± 0,3** |
 | D | DINOv2 | — | — | 0,0 ± 0,1 | 93,1 ± 2,7 |
 
-Costo de características: clásico 1,5–1,7 ms/img de punta a punta en CPU; DINOv2 8,6 ms/img solo el embedding,
+Costo: clásico 1,5–1,7 ms/img de punta a punta en CPU en lote (≈ 28 ms una imagen suelta); DINOv2 8,6 ms/img solo el embedding,
 en la GPU de un Mac (MPS), con un modelo de ~22 M de parámetros.
 
 **¿Justifica la brecha su costo?** No. DINOv2 mejora la identidad 0,4–0,8 puntos en B y C, pero empeora el ángulo

@@ -2,7 +2,7 @@
 
 ## 7.1 Similitud híbrida (capacidad 3: top-k vistas más parecidas)
 
-**Propuesta del usuario**: dos imágenes son similares si y solo si son del mismo SKU y sus ángulos están cerca. Es
+**Idea inicial**: dos imágenes son similares si y solo si son del mismo SKU y sus ángulos están cerca. Es
 más estable y más fácil de entender para un operario, y no contradice el enunciado, que pide "top-k vistas más
 parecidas con su información asociada" sin definir la métrica.
 
@@ -20,7 +20,7 @@ parecidas con su información asociada" sin definir la métrica.
 
 No hacen falta embeddings profundos: los vectores clásicos ya son una representación numérica y la distancia al
 vecino más cercano ya se calcula para rechazar desconocidos. Si el vecino 1 en apariencia pertenece a otro SKU, la
-decisión pasa a revisión. La definición del usuario sirve además como verdad de referencia para evaluar la
+decisión pasa a revisión. Esa definición sirve además como verdad de referencia para evaluar la
 recuperación (relevante = mismo SKU y |Δθ| ≤ 10°).
 
 Ejemplo real de la salida: para la caja obj1 a 0°, el segundo vecino en apariencia es la propia caja a 180°; es la
