@@ -1,12 +1,48 @@
 # Despliegue local de un comando:  docker compose up --build
+#   servicio de visión  -> http://localhost:8001   (API propia; documentación en /docs)
+#   asistente e interfaz -> http://localhost:8002
+# Requiere un .env con GEMINI_API_KEY (ver .env.example).
 services:
   vision:
     build: .
+    image: linevision:local
+    command: ["linevision-serve"]
     ports: ["8001:8001"]
+    env_file: [{path: .env, required: false}]
     environment:
-      VISION_API_KEY: ${VISION_API_KEY:-}
-      VISION_FAULT_INJECTION: ${VISION_FAULT_INJECTION:-false}
+      VISION_HOST: 0.0.0.0
+      VISION_PORT: "8001"
       COIL_DIR: /data/coil-100
     volumes:
-      # vistas de referencia para servir evidencia (opcional; el modelo no las necesita para inferir)
-      - ${COIL_DIR:-./coil-100}:/data/coil-100:ro
+      # vistas de referencia para mostrar evidencia (opcional; el modelo no las necesita para inferir)
+      - ${COIL_HOST_DIR:-./coil-100}:/data/coil-100:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8001/readyz')"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 15s
+
+  agent:
+    image: linevision:local
+    command: ["lineops-up"]
+    depends_on:
+      vision: {condition: service_healthy}
+    ports: ["8002:8002"]
+    env_file: [{path: .env, required: false}]
+    environment:
+      AGENT_HOST: 0.0.0.0
+      AGENT_PORT: "8002"
+      VISION_URL: http://vision:8001
+      LINEOPS_START_VISION: "false"   # el servicio de visión es otro contenedor
+    volumes:
+      - plant:/app/var                # planta simulada e imágenes subidas
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8002/healthz')"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+
+volumes:
+  plant:

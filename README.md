@@ -62,6 +62,8 @@ cp .env.example .env                                  # y completar GEMINI_API_K
 uv run --extra service --extra agent lineops-up       # visión en :8001, asistente e interfaz en http://127.0.0.1:8002
 ```
 
+Con Docker, el equivalente es `docker compose up --build` (mismos puertos; probado).
+
 Levanta dos procesos independientes: el servicio de visión y el asistente con su interfaz web. La planta es
 simulada y se siembra sola en `var/plant.db` (borrar `var/` la reinicia). Evaluación del agente:
 
@@ -79,7 +81,7 @@ uv run --extra service linevision-serve      # http://127.0.0.1:8001 (documentac
 curl -F "images=@coil-100/obj5__40.png" "http://127.0.0.1:8001/v1/predict?top_k=3"
 ```
 
-Con contenedor: `docker compose up --build`. Detalle, diagramas y latencia: [`doc/12_servicio_de_vision.md`](doc/12_servicio_de_vision.md).
+Detalle, diagramas y latencia: [`doc/12_servicio_de_vision.md`](doc/12_servicio_de_vision.md).
 
 El extra `reference` (torch + transformers) solo hace falta para la referencia moderna DINOv2 de la sección 7.
 

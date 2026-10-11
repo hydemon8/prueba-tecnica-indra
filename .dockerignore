@@ -2,6 +2,7 @@
 .venv
 .cache
 .env
+var
 coil-100
 mlruns
 mlflow.db
@@ -9,5 +10,6 @@ notebooks
 doc
 reports
 tests
+evals
 **/__pycache__
 *.pdf

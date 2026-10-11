@@ -12,12 +12,25 @@ desde el código; también en `/docs` y `/openapi.json` con el servicio arrancad
 # local (probado en Windows con Python 3.12)
 uv run --extra service linevision-serve
 
-# contenedor
+# contenedores: servicio de visión (8001) y asistente con su interfaz (8002)
 docker compose up --build
 ```
 
-El servicio queda en `http://127.0.0.1:8001`. La imagen Docker y `compose.yaml` están escritos pero **no se han
-probado**: el equipo de desarrollo no tiene Docker instalado.
+El servicio queda en `http://127.0.0.1:8001`. Las dos formas están probadas.
+
+**Empaquetado** (`Dockerfile`, `compose.yaml`). Una sola imagen sirve para los dos servicios, que corren como
+contenedores separados: el asistente espera a que el servicio de visión esté sano y lo llama por la red interna
+(`http://vision:8001`). Las dependencias se instalan desde `uv.lock`, así que la imagen es reproducible. Los
+procesos corren con un usuario sin privilegios que solo puede escribir en `/app/var` (planta simulada e imágenes
+subidas, en un volumen). Los secretos llegan por `.env` en tiempo de ejecución y no entran en la imagen. El
+dataset se monta en solo lectura, únicamente para servir las vistas de referencia.
+
+Verificado en Docker 29.8 sobre Windows: construcción desde cero, ambos contenedores en estado *healthy*, una
+inferencia por la API, la interfaz web, y un turno completo del asistente que inspecciona una imagen llamando al
+contenedor de visión.
+
+Limitación: la imagen pesa 3,6 GB, porque el paquete arrastra dependencias que el servicio no usa en ejecución
+(MLflow, pandas, matplotlib). Separarlas en un grupo opcional la reduciría a una fracción.
 
 ```bash
 curl -F "images=@coil-100/obj5__40.png" "http://127.0.0.1:8001/v1/predict?top_k=3"
