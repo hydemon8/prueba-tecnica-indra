@@ -7,6 +7,7 @@ Paleta: tres primeros tonos categóricos validados para daltonismo sobre fondo b
 import json
 import math
 import re
+from decimal import ROUND_HALF_UP, Decimal
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
@@ -25,7 +26,9 @@ COL, WIDE = 336, 696          # ancho de una columna y de la página, en px a 96
 
 # ------------------------------------------------------------------ utilidades
 def es(v, dec=1):
-    return f"{v:.{dec}f}".replace(".", ",")
+    """Número con coma decimal. Redondea la mitad hacia arriba, igual en el texto, las tablas y las figuras."""
+    q = Decimal(repr(round(float(v), 9))).quantize(Decimal(1).scaleb(-dec), rounding=ROUND_HALF_UP)
+    return f"{q:.{dec}f}".replace(".", ",")
 
 
 def esc(s):

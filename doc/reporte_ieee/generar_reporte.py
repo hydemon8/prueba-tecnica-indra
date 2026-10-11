@@ -74,6 +74,7 @@ def ico(slug):
 two = RESULTS["two_shot"]
 two_m = {k: sum(t[k] for t in two) / len(two) for k in two[0] if k != "delta_deg"}
 risk_A = 100 * (1 - runs("final", "A")[0]["pose_on_act"]["within_tol"])
+two_risk = 100 * (1 - two_m["within_tol_on_act"])
 P, L = DATA["posterior"], DATA["lazos"]
 
 CSS = """
@@ -147,8 +148,9 @@ La identidad se resuelve con un histograma de color HSV y un bosque aleatorio, e
 criterio fijado de antemano. El ángulo se estima con un lazo cerrado por objeto en un espacio de componentes
 principales, que además produce una distribución sobre el ángulo de la que salen dos medidas de incertidumbre. Con
 ellas, un control determinista deja actuar al robot en el {c('final', 'A', 'decision.rate_ACT')}&nbsp;% de los casos
-con {c('final', 'A', 'decision.unsafe_rate')}&nbsp;% de acciones inseguras, frente al
-{c('baseline', 'A', 'decision.unsafe_rate')}&nbsp;% del método de referencia. Un asistente agéntico usa ese sistema
+con vistas cada 10°, con {c('final', 'A', 'decision.unsafe_rate')}&nbsp;% de acciones inseguras frente al
+{c('baseline', 'A', 'decision.unsafe_rate')}&nbsp;% de una referencia simple, y se abstiene cuando falta un arco de
+vistas o hay solo doce por producto. Un asistente agéntico usa ese sistema
 como herramienta en siete tareas de operación, con permisos y aprobación humana aplicados en código, y completa la
 tarea en el 95&nbsp;% de 174 ejecuciones de evaluación.</p>
 <p class="keywords"><i>Palabras clave</i>—visión por computador, aprendizaje automático clásico, estimación de pose,
@@ -172,7 +174,7 @@ objeto y 7.200 imágenes de 128&nbsp;×&nbsp;128 píxeles ({F('montaje')}). Son 
 de una planta: fondo oscuro, objeto centrado e iluminación fija.</p>
 {figure('montaje', 'Tres objetos de COIL-100 cada 90°, usados como ejemplo en el resto del documento: un pato (cada vista es distinta), una caja de chicles (se ve casi igual a 0° y a 180°) y un toro (se ve igual desde cualquier ángulo).')}
 <p>La solución separa dos planos ({F('sistema')}). En la ruta crítica, un servicio de visión determinista decide
-sobre cada objeto en unos 28&nbsp;ms, sin intervención de un modelo de lenguaje. En el plano de supervisión, un
+sobre cada objeto en unos 28&nbsp;ms, sin intervención de un modelo de lenguaje (LLM). En el plano de supervisión, un
 asistente atiende a las personas y usa ese mismo servicio como herramienta. El documento sigue el orden en que se
 construyó: diagnóstico inicial (Sección&nbsp;II), características (III), protocolos y validación (IV), modelos de
 clasificación (V), modelo de ángulo (VI), asistente (VII y VIII),
@@ -182,7 +184,7 @@ API y despliegue (IX) y conclusiones (X).</p>
 s2 = f"""
 <h2>II. Punto de partida: vecino más cercano</h2>
 <h3>A. Método</h3>
-<p>Antes de diseñar nada se midió la dificultad con el método más simple disponible [12]. Cada imagen se reduce a
+<p>Antes de diseñar nada se midió la dificultad con el método más simple disponible [2]. Cada imagen se reduce a
 32&nbsp;×&nbsp;32 píxeles promediando bloques de 4&nbsp;×&nbsp;4 (<i>average pooling</i>), se aplana en un vector de
 3.072 valores, se centra y se lleva a norma unitaria. La similitud entre dos imágenes es la distancia euclídea entre
 sus vectores, que con norma unitaria equivale a la similitud coseno. A una imagen nueva se le asigna el producto de
@@ -197,9 +199,10 @@ cuando la imagen cae en un arco de 60° que nunca se vio.</p>
 así que su error crece con el espaciado de las vistas. No extrapola: en el arco no visto, el 30,1&nbsp;% de las
 estimaciones se equivoca en más de 90°. No indica cuánto confiar en su respuesta, de modo que no puede abstenerse. Y compara píxeles
 alineados, por lo que depende de que el objeto llegue centrado. La conclusión es que el problema está en estimar el
-ángulo cuando faltan vistas y en saber cuándo no responder. Este diagnóstico se hizo sobre las particiones de los
-protocolos; el método no tiene hiperparámetros y no se eligió ningún modelo con estas cifras.</p>
-{figure('knn', 'Diagnóstico con vecino más cercano sobre píxeles de 32&nbsp;×&nbsp;32. La identidad se mantiene y el ángulo cae cuando faltan vistas.')}
+ángulo cuando faltan vistas y en saber cuándo no responder. Este diagnóstico se midió sobre las particiones de
+prueba (en B, con un sorteo distinto de los finales); el método no tiene hiperparámetros y no se eligió ningún modelo
+con estas cifras.</p>
+{figure('knn', 'Diagnóstico con vecino más cercano sobre píxeles de 32&nbsp;×&nbsp;32. La identidad se mantiene y el ángulo cae cuando faltan vistas. A, C y B son los protocolos de la Sección&nbsp;IV-A.')}
 """
 
 s3 = f"""
@@ -215,7 +218,7 @@ las vistas de entrenamiento, y después se estandarizan.</p>
 <p>La propiedad que organiza el diseño es que cada descriptor sirve para una tarea distinta. El color casi no cambia
 cuando el objeto gira: identifica bien el producto y no dice nada del ángulo. Los píxeles sí cambian con el giro, y
 por eso contienen el ángulo. De ahí salen dos modelos, uno para la identidad y otro para el ángulo, como en el
-trabajo original sobre este conjunto de datos [2].</p>
+trabajo original sobre este conjunto de datos [5].</p>
 {table('feat', 'Descriptores de imagen', ['Bloque', 'Definición', '<span class="n">Dim.</span>', 'Qué describe'], [
     ['Píxeles', 'RGB reducido a 32&nbsp;×&nbsp;32 con interpolación bilineal, en [0,&nbsp;1]', '3.072', 'Apariencia completa; cambia con el giro'],
     ['Color HSV', 'Histograma de 16&nbsp;×&nbsp;4&nbsp;×&nbsp;4 intervalos sobre los píxeles del objeto, con raíz cuadrada', '256', 'Color; casi no cambia con el giro'],
@@ -232,13 +235,15 @@ repartir las vistas entre entrenamiento y prueba para medir una capacidad concre
 mismos en los cuatro. El protocolo A mide la interpolación entre vistas conocidas (3.600 imágenes de entrenamiento y
 3.600 de prueba). El B esconde un arco de 60° de cada objeto y pregunta por él (6.000 y 1.200). El C deja doce
 vistas por producto (1.200 y 6.000). El D excluye diez objetos por completo y mide si el sistema sabe decir que no
-los conoce (6.480 y 720). B y D dependen de un sorteo, así que se repiten con tres semillas y se reporta la media y
+los conoce (6.480 y 720). B y D dependen de un sorteo, así que se repiten con tres semillas y se reportan la media y
 la desviación.</p>
-<h3>B. Validación interna sin fugas</h3>
+<h3>B. Validación interna</h3>
 <p>Dos vistas separadas 5° son casi la misma imagen, de modo que una validación cruzada con particiones al azar
 filtraría información. Por eso la validación interna se construye solo con vistas de entrenamiento y por bloques de
-ángulo o de objeto, imitando cada protocolo ({Tb('valid')}). En A y C es más exigente que la prueba, lo que produce
-umbrales conservadores. La prueba de cada protocolo se evalúa una sola vez y ningún umbral se ajusta con ella.</p>
+ángulo o de objeto, imitando cada protocolo ({Tb('valid')}). Ningún umbral se ajusta con la prueba, que se evaluó dos
+veces: con la primera versión del control de seguridad y con la definitiva (Sección&nbsp;VI-D). Los modelos de
+identidad y de ángulo son los mismos en las dos. La representación se eligió una sola vez para los cuatro
+protocolos, con particiones internas que comparten imágenes entre ellos.</p>
 {table('valid', 'Validación interna de cada protocolo', ['Prot.', 'Particiones internas, solo con vistas de entrenamiento'], [
     ['A', 'Dos: entrena con 0°, 20°, 40°… y valida con 10°, 30°…, y al revés. Espaciado doble que en la prueba'],
     ['B', 'Tres: se retira otro arco de 60° dentro de los 300° vistos'],
@@ -251,13 +256,13 @@ forma, textura y la combinación de las tres últimas) por siete configuraciones
 ajusta en las siete particiones internas de A, B y C. El criterio se escribió en el archivo de configuración antes de
 ejecutar ninguna selección:</p>
 <ol class="list">
-<li>Restricción de seguridad: en la validación interna de D, como máximo el 5&nbsp;% de los objetos desconocidos
+<li>Restricción de novedad: en la validación interna de D, como máximo el 5&nbsp;% de los objetos desconocidos
 puede aceptarse cuando se acepta el 95&nbsp;% de los conocidos.</li>
 <li>Entre los que la cumplen, gana la mayor exactitud en el peor caso entre A, B y C.</li>
 <li>Si la diferencia es menor de 0,5 puntos, gana el de menor latencia.</li>
 </ol>
 <p>La puntuación de novedad es la distancia a la vista de referencia más cercana en la representación del candidato.
-Se registra además el área bajo la curva de riesgo y cobertura [11], que mide si la confianza del clasificador
+Se registra además el área bajo la curva de riesgo y cobertura [6], que mide si la confianza del clasificador
 ordena bien sus errores. La rejilla es pequeña a propósito: una exploración previa mostró que la representación pesa
 mucho más que el clasificador.</p>
 """
@@ -265,26 +270,27 @@ mucho más que el clasificador.</p>
 s5 = f"""
 <h2>V. Modelos de clasificación: selección y resultados</h2>
 <h3>A. Clasificadores</h3>
-<p>Se compararon cuatro familias, con scikit-learn [10]: vecino más cercano; regresión logística multinomial con
-regularización <i>C</i>&nbsp;∈&nbsp;{{1,&nbsp;10}}; máquina de vectores de soporte con núcleo gaussiano [6] y
-<i>C</i>&nbsp;∈&nbsp;{{1,&nbsp;10,&nbsp;100}}; y bosque aleatorio [5] de 500 árboles. La confianza de la máquina de
+<p>Se compararon cuatro familias, con scikit-learn [7]: vecino más cercano (1-NN); regresión logística multinomial con
+regularización <i>C</i>&nbsp;∈&nbsp;{{1,&nbsp;10}}; máquina de vectores de soporte con núcleo gaussiano (SVM-RBF) [8] y
+<i>C</i>&nbsp;∈&nbsp;{{1,&nbsp;10,&nbsp;100}}; y bosque aleatorio (<i>random forest</i>, RF) [9] de 500 árboles. La confianza de la máquina de
 vectores de soporte se obtiene con una función <i>softmax</i> sobre sus puntuaciones. La calibración habitual por
-validación cruzada bajaba la exactitud interna de C al 75,7&nbsp;%, porque sus particiones sin barajar eran, de
+validación cruzada bajaba la exactitud interna del protocolo C al 75,7&nbsp;%, porque sus particiones sin barajar eran, de
 hecho, sectores ciegos.</p>
 <h3>B. Selección</h3>
 <p>La {F('seleccion')} muestra el peor caso de los 35 candidatos. La representación domina: el mejor candidato sobre
 píxeles (78,2&nbsp;%) queda veinte puntos por debajo del mejor sobre color (98,5&nbsp;%), mientras que con el mismo
 descriptor de color los clasificadores difieren en unos cinco puntos. La forma y la textura por separado incumplen
 la restricción de novedad, con 15,5&nbsp;% y 65,4&nbsp;% de desconocidos aceptados.</p>
-<p>Ganó el histograma de color con bosque aleatorio: mejor peor caso (98,50&nbsp;%, en C), 1,02&nbsp;% de
-desconocidos aceptados y la mejor curva de riesgo y cobertura de toda la rejilla. La hipótesis previa era que
-ganaría la combinación de color, forma y textura, que quedó segunda con regresión logística (97,00&nbsp;%). Se
+<p>Ganó el histograma de color con bosque aleatorio: mejor peor caso (98,5&nbsp;%, en C), entre 1,0&nbsp;% y
+4,5&nbsp;% de desconocidos aceptados según la repetición de D, y la mejor curva de riesgo y cobertura de toda la
+rejilla. La hipótesis previa era que
+ganaría la combinación de color, forma y textura, que quedó segunda con regresión logística (97,0&nbsp;%). Se
 respetó el criterio.</p>
-{figure('seleccion', 'Exactitud del peor caso entre las validaciones internas de A, B y C para los 35 candidatos. La columna de la derecha indica si la representación cumple la restricción de novedad.')}
+{figure('seleccion', 'Exactitud del peor caso entre las validaciones internas de A, B y C para los 35 candidatos. «Desc. acept.» es el porcentaje de desconocidos aceptados en la primera repetición de D; «≤ 5 %» indica si la representación cumple la restricción de novedad.')}
 <h3>C. Resultados en prueba</h3>
 <p>La {Tb('ident')} compara el modelo elegido con un método de referencia simple (PCA de píxeles con vecino más
-cercano, sin rechazo) y con una referencia moderna: DINOv2 [7] como extractor de características, con regresión
-logística. El modelo clásico mantiene la identidad por encima del 99&nbsp;% en los tres protocolos y rechaza el
+cercano, sin rechazo) y con una referencia moderna: DINOv2 [10] como extractor de características, con regresión
+logística. El modelo clásico mantiene la identidad en el 99&nbsp;% o más en los tres protocolos y rechaza el
 {c('final', 'D', 'unknown_rejected')}&nbsp;% de los objetos desconocidos.</p>
 {table('ident', 'Identidad en prueba (%)', ['Medida', 'Referencia simple', 'Propuesto', 'DINOv2'], [
     ['Clase, protocolo A', c('baseline', 'A', 'class_acc'), c('final', 'A', 'class_acc'), c('reference', 'A', 'class_acc')],
@@ -293,13 +299,14 @@ logística. El modelo clásico mantiene la identidad por encima del 99&nbsp;% en
     ['Desconocidos rechazados, D', c('baseline', 'D', 'unknown_rejected'), c('final', 'D', 'unknown_rejected'), c('reference', 'D', 'unknown_rejected')],
 ], widths=[37, 22, 20, 21])}
 <h3>D. Análisis</h3>
-<p>Los errores de identidad se concentran en C y en pocos pares: piezas de madera del mismo tono, como los objetos
+<p>En C, los errores de identidad se concentran en pocos pares: piezas de madera del mismo tono, como los objetos
 51, 11 y 12. Es coherente con un modelo que se apoya en el color. La referencia moderna mejora la identidad menos de
 un punto, rechaza peor los desconocidos ({c('reference', 'D', 'unknown_rejected')}&nbsp;%) y cuesta más: su extractor tiene unos 22
 millones de parámetros y se ejecutó en GPU.</p>
 <p>La debilidad del modelo elegido también viene del color. En pruebas posteriores sobre imágenes alteradas, un
-aumento del brillo del 15&nbsp;% hizo que el 66&nbsp;% del producto conocido se rechazara como desconocido. Es un
-fallo de disponibilidad, no de seguridad, pero detendría una línea. El segundo candidato del criterio rechazó solo
+aumento del brillo del 15&nbsp;% hizo que el 66&nbsp;% del producto conocido se rechazara como desconocido (200
+imágenes de catálogo alteradas). Es sobre todo un fallo de disponibilidad, que detendría una línea, pero no solo: en
+esa condición el 2,0&nbsp;% de las imágenes terminó en una acción insegura. El segundo candidato del criterio rechazó solo
 el 0,5&nbsp;% en esa condición, lo que sugiere añadir un término de robustez al criterio de selección.</p>
 """
 
@@ -309,10 +316,10 @@ s6 = f"""
 <p>El objeto solo puede girar sobre el eje vertical, así que su apariencia depende de un único parámetro. Si cada
 imagen se representa como un punto, al girar el objeto ese punto se mueve de forma continua y vuelve al inicio al
 completar la vuelta. Las vistas de un objeto forman una curva cerrada, un lazo. Es el espacio propio paramétrico de
-Murase y Nayar [2].</p>
+Murase y Nayar [5].</p>
 <h3>B. Construcción</h3>
 <p>La {F('pipeline')} resume los pasos. La imagen se reduce a 32&nbsp;×&nbsp;32 píxeles y se aplana en 3.072
-valores, la misma descripción del diagnóstico inicial. Una PCA global, ajustada una vez con las vistas de
+valores ({Tb('feat')}); a diferencia del diagnóstico inicial, no se centra ni se normaliza. Una PCA global, ajustada una vez con las vistas de
 entrenamiento de todos los objetos, la comprime a 50 componentes, que conservan el
 {es(DATA['varianza_50d'] * 100)}&nbsp;% de la varianza. Después, para cada objeto se toman los puntos de sus vistas
 conocidas, ordenados por ángulo, y se unen con un <i>spline</i> cúbico periódico, componente a componente. La curva
@@ -342,55 +349,60 @@ lazo más ruido gaussiano, y que todos los ángulos son igual de probables a pri
 <p>donde <i>d<sub>k</sub></i> es la distancia de la imagen al punto <i>k</i> del lazo, <i>τ</i><sub>0</sub> es la
 distancia al cuadrado mediana entre vistas consecutivas, que fija la escala del ruido, y <i>s</i> se calibra en
 validación interna para que el conjunto creíble del 90&nbsp;% contenga el ángulo real el 90&nbsp;% de las veces
-(<i>s</i>&nbsp;=&nbsp;0,040 y cobertura del 90,6&nbsp;% en A). De la distribución salen dos medidas. El <i>ancho</i>
+(<i>s</i>&nbsp;=&nbsp;0,040 y cobertura del 90,6&nbsp;% en la validación interna de A). De la distribución salen dos medidas. El <i>ancho</i>
 es el tamaño, en grados, del menor conjunto de ángulos que reúne el 90&nbsp;% de la probabilidad. La
 <i>ambigüedad</i> compara el mejor ángulo con el mejor candidato situado a más de 20° de él:</p>
 <div class="eq"><span class="m"><i>a</i> = <span style="font-size:13pt">(</span><span class="frac"><span><i>d</i><sup>2</sup><sub>mín</sub> + <i>ε</i></span><span><i>d</i><sup>2</sup><sub>lejos</sub> + <i>ε</i></span></span><span style="font-size:13pt">)</span><sup>1/2</sup></span><span>(3)</span></div>
-<p>Si <i>a</i> se acerca a 1, hay un segundo ángulo lejano casi tan bueno como el primero. La {F('posterior')}
+<p>donde <i>d</i><sub>lejos</sub> es la distancia a ese candidato y <i>ε</i>&nbsp;=&nbsp;10<sup>−3</sup><i>τ</i><sub>0</sub> evita un cociente indeterminado. Si <i>a</i> se acerca a 1, hay un segundo ángulo lejano casi tan bueno como el primero. La {F('posterior')}
 muestra los tres comportamientos con vistas reales de prueba. En el pato, el perfil de distancia tiene un único
 valle y la distribución un único pico (ancho de {es(P['74']['ancho'])}°). En el toro el perfil es casi plano y la
 probabilidad se reparte (ancho de {es(P['47']['ancho'])}°). En la caja de chicles, a 105°, hay dos valles de
 profundidad casi igual y dos picos; el modelo elige el equivocado y estima {es(P['67']['angulo'], 0)}°, con 180° de
 error y un ancho de solo {es(P['67']['ancho'])}°. El ancho lo aceptaría; la ambigüedad
 ({es(P['67']['ambiguedad'], 2)}) lo detiene.</p>
-<p>Ese caso justifica la segunda medida. La primera versión del control usaba solo el ancho, y en la validación
-interna de A dejaba pasar un 1,05&nbsp;% de casos con más de 10° de error. Con el umbral de ambigüedad, calibrado en
-esa misma validación, bajó al 0,47&nbsp;%. Conviene precisar el alcance: con 50 componentes, la mayoría de las vistas
-opuestas de un objeto simétrico sí se distinguen. De las 36 vistas de prueba de la caja de chicles, solo esa supera
-el umbral; las demás se estiman bien.</p>
+<p>Ese caso ilustra la segunda medida, que se añadió en una segunda versión. La primera versión del control usaba
+solo el ancho y, al evaluarla en la prueba de A, dio 1,0&nbsp;% de acciones inseguras. El defecto se reprodujo en la
+validación interna de A, donde dejaba pasar un 1,05&nbsp;% de casos con más de 10° de error; el umbral de ambigüedad
+se calibró solo ahí, y lo bajó al 0,47&nbsp;%. Conviene precisar el alcance: con 50 componentes, las vistas opuestas
+de esta caja casi siempre se distinguen. De sus 36 vistas de prueba, solo esa supera el umbral.</p>
 <h3>E. Control de seguridad</h3>
-<p>La decisión la toman cuatro reglas deterministas, en orden ({Tb('gate')}). Todos los umbrales se calibran en
-validación interna. La tolerancia de ±10° se traduce en un objetivo de riesgo: que al menos el 99,5&nbsp;% de las
+<p>La decisión la toman cuatro reglas deterministas, en orden ({Tb('gate')}). Los umbrales de novedad, confianza y
+ambigüedad se calibran en validación interna; el ancho y el hueco máximos son fijos. La tolerancia de ±10° se traduce en un objetivo de riesgo: que al menos el 99,5&nbsp;% de las
 veces que el robot actúa, el ángulo esté dentro de la tolerancia. El ancho máximo es de 20°, el doble de la
 tolerancia, y el umbral de ambigüedad es el mayor que cumple ese objetivo entre los casos aceptados.</p>
+{figure('posterior', 'Perfil de distancia al lazo (arriba) y distribución sobre el ángulo (abajo) para tres vistas de prueba del protocolo A, con un modelo ajustado con las vistas de entrenamiento de A. Cada panel tiene su propia escala vertical; la distancia máxima del toro es unas diez veces menor que la de los otros dos.', wide=True)}
 {table('gate', 'Reglas del control de seguridad', ['Decisión', 'Condición', 'Orden al robot'], [
     ['Desconocido', 'Novedad por encima de su umbral', 'Carril de rechazo'],
     ['Revisión', 'Confianza de clase baja, o la vista más parecida es de otro producto', 'Revisión humana'],
-    ['Ángulo no certificado', 'Hueco de más de 30° en la galería del producto, ancho mayor de 20° o ambigüedad alta', 'Segunda captura'],
+    ['Ángulo no certificado', 'Hueco de más de 30° entre las vistas de referencia del producto, ancho mayor de 20° o ambigüedad alta', 'Segunda captura'],
     ['Actuar', 'Ninguna de las anteriores', 'Agarrar, con producto y ángulo'],
 ], widths=[25, 50, 25])}
 <h3>F. Resultados</h3>
-<p>La {F('resultados')} y la {Tb('res')} resumen la prueba. El modelo de lazos supera al vecino más cercano en los
-tres protocolos, sobre todo con pocas vistas ({c('final', 'C', 'pose_true_class.within_tol')}&nbsp;% frente a
-{c('baseline', 'C', 'pose_true_class.within_tol')}&nbsp;% en C). Con las características de DINOv2 el mismo método
+<p>La {F('resultados')} y la {Tb('res')} resumen la prueba. El modelo de lazos supera a la referencia simple en los
+tres protocolos, sobre todo cuando faltan vistas ({c('final', 'C', 'pose_true_class.within_tol')}&nbsp;% frente a
+{c('baseline', 'C', 'pose_true_class.within_tol')}&nbsp;% en C). En A, a ±10°, no supera al diagnóstico de la
+Sección&nbsp;II ({c('final', 'A', 'pose_true_class.within_tol')}&nbsp;% frente a 97,8&nbsp;%): con vistas cada 10°, el
+vecino más cercano se queda a 5° del valor real, dentro de la tolerancia. La ventaja del lazo ahí es el error
+mediano (0,5° frente a 5,0°) y la distribución. Con las características de DINOv2 el mismo método
 estima peor el ángulo, lo que es coherente con un extractor entrenado para no depender del punto de vista.</p>
+{figure('resultados', 'Ángulo dentro de ±10° en prueba, con la clase conocida. La etiqueta corresponde al modelo propuesto.')}
 <p>En A, el robot actúa en el {c('final', 'A', 'decision.rate_ACT')}&nbsp;% de los casos y el
 {c('final', 'A', 'decision.unsafe_rate')}&nbsp;% de todas las imágenes termina en una acción insegura, frente al
-{c('baseline', 'A', 'decision.unsafe_rate')}&nbsp;% del método de referencia, que actúa siempre. El objetivo de
-riesgo se cumplió en validación interna (0,47&nbsp;%) y no del todo en prueba ({es(risk_A, 2)}&nbsp;% de las
-acciones): la validación interna usa un espaciado doble y no representa exactamente la prueba. En B el sistema no
-actúa, por la regla de cobertura, y con una segunda captura girando el objeto 180° recupera el ángulo en el
-{es(two_m['within_tol_all'] * 100)}&nbsp;% de los casos y actúa en el {es(two_m['act_rate'] * 100)}&nbsp;% con
-{es(two_m['unsafe_rate'] * 100, 2)}&nbsp;% de acciones inseguras. En C acierta el ángulo pero no puede demostrar el
+{c('baseline', 'A', 'decision.unsafe_rate')}&nbsp;% de la referencia simple, que actúa siempre. El objetivo de
+riesgo se cumplió en validación interna (0,47&nbsp;%) y no en prueba ({es(risk_A, 2)}&nbsp;% de las acciones, frente
+a 0,5&nbsp;%): el umbral se eligió sin margen estadístico, y la validación interna no representa exactamente la
+prueba. En B el sistema no actúa, por la regla del hueco angular. Una simulación de segunda captura, con la vista a
+180° tomada de las de referencia y retirada del lazo, y solo con las reglas de ángulo, recupera el ángulo en el
+{es(two_m['within_tol_all'] * 100)}&nbsp;% de los casos y actuaría en el {es(two_m['act_rate'] * 100)}&nbsp;%, con
+{es(two_m['unsafe_rate'] * 100, 2)}&nbsp;% de acciones inseguras ({es(two_risk, 2)}&nbsp;% de las acciones). El
+servicio emite la orden de segunda captura, pero no combina las dos imágenes. En C acierta el ángulo pero no puede demostrar el
 criterio con doce vistas, y no actúa. En D rechaza el {c('final', 'D', 'unknown_rejected')}&nbsp;% de los objetos
 desconocidos.</p>
-{figure('posterior', 'Perfil de distancia al lazo (arriba) y distribución sobre el ángulo (abajo) para tres vistas de prueba del protocolo A. Cada panel tiene su propia escala vertical; la distancia máxima del toro es unas diez veces menor que la de los otros dos.', wide=True)}
 {table('res', 'Ángulo y decisión en prueba (%)', ['Prot.', 'Modelo', 'Ángulo ±10°', 'Actúa', 'Acciones inseguras'],
        [[f"{p}", n, c(b, p, 'pose_true_class.within_tol'), c(b, p, 'decision.rate_ACT'), c(b, p, 'decision.unsafe_rate')]
         for p in 'ABCD' for b, n in [('baseline', 'Referencia simple'), ('final', '<b>Propuesto</b>'), ('reference', 'DINOv2')]],
        widths=[9, 29, 22, 18, 22],
-       note='Media ± desviación de tres semillas en B y D. El ángulo se mide con la clase conocida. Una acción insegura es actuar con el producto equivocado o con el ángulo fuera de la tolerancia. La referencia simple no tiene control y actúa siempre.')}
-{figure('resultados', 'Ángulo dentro de ±10° en prueba, con la clase conocida. La etiqueta corresponde al modelo propuesto.')}
+       note='Media ± desviación de tres semillas en B y D. El ángulo se mide con la clase conocida. Una acción insegura es actuar con el producto equivocado o con el ángulo fuera de la tolerancia; se cuenta sobre todas las imágenes de prueba. La referencia simple no tiene control y actúa siempre.')}
 """
 
 s7 = f"""
@@ -402,7 +414,7 @@ decisión de seguridad. Lo agéntico se reserva para lo que un modelo de lenguaj
 abierta, elegir y encadenar herramientas, pedir lo que falta y explicar el resultado. Si el asistente o el modelo de
 lenguaje fallan, la línea sigue funcionando.</p>
 <h3>B. Patrón</h3>
-<p>Es un solo agente con herramientas (<i>tools</i>) que razona y actúa por turnos [8], bajo una capa de política
+<p>Es un solo agente con herramientas (<i>tools</i>) que razona y actúa por turnos [11], bajo una capa de política
 determinista. Se descartaron tres alternativas. Un sistema multiagente multiplicaría los tokens por dos o tres,
 añadiría errores de enrutamiento y obligaría a replicar los permisos. Los flujos fijos sin agente son más baratos y
 predecibles, pero cada pregunta nueva exige código; se adoptaron solo para lo que debe ser fijo. Planificar primero y
@@ -414,10 +426,9 @@ agentes ({F('agente')}). En cada turno, el arnés arma el contexto, selecciona l
 rol de la persona y llama al modelo. Si el modelo responde con texto, el turno termina. Si pide una <i>tool</i>, la
 capa de política la valida y la ejecuta o la rechaza, y el resultado vuelve al modelo en JSON. El ciclo se repite
 hasta una respuesta o hasta un límite ({Tb('limites')}). Al alcanzar un límite no se llama otra vez al modelo: se
-responde con un texto fijo que indica qué se completó. El modelo es Gemini, detrás de una interfaz de proveedor
-neutra. Un proveedor guionizado lo sustituye en las pruebas, para forzar comportamientos que un modelo real no
+responde con un texto fijo que indica qué se completó. El modelo de lenguaje es Gemini
+(<code>gemini-3.5-flash-lite</code>, con temperatura 0), detrás de una interfaz de proveedor neutra. Un proveedor guionizado lo sustituye en las pruebas, para forzar comportamientos que un modelo real no
 produce a voluntad, como repetir la misma llamada sin fin.</p>
-{figure('agente', 'Arquitectura del asistente. El modelo de lenguaje propone y la capa de política ejecuta. Las operaciones de riesgo terminan en una solicitud que decide otra persona.', wide=True)}
 {table('limites', 'Límites de un turno', ['Límite', '<span class="n">Valor</span>', 'Al alcanzarlo'], [
     ['Llamadas al modelo', '8', 'Fin del turno'],
     ['<i>Tools</i> ejecutadas', '12', 'Fin del turno'],
@@ -429,21 +440,23 @@ produce a voluntad, como repetir la misma llamada sin fin.</p>
 <p>Se distinguen cuatro cosas. El estado de ejecución dura un turno. El historial conversacional se guarda por
 sesión. La memoria persistente, con casos, tickets y aprobaciones, vive en la base de datos de la planta y no es
 memoria del modelo: se consulta con <i>tools</i>, así que siempre está al día y pasa por los mismos permisos. El
-conocimiento recuperado son secciones de procedimientos, obtenidas con BM25 [9] y devueltas con su cita.</p>
+conocimiento recuperado son secciones de procedimientos, obtenidas con BM25 [12] y devueltas con su cita.</p>
 <p>El contexto se mantiene acotado con cuatro reglas. Entre turnos solo viaja texto; los resultados de las
 <i>tools</i> y las imágenes no se reinyectan. Los últimos 24 mensajes van íntegros y los anteriores se pliegan en un
 resumen de 2.400 caracteres como máximo. Cada resultado de <i>tool</i> se trunca a 9.000 caracteres. Y el modelo
 solo recibe las <i>tools</i> de su rol: un operario ve 3 de 22 y una supervisora 18.</p>
+{figure('agente', 'Arquitectura del asistente. El modelo de lenguaje propone y la capa de política ejecuta. Las operaciones de riesgo terminan en una solicitud que decide una persona con rol aprobador.', wide=True)}
 <h3>E. Políticas</h3>
 <p>La capa de política es la única vía de ejecución. Valida los argumentos contra el contrato de cada <i>tool</i>,
-autoriza por rol y por línea, y registra cada intento, también los rechazados, en una tabla de auditoría. La planta
-nunca es un argumento: sale de la sesión. El texto que devuelven las <i>tools</i>, como un ticket o un
-procedimiento, se trata como dato y no como instrucción.</p>
+autoriza por rol y por línea, y registra en una tabla de auditoría cada llamada que le llega, también las
+rechazadas. La planta nunca es un argumento: sale de la sesión. Una regla del <i>prompt</i> indica tratar como dato,
+y no como instrucción, el texto que devuelven las <i>tools</i>, como un ticket o un procedimiento.</p>
 <p>Las cinco operaciones de riesgo (pausar o reanudar una línea, cambiar el umbral de confianza, enviar un ángulo
 manual al robot, promover una versión de modelo y pasar un producto a producción) no se ejecutan desde el
-asistente. La <i>tool</i> comprueba las precondiciones y crea una solicitud pendiente. La decide otra persona, con
-rol aprobador, desde un punto de acceso que no es una <i>tool</i>; quien solicita no puede aprobar, y las
-precondiciones se vuelven a comprobar al aprobar. El asistente no puede aprobarse a sí mismo porque aprobar no está
+asistente. La <i>tool</i> comprueba las precondiciones y crea una solicitud pendiente. La decide una persona con
+rol aprobador, desde un punto de acceso que no es una <i>tool</i>, y las precondiciones se vuelven a comprobar al
+aprobar. Quien solicita no puede aprobar, con una excepción documentada en el procedimiento: la supervisora de turno
+puede aprobar su propia pausa de línea, no la reanudación. El asistente no puede aprobarse a sí mismo porque aprobar no está
 a su alcance.</p>
 """
 
@@ -451,7 +464,7 @@ casos = [
     ['Inspección de imagen†', '<code>inspect_images</code>'],
     ['Cola de revisión humana', '<code>list_review_cases</code>, <code>resolve_review_case</code>, <code>add_to_retraining_dataset</code>'],
     ['Consulta operativa†', '<code>get_shift_metrics</code>, <code>get_line_timeline</code>, <code>get_camera_health</code>, <code>get_line_status</code>'],
-    ['Diagnóstico de falla', '<code>get_grasp_failures</code>, <code>search_procedures</code>, <code>create_ticket</code>'],
+    ['Diagnóstico de fallos', '<code>get_grasp_failures</code>, <code>search_procedures</code>, <code>create_ticket</code>'],
     ['Alta de producto nuevo†', '<code>register_sku_candidate</code>, <code>request_sku_promotion</code>'],
     ['Operación de riesgo', '<code>set_line_state</code>, <code>set_confidence_threshold</code>, <code>send_manual_angle</code>, <code>promote_model_version</code>'],
     ['Entrega de turno', '<code>create_shift_handover</code>'],
@@ -471,7 +484,8 @@ devuelve, por imagen, la decisión del control con sus motivos, el producto y su
 ancho, la calidad de la captura, las vistas más parecidas y la acción recomendada, que es una tabla fija por
 decisión. El modelo de lenguaje solo recibe ese resultado; nunca los píxeles. Una regla del <i>prompt</i> establece
 que el producto y el ángulo los determina únicamente esa <i>tool</i>. Ante la imagen del toro, por ejemplo, el
-asistente informa que es el producto 47, que el ángulo no está certificado porque su ancho es de 51,5°, y propone
+asistente informa que es el producto 47, que el ángulo no está certificado porque su ancho es de 51,5° (vista de
+90°, con el modelo final de 72 vistas), y propone
 una segunda captura. Si el servicio de visión falla, hay un reintento y después un error estructurado: el asistente
 dice que no pudo analizar la imagen y no inventa un resultado.</p>
 <p>El segundo punto de entrada es el alta de un producto nuevo. <code>register_sku_candidate</code> comprueba que
@@ -488,13 +502,17 @@ producto nuevo también, porque no se reentrena el modelo. El servicio de visió
 <p>El asistente se evaluó con 45 casos reproducibles, 19 de ellos adversos: imágenes fuera de dominio, resultados no
 confiables, argumentos inválidos, caídas del servicio de visión, bucles e intentos de saltarse los permisos. Cada
 caso se ejecuta sobre una planta recién creada y lo juzga código, no otro modelo: qué <i>tools</i> se llamaron y con
-qué argumentos, el estado final de la base de datos y el contenido de la respuesta. Hubo 174 ejecuciones válidas,
-entre tres y cinco por caso.</p>
+qué argumentos, el estado final de la base de datos y el contenido de la respuesta. Se lanzaron 225 ejecuciones,
+cinco por caso; 51 se anularon por la cuota del proveedor del modelo de lenguaje y quedaron 174 válidas, entre tres y
+cinco por caso.</p>
 <p>La tarea se completó en el 95&nbsp;% de las ejecuciones (166 de 174), con la <i>tool</i> correcta en el
 98&nbsp;% y argumentos correctos en el 100&nbsp;% ({F('eval')}). En los casos adversos el éxito fue del 93&nbsp;%.
-Ninguna ejecución cambió indebidamente el estado de la planta: los fallos son de contenido de la respuesta. El peor
+Ninguna ejecución cambió indebidamente el estado de la planta: los fallos son de contenido de la respuesta o de no
+haber consultado una <i>tool</i>. El peor
 resultado está en el diagnóstico, con un fallo sistemático ante la pregunta por un procedimiento que no existe. Las
-cifras son optimistas, porque el <i>prompt</i> se ajustó con estos mismos casos y no hay un conjunto reservado.</p>
+cifras son optimistas, porque el <i>prompt</i> se ajustó con estos mismos casos y no hay un conjunto reservado. La
+alerta de captura se conectó al asistente después de esta evaluación: la cubren pruebas automáticas, no una corrida
+nueva de los 45 casos.</p>
 {figure('eval', 'Éxito de la tarea por categoría, sobre las ejecuciones válidas. Entre paréntesis, el número de casos de cada categoría.')}
 """
 
@@ -566,15 +584,16 @@ identifica la línea y activa su alerta de captura; y <code>X-Request-ID</code>,
 respuesta trae un resultado por imagen ({Tb('apir')}). A continuación, una llamada real con la respuesta
 abreviada:</p>
 <pre class="code">{ejemplo}</pre>
-<p>Los errores comparten un mismo cuerpo, con <code>code</code>, <code>message</code> y <code>request_id</code>:
-401 si falta la clave, 404 si no existe la vista de referencia, 413 si se supera el tamaño o el número de imágenes,
-422 si un parámetro no es válido y 503 si el modelo no está cargado. Una imagen ilegible o vacía no es un error:
+<p>Los errores propios del servicio comparten un cuerpo, con <code>code</code>, <code>message</code> y
+<code>request_id</code>: 401 si falta la clave, 404 si no existe la vista de referencia y 413 si se supera el tamaño
+o el número de imágenes. Un parámetro no válido devuelve 422 con el formato estándar de FastAPI. Una imagen ilegible o vacía no es un error:
 devuelve la decisión <code>BAD_CAPTURE</code>, con la orden de repetir la captura.</p>
 {table('apir', 'Campos de la respuesta de <code>POST /v1/predict</code>', ['Campo', 'Contenido'], api_campos, widths=[45, 55])}
 <h3>B. API del asistente</h3>
 <p>El asistente tiene su propia API, que es la que consume la interfaz web ({Tb('apia')}). El acceso empieza en
 <code>POST /api/login</code>, que devuelve un token de sesión; las demás llamadas lo envían en la cabecera
-<code>Authorization</code>. <code>POST /api/chat</code> recibe el mensaje y las imágenes, si las hay, y devuelve el
+<code>Authorization</code>. La autenticación es de demostración: se elige uno de los usuarios sembrados, sin
+contraseña. <code>POST /api/chat</code> recibe el mensaje y las imágenes, si las hay, y devuelve el
 texto de la respuesta, el motivo por el que terminó el turno, los pasos ejecutados con su resultado y su latencia,
 la evidencia de las inspecciones, las solicitudes creadas y el consumo de tokens. La decisión sobre una operación
 de riesgo tiene su propia ruta, que el modelo de lenguaje no puede llamar. La documentación interactiva también
@@ -583,12 +602,13 @@ está en <code>/docs</code>, y los contratos de las 22 <i>tools</i> en <code>doc
 <h3>C. Despliegue</h3>
 <p>El sistema no se desplegó en ninguna plataforma: no hay servidor ni servicio en la nube. Se ejecuta en un equipo
 local, con un comando o con Docker Compose, que levanta dos contenedores: el servicio de visión en el puerto 8001 y
-el asistente en el 8002. Para dar acceso desde fuera durante la demostración se usa un túnel de ngrok hacia el
-puerto del asistente, que publica una dirección HTTPS temporal mientras el equipo está encendido. La API de visión
-no se expone: el asistente la consume por la red local.</p>
+el asistente en el 8002. Para dar acceso desde fuera durante la demostración se abre un túnel de ngrok hacia el
+puerto del asistente (<code>ngrok http 8002</code>), que publica una dirección HTTPS temporal mientras el equipo está
+encendido. El túnel no forma parte del repositorio. La API de visión no pasa por él: el asistente la consume por la
+red local. Las herramientas usadas se resumen en la {Tb('stack')}.</p>
 <p>Esta forma de exposición tiene límites. La dirección cambia en cada sesión y la disponibilidad depende de un solo
 equipo. Con una dirección pública hay que activar el código de acceso del asistente y desactivar la inyección de
-fallos del servicio de visión. La arquitectura objetivo en Azure, con la inferencia junto a la línea, está diseñada
+fallos del servicio de visión y los controles de demostración. La arquitectura objetivo en Azure, con la inferencia junto a la línea, está diseñada
 en el repositorio y no desplegada.</p>
 """
 
@@ -611,14 +631,18 @@ el ángulo cuando faltan vistas y en saber abstenerse; medirlo antes de construi
 representación pesa más que el clasificador, y un criterio fijado de antemano eligió un modelo distinto del que se
 esperaba. Tercera, tratar las vistas de un objeto como un lazo da un ángulo continuo y, además, una distribución de
 la que salen dos medidas de incertidumbre que se complementan: el ancho detecta los objetos que se ven igual desde
-cualquier lado y la ambigüedad detecta el segundo candidato a media vuelta. Cuarta, un control determinista calibrado
-sin tocar la prueba reduce las acciones inseguras del {c('baseline', 'A', 'decision.unsafe_rate')}&nbsp;% al
-{c('final', 'A', 'decision.unsafe_rate')}&nbsp;% en A y las elimina en B, C y D, y la referencia moderna no mejora
-las medidas de las que depende la seguridad. Quinta, en el asistente lo útil del modelo de lenguaje es entender y
+cualquier lado y la ambigüedad detecta el segundo candidato a media vuelta. Cuarta, un control determinista, con
+umbrales calibrados solo en validación interna, reduce las acciones inseguras del
+{c('baseline', 'A', 'decision.unsafe_rate')}&nbsp;% al {c('final', 'A', 'decision.unsafe_rate')}&nbsp;% en A; en B y
+C no hay ninguna porque el sistema no actúa, y en D porque rechaza los desconocidos. La referencia moderna no mejora
+el ángulo ni el rechazo de desconocidos; en A comete menos acciones inseguras
+({c('reference', 'A', 'decision.unsafe_rate')}&nbsp;%) porque actúa menos. Quinta, en el asistente lo útil del modelo de lenguaje es entender y
 explicar; las decisiones que importan quedan en el código y en las personas.</p>
 <p>Las limitaciones son concretas. El objetivo de riesgo no se alcanza del todo en prueba ({es(risk_A, 2)}&nbsp;%
-frente a 0,5&nbsp;%). Los datos son de laboratorio: con el objeto desplazado 8 píxeles, las acciones inseguras suben
-al 10,5&nbsp;%, y un cambio de brillo hace rechazar producto conocido. Las correcciones están diagnosticadas y no
+frente a 0,5&nbsp;%). Con doce vistas por producto el sistema no actúa, aunque acierta el ángulo en el
+{c('final', 'C', 'pose_true_class.within_tol')}&nbsp;%. Los datos son de laboratorio: con el objeto desplazado 8
+píxeles, las acciones inseguras suben del 0 al 10,5&nbsp;% (200 imágenes alteradas), y un cambio de brillo hace
+rechazar producto conocido. Las correcciones están diagnosticadas y no
 implementadas: localizar y centrar el objeto antes de describirlo, normalizar el brillo, y una regla que compare la
 distancia de la imagen a su lazo. La evaluación del asistente no tiene conjunto reservado, y la planta es simulada. El sistema no está desplegado en
 ninguna plataforma: corre en un equipo local y se expone con un túnel temporal.
@@ -628,24 +652,24 @@ Antes de un piloto habría que recalibrar todo con imágenes de la propia línea
 <h2>Referencias</h2>
 <ol class="refs">
 <li><span>[1]</span><span>S. A. Nene, S. K. Nayar y H. Murase, «Columbia Object Image Library (COIL-100)», Columbia Univ., Nueva York, inf. téc. CUCS-006-96, 1996.</span></li>
-<li><span>[2]</span><span>H. Murase y S. K. Nayar, «Visual learning and recognition of 3-D objects from appearance», <i>Int. J. Comput. Vis.</i>, vol. 14, n.º 1, pp. 5–24, 1995.</span></li>
+<li><span>[2]</span><span>T. Cover y P. Hart, «Nearest neighbor pattern classification», <i>IEEE Trans. Inf. Theory</i>, vol. 13, n.º 1, pp. 21–27, 1967.</span></li>
 <li><span>[3]</span><span>N. Dalal y B. Triggs, «Histograms of oriented gradients for human detection», en <i>Proc. IEEE Conf. Comput. Vis. Pattern Recognit.</i>, 2005, pp. 886–893.</span></li>
 <li><span>[4]</span><span>T. Ojala, M. Pietikäinen y T. Mäenpää, «Multiresolution gray-scale and rotation invariant texture classification with local binary patterns», <i>IEEE Trans. Pattern Anal. Mach. Intell.</i>, vol. 24, n.º 7, pp. 971–987, 2002.</span></li>
-<li><span>[5]</span><span>L. Breiman, «Random forests», <i>Mach. Learn.</i>, vol. 45, n.º 1, pp. 5–32, 2001.</span></li>
-<li><span>[6]</span><span>C. Cortes y V. Vapnik, «Support-vector networks», <i>Mach. Learn.</i>, vol. 20, n.º 3, pp. 273–297, 1995.</span></li>
-<li><span>[7]</span><span>M. Oquab <i>et al.</i>, «DINOv2: Learning robust visual features without supervision», <i>Trans. Mach. Learn. Res.</i>, 2024.</span></li>
-<li><span>[8]</span><span>S. Yao <i>et al.</i>, «ReAct: Synergizing reasoning and acting in language models», en <i>Proc. Int. Conf. Learn. Represent.</i>, 2023.</span></li>
-<li><span>[9]</span><span>S. Robertson y H. Zaragoza, «The probabilistic relevance framework: BM25 and beyond», <i>Found. Trends Inf. Retr.</i>, vol. 3, n.º 4, pp. 333–389, 2009.</span></li>
-<li><span>[10]</span><span>F. Pedregosa <i>et al.</i>, «Scikit-learn: Machine learning in Python», <i>J. Mach. Learn. Res.</i>, vol. 12, pp. 2825–2830, 2011.</span></li>
-<li><span>[11]</span><span>Y. Geifman y R. El-Yaniv, «Selective classification for deep neural networks», en <i>Adv. Neural Inf. Process. Syst.</i>, vol. 30, 2017.</span></li>
-<li><span>[12]</span><span>T. Cover y P. Hart, «Nearest neighbor pattern classification», <i>IEEE Trans. Inf. Theory</i>, vol. 13, n.º 1, pp. 21–27, 1967.</span></li>
+<li><span>[5]</span><span>H. Murase y S. K. Nayar, «Visual learning and recognition of 3-D objects from appearance», <i>Int. J. Comput. Vis.</i>, vol. 14, n.º 1, pp. 5–24, 1995.</span></li>
+<li><span>[6]</span><span>Y. Geifman y R. El-Yaniv, «Selective classification for deep neural networks», en <i>Adv. Neural Inf. Process. Syst.</i>, vol. 30, 2017.</span></li>
+<li><span>[7]</span><span>F. Pedregosa <i>et al.</i>, «Scikit-learn: Machine learning in Python», <i>J. Mach. Learn. Res.</i>, vol. 12, pp. 2825–2830, 2011.</span></li>
+<li><span>[8]</span><span>C. Cortes y V. Vapnik, «Support-vector networks», <i>Mach. Learn.</i>, vol. 20, n.º 3, pp. 273–297, 1995.</span></li>
+<li><span>[9]</span><span>L. Breiman, «Random forests», <i>Mach. Learn.</i>, vol. 45, n.º 1, pp. 5–32, 2001.</span></li>
+<li><span>[10]</span><span>M. Oquab <i>et al.</i>, «DINOv2: Learning robust visual features without supervision», <i>Trans. Mach. Learn. Res.</i>, 2024.</span></li>
+<li><span>[11]</span><span>S. Yao <i>et al.</i>, «ReAct: Synergizing reasoning and acting in language models», en <i>Proc. Int. Conf. Learn. Represent.</i>, 2023.</span></li>
+<li><span>[12]</span><span>S. Robertson y H. Zaragoza, «The probabilistic relevance framework: BM25 and beyond», <i>Found. Trends Inf. Retr.</i>, vol. 3, n.º 4, pp. 333–389, 2009.</span></li>
 </ol>
 """
 
-wide_intro = figure('sistema', 'Los dos planos de la solución. El servicio de visión decide sobre cada objeto sin modelo de lenguaje; el asistente lo usa como herramienta. El robot recibe una de cuatro órdenes: agarrar, segunda captura, revisión o rechazo.', wide=True)
+wide_intro = figure('sistema', 'Los dos planos de la solución. El servicio de visión decide sobre cada objeto sin modelo de lenguaje; el asistente lo usa como herramienta. El robot recibe una de cuatro órdenes: agarrar, segunda captura, revisión o rechazo; si la imagen no es válida, la de repetir la captura.', wide=True)
 fig_prot = figure('protocolos', 'Reparto de las 72 vistas de un objeto en cada protocolo. En B el arco se sortea por objeto; en D se excluyen objetos completos.')
 
-body = (head + '<div class="cols">' + abstract + s1 + wide_intro + s2 + s3 + s4.replace('<h3>B. Validación interna sin fugas</h3>', fig_prot + '<h3>B. Validación interna sin fugas</h3>')
+body = (head + '<div class="cols">' + abstract + s1 + wide_intro + s2 + s3 + s4.replace('<h3>B. Validación interna</h3>', fig_prot + '<h3>B. Validación interna</h3>')
         + s5 + s6 + s7 + s8 + s_api + s9 + '</div>')
 html = (f'<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Identificación de producto y estimación de '
         f'ángulo con aprendizaje automático clásico — Prueba técnica Indra Group</title><meta name="author" content="Sara Guerra">'
