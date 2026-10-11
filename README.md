@@ -15,6 +15,7 @@ clásico sobre COIL-100.
 | 10 | Servicio desplegado | despliegue local de un comando, la opción sin URL pública que admite el enunciado (ver [Ejecución local](#ejecución-local)); visión: [`doc/12_servicio_de_vision.md`](doc/12_servicio_de_vision.md); asistente: [`doc/14_asistente_agentico.md`](doc/14_asistente_agentico.md) | listo |
 | 12 | Arquitectura Azure y modelo de costos | [`doc/16_arquitectura_azure_y_finops.md`](doc/16_arquitectura_azure_y_finops.md), hoja de cálculo [`doc/costos/modelo_de_costos_azure.xlsx`](doc/costos/modelo_de_costos_azure.xlsx) | listo |
 | — | Plan de proyecto (pedido en la ficha de la prueba) | [`doc/17_plan_de_proyecto.md`](doc/17_plan_de_proyecto.md) | listo |
+| — | Reporte técnico de toda la prueba, en formato de artículo IEEE | [`reports/reporte_tecnico_ieee.pdf`](reports/reporte_tecnico_ieee.pdf); fuentes en [`doc/reporte_ieee/`](doc/reporte_ieee/) | listo |
 
 ## Reto 2 en una página
 
@@ -66,7 +67,8 @@ uv run --extra service --extra agent lineops-up       # visión en :8001, asiste
 Con Docker, el equivalente es `docker compose up --build` (mismos puertos; probado).
 
 Levanta dos procesos independientes: el servicio de visión y el asistente con su interfaz web. La planta es
-simulada y se siembra sola en `var/plant.db` (borrar `var/` la reinicia). Evaluación del agente:
+simulada y se siembra sola en `var/plant.db` (borrar `var/` la reinicia). Con `LINEOPS_DEMO_CONTROLS=true` la
+interfaz permite simular capturas de una línea para ver la alerta de captura. Evaluación del agente:
 
 ```bash
 uv run --extra service --extra agent python -m lineops.evals.run --repeats 3    # 45 casos x 3 -> reports/agent_eval.md
