@@ -29,6 +29,7 @@ iteración v3 de robustez, reporte PDF, commits, Retos 3, 4 y 6, plan de proyect
 | 14 | [Asistente agéntico](14_asistente_agentico.md) | Reto 3: patrón y alternativas, límites, memoria, aislamiento, flujo con aprobación humana, escenarios adversos y evaluación |
 | 15 | [Threat model](15_threat_model.md) | Reto 3: activos, fronteras de confianza, amenazas y controles con su evidencia, riesgo residual |
 | 16 | [Arquitectura Azure y FinOps](16_arquitectura_azure_y_finops.md) | Reto 6: qué va en la planta y qué en la nube, servicios con sus alternativas, modelo de costos con precios reales, caso de negocio y palancas |
+| 17 | [Plan de proyecto](17_plan_de_proyecto.md) | Criterios de éxito, equipo, fases con puertas de salida, riesgos, personas y presupuesto |
 
 `img/` contiene las figuras citadas; `scripts_analisis/` los scripts exploratorios que produjeron los números de
 las fases de análisis (antes de existir la librería).
