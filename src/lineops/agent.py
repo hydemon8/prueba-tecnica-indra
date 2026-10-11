@@ -183,8 +183,10 @@ class Agent:
                     else:
                         outcome = "ok" if out["ok"] else out["error"]["code"]
                     if out["ok"] and c.name == "inspect_images":
-                        result.evidence += [{k: r[k] for k in ("image_id", "filename", "decision", "object_id", "angle_deg",
-                                                               "similar_views_by_appearance")} for r in data["results"]]
+                        result.evidence += [{k: r[k] for k in (
+                            "image_id", "filename", "decision", "reasons", "recommended_action", "robot_command", "object_id",
+                            "class_confidence", "novelty", "angle_deg", "angle_credible_width_deg",
+                            "similar_views_by_appearance")} for r in data["results"]]
                 result.steps.append(Step(c.name, c.args if isinstance(c.args, dict) else {}, bool(out["ok"]), outcome,
                                          round((time.perf_counter() - t1) * 1000, 1)))
                 outputs.append({"id": c.id, "name": c.name, "result": _for_model(out)})
