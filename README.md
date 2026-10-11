@@ -8,7 +8,7 @@ clásico sobre COIL-100. *Documento en construcción: el índice de entregables 
 | # | Entregable | Ubicación | Estado |
 |---|---|---|---|
 | 2 | Notebook de experimentación reproducible | [`notebooks/01_reto2_experimentacion.ipynb`](notebooks/01_reto2_experimentacion.ipynb) | listo |
-| 3 | Reporte por protocolo, análisis de errores y model card | [`reports/model_card.md`](reports/model_card.md), [`reports/results.json`](reports/results.json) (PDF pendiente) | en curso |
+| 3 | Reporte por protocolo, análisis de errores y model card | PDF: [`reports/entregable_3_reporte_errores_model_card.pdf`](reports/entregable_3_reporte_errores_model_card.pdf); fuentes: [`reports/results.json`](reports/results.json), [`reports/model_card.md`](reports/model_card.md) | listo |
 | 5 | Repositorio de código | este repo: `src/linevision` (visión) y `src/lineops` (asistente) | listo |
 | 7 | Catálogo de tools y contratos | [`doc/13_catalogo_de_tools.md`](doc/13_catalogo_de_tools.md), [`doc/openapi/tools.json`](doc/openapi/tools.json) | listo |
 | 8 | Threat model y controles | [`doc/15_threat_model.md`](doc/15_threat_model.md) | listo |
