@@ -13,15 +13,18 @@ from __future__ import annotations
 import logging
 import secrets
 from pathlib import Path
+from typing import Literal
 
 from fastapi import Depends, FastAPI, File, Form, Header, HTTPException, Response, UploadFile
 from fastapi.responses import FileResponse, HTMLResponse
 from pydantic import BaseModel, Field
 
+from .demo import simulate_captures
 from .plant.db import one, rows
 from .policy import principal_for
 from .runtime import Runtime, build
 from .tools import REGISTRY, Principal, ToolError
+from .tools.read import capture_alert
 
 log = logging.getLogger("lineops.api")
 STATIC = Path(__file__).parent / "static"
@@ -38,7 +41,12 @@ class DecisionBody(BaseModel):
     comment: str = Field("", max_length=300)
 
 
-def create_app(runtime: Runtime | None = None, access_code: str | None = None) -> FastAPI:
+class DemoCapturesBody(BaseModel):
+    line_id: str = Field(pattern=r"^L\d{1,2}$")
+    scenario: Literal["lamp_fault", "normal"]
+
+
+def create_app(runtime: Runtime | None = None, access_code: str | None = None, demo_controls: bool = False) -> FastAPI:
     rt = runtime or build()
     app = FastAPI(title="lineops — asistente de operación de visión", version="1.0.0")
     tokens: dict[str, str] = {}  # token -> user_id (en memoria: la demo es de un solo proceso)
@@ -121,6 +129,31 @@ def create_app(runtime: Runtime | None = None, access_code: str | None = None) -
         if data is None:
             raise HTTPException(404, "vista de referencia no disponible")
         return Response(data, media_type="image/png", headers={"Cache-Control": "max-age=3600"})
+
+    @app.get("/api/lines")
+    def lines(user_id: str = Depends(user_of)):
+        """Estado de las líneas del usuario y su alerta de captura, para la interfaz."""
+        p = principal_for(rt.con, user_id, "lines")
+        out = []
+        for line_id in p.lines:
+            line = one(rt.con, "SELECT line_id, status, class_conf_min, model_version FROM lines WHERE plant_id=? AND line_id=?",
+                       (p.plant_id, line_id))
+            if line:
+                out.append({**line, "capture_alert": capture_alert(rt.executor.vision, p.plant_id, line_id)})
+        return {"lines": out, "demo_controls": demo_controls}
+
+    @app.post("/api/demo/captures")
+    def demo_captures(body: DemoCapturesBody, user_id: str = Depends(user_of)):
+        """Hace de controlador de línea para la demostración: envía capturas simuladas al servicio de visión."""
+        if not demo_controls:
+            raise HTTPException(404, "los controles de demostración están desactivados")
+        p = principal_for(rt.con, user_id, "demo")
+        if body.line_id not in p.lines:
+            raise HTTPException(403, f"no tienes acceso a la línea {body.line_id}")
+        try:
+            return simulate_captures(rt.executor.vision, p.plant_id, body.line_id, body.scenario)
+        except ToolError as e:
+            raise HTTPException(503, e.message) from None
 
     @app.get("/api/approvals")
     def approvals(user_id: str = Depends(user_of)):

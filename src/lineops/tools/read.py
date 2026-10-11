@@ -353,6 +353,17 @@ class LineArgs(Args):
     line_id: str = LINE
 
 
+def capture_alert(vision, plant_id: str, line_id: str) -> dict:
+    """Alerta de captura en vivo, tal como la calcula el servicio de visión. Si visión no responde no se supone
+    ningún estado: se dice que no está disponible."""
+    try:
+        s = vision.line_alert(f"{plant_id}-{line_id}")
+    except ToolError as e:
+        return {"available": False, "detail": e.message}
+    return {"available": True, **{k: s[k] for k in ("active", "unknown_rate", "window_samples", "raise_at", "clear_at",
+                                                    "brightness_change", "probable_cause", "effect")}}
+
+
 def get_line_status(ctx: ToolContext, a: LineArgs) -> dict:
     w, p = _where(ctx, a.line_id)
     line = one(ctx.con, f"SELECT * FROM lines WHERE {w}", p)
@@ -363,11 +374,14 @@ def get_line_status(ctx: ToolContext, a: LineArgs) -> dict:
                                WHERE plant_id=? AND (line_id=? OR line_id IS NULL) AND status='PENDING'""", p)
     for r in pending:
         r["args"] = json.loads(r["args"])
-    return {"line": line, "now": iso(ctx.now), "recent_line_events": recent, "pending_approvals": pending}
+    return {"line": line, "now": iso(ctx.now), "recent_line_events": recent, "pending_approvals": pending,
+            "capture_alert": capture_alert(ctx.vision, ctx.principal.plant_id, a.line_id)}
 
 
 register(ToolSpec(
     "get_line_status", "Estado actual de una línea: en marcha o en pausa, umbral de confianza, versión de modelo, "
-    "cámara, últimos eventos y solicitudes de aprobación pendientes.",
+    "cámara, últimos eventos, solicitudes de aprobación pendientes y alerta de captura en vivo (subida brusca de "
+    "objetos desconocidos, con su causa probable).",
     LineArgs, get_line_status, "read", roles=ALL_ROLES, failure_modes=("not_found",),
+    model_sees="estado de la línea y de la alerta; si el servicio de visión no responde, la alerta figura como no disponible",
     use_cases=("consulta operativa", "operación de riesgo", "entrega de turno")))

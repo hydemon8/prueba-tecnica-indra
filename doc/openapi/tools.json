@@ -533,7 +533,7 @@
       "name": "get_line_status",
       "kind": "read",
       "risk": "low",
-      "description": "Estado actual de una línea: en marcha o en pausa, umbral de confianza, versión de modelo, cámara, últimos eventos y solicitudes de aprobación pendientes.",
+      "description": "Estado actual de una línea: en marcha o en pausa, umbral de confianza, versión de modelo, cámara, últimos eventos, solicitudes de aprobación pendientes y alerta de captura en vivo (subida brusca de objetos desconocidos, con su causa probable).",
       "roles": [
         "maintenance",
         "ml_engineer",

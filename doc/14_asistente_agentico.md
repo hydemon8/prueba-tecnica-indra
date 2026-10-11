@@ -234,3 +234,19 @@ Cómo leer estas cifras:
    instrucciones y contratos; con caché de contexto el costo por turno baja a menos de la mitad.
 6. **Ampliar el set adverso** (medio, medio). Inyecciones más elaboradas, conversaciones largas que fuercen el
    plegado del historial, y concurrencia entre dos usuarios sobre el mismo caso.
+
+## 14.9 Alerta de captura en el asistente
+
+La alerta de captura la calcula el servicio de visión (documento 12, sección 12.9). El asistente no la reimplementa:
+
+- **Tool.** `get_line_status` devuelve, junto al estado de la línea, el campo `capture_alert`: si está activa, la
+  tasa de desconocidos en la ventana, la causa probable y el efecto. No se añadió una tool nueva; siguen siendo 22.
+- **Interfaz.** Un panel de líneas muestra el estado de cada una y su alerta, y un aviso sobre la conversación
+  aparece mientras hay alguna activa. Se actualiza cada 15 segundos (`GET /api/lines`).
+- **Demostración.** Con `LINEOPS_DEMO_CONTROLS=true` la interfaz ofrece dos botones por línea, «Fallo de lámpara» y
+  «Capturas normales», que envían capturas simuladas al servicio de visión (`POST /api/demo/captures`). Están
+  desactivados por defecto y solo actúan sobre las líneas del usuario.
+
+Este cambio es posterior a la evaluación de 14.8: las cifras de esa sección se obtuvieron cuando `get_line_status`
+todavía no incluía la alerta. Lo cubren pruebas automáticas (`tests/test_line_alert.py`), no una corrida nueva
+del set de evaluación.

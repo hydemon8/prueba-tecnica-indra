@@ -216,13 +216,14 @@ Tickets de mantenimiento e incidencias de una línea, con su estado y severidad.
 
 ### 11. `get_line_status`
 
-Estado actual de una línea: en marcha o en pausa, umbral de confianza, versión de modelo, cámara, últimos eventos y solicitudes de aprobación pendientes.
+Estado actual de una línea: en marcha o en pausa, umbral de confianza, versión de modelo, cámara, últimos eventos, solicitudes de aprobación pendientes y alerta de captura en vivo (subida brusca de objetos desconocidos, con su causa probable).
 
 - **Tipo**: lectura · **Riesgo**: bajo
 - **Roles que pueden usarla**: todos
 - **Efectos laterales**: ninguno
 - **Ante repeticiones**: n/a
 - **Errores propios**: `not_found`
+- **Qué ve el modelo**: estado de la línea y de la alerta; si el servicio de visión no responde, la alerta figura como no disponible
 
 | Argumento | Tipo | Obligatorio | Restricciones | Descripción |
 |---|---|---|---|---|

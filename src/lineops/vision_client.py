@@ -23,12 +23,12 @@ class VisionClient:
         self.retries = retries
         self.base_url = base_url
 
-    def _request(self, method: str, url: str, **kw) -> dict:
+    def _request(self, method: str, url: str, headers: dict | None = None, **kw) -> dict:
         request_id = uuid.uuid4().hex
         last = "sin respuesta"
         for attempt in range(self.retries + 1):
             try:
-                r = self.http.request(method, url, headers={"X-Request-ID": request_id}, **kw)
+                r = self.http.request(method, url, headers={"X-Request-ID": request_id, **(headers or {})}, **kw)
             except httpx.TimeoutException:
                 last = "timeout"
             except httpx.HTTPError as e:
@@ -47,9 +47,15 @@ class VisionClient:
                         f"el servicio de visión no respondió ({last}) tras {self.retries + 1} intentos",
                         retryable=True, request_id=request_id)
 
-    def predict(self, files: list[tuple[str, bytes]], top_k: int = 3) -> dict:
+    def predict(self, files: list[tuple[str, bytes]], top_k: int = 3, line_id: str | None = None) -> dict:
+        """`line_id` solo lo envía quien hace de controlador de línea: sus capturas cuentan para la alerta."""
         payload = [("images", (name, data, "image/png")) for name, data in files]
-        return self._request("POST", "/v1/predict", params={"top_k": top_k}, files=payload)
+        headers = {"X-Line-ID": line_id} if line_id else None
+        return self._request("POST", "/v1/predict", headers=headers, params={"top_k": top_k}, files=payload)
+
+    def line_alert(self, line_id: str) -> dict:
+        """Estado de la alerta de captura de una línea (regla determinista del servicio de visión)."""
+        return self._request("GET", f"/v1/lines/{line_id}/monitor")
 
     def model_info(self) -> dict:
         return self._request("GET", "/v1/model")

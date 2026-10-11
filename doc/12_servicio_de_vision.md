@@ -192,7 +192,21 @@ apunta a la cámara, la posición del objeto o un lote no dado de alta.
 **Qué no cuenta.** Las inspecciones manuales del asistente no envían `X-Line-ID`: no entran en la ventana ni se
 retienen. Las capturas `BAD_CAPTURE` tampoco cuentan.
 
-**Evidencia** (`tests/test_capture_alert.py`): con 40 vistas limpias de COIL-100 seguidas de 20 atenuadas un 30 %,
+**Quién la consulta.** El asistente la lee con `GET /v1/lines/{línea}/monitor`, usando como identificador
+`{planta}-{línea}` (por ejemplo `BAQ-L1`). La tool `get_line_status` la incluye en el estado de la línea, así que
+cualquier rol puede preguntar si hay una alerta activa y por qué. La interfaz la muestra en un panel de líneas y,
+si está activa, en un aviso sobre la conversación. Si el servicio de visión no responde, la alerta figura como no
+disponible: no se supone ningún estado.
+
+**Cómo se demuestra.** No hay línea física, así que el asistente trae un simulador que hace de controlador de
+línea (`src/lineops/demo.py`): envía vistas del catálogo como capturas, con `X-Line-ID`, y en el escenario de
+fallo oscurece las últimas un 30 %. Se activa con `LINEOPS_DEMO_CONTROLS=true` y aparece en la interfaz como dos
+botones por línea. Con 40 capturas normales y 30 oscurecidas, la alerta se activa con un 43 % de desconocidos,
+señala la iluminación, y de los 30 objetos oscurecidos se retienen 26 y se rechazan 4, los anteriores a la
+activación. Con 100 capturas normales se desactiva. El simulador no decide nada: la alerta la calcula el servicio
+de visión con la misma regla.
+
+**Evidencia** (`tests/test_capture_alert.py` y `tests/test_line_alert.py`): con 40 vistas limpias de COIL-100 seguidas de 20 atenuadas un 30 %,
 la alerta se activa, señala la iluminación como causa, y de las atenuadas se rechazan como mucho las 5 primeras;
 las demás se retienen para revisión.
 

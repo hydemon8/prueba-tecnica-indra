@@ -46,7 +46,8 @@ def main() -> None:
     if not _ready(settings.vision_url):
         log.warning("el servicio de visión no responde en %s: el asistente arrancará degradado", settings.vision_url)
     try:
-        app = create_app(build(settings), os.environ.get("DEMO_ACCESS_CODE") or None)
+        app = create_app(build(settings), os.environ.get("DEMO_ACCESS_CODE") or None,
+                         demo_controls=os.environ.get("LINEOPS_DEMO_CONTROLS", "false").lower() == "true")
         log.info("asistente en http://%s:%s", settings.host, settings.port)
         uvicorn.run(app, host=settings.host, port=settings.port, log_level="info")
     finally:

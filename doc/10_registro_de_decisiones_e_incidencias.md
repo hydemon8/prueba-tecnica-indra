@@ -57,6 +57,7 @@
 | 20 | Despliegue local de un comando | URL pública temporal | El enunciado admite las dos opciones; los alojamientos gratuitos con contenedores ya no lo son |
 | 21 | No implementar las correcciones de robustez (v3) | Implementarlas dentro del plazo | Tiempo; quedan diagnosticadas (sección 9.4) y son la fase 1 del plan de proyecto |
 | 22 | Artefacto del modelo (34,6 MB) versionado en git | Git LFS; regenerarlo desde el notebook | Permite levantar el servicio sin ejecutar el notebook; el manifiesto fija su sha256 |
+| 23 | Llevar la alerta de captura al asistente dentro de `get_line_status` | Una tool nueva | No cambia el número de tools ni sus argumentos; el estado de una línea es donde alguien la buscaría |
 
 ## 10.3 Incidencias y errores propios
 
@@ -84,5 +85,5 @@
 | Umbral del control con cota superior de confianza del error | Documentado (sección 8.2) |
 | Política de simetría por SKU y pinza; alta de SKU con densidad mínima de vistas | Documentado |
 | Recalibración con imágenes de planta | Fase 1 del plan de proyecto (documento 17) |
-| Conectar la alerta de captura con el asistente | No iniciado |
+| Volver a correr la evaluación del agente con la alerta de captura ya conectada | No hecho: la conexión es posterior a la evaluación |
 | Proveedor de Azure OpenAI para el asistente | Diseñado (documento 16), no implementado |
