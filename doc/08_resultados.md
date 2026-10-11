@@ -1,7 +1,8 @@
 # 8. Resultados
 
-Todas las cifras de esta sección son de **prueba**, evaluada una sola vez por protocolo y repetición, salvo que se
-indique lo contrario. Fuente: `reports/results.json` (v2) y `reports/results_v1.json` (v1), generadas por el
+Todas las cifras de esta sección son de **prueba**, salvo que se indique lo contrario. La prueba se evaluó dos veces
+por protocolo y repetición, con la v1 y con la v2 del control de seguridad (sección 8.5); ningún umbral se ajustó con
+ella, y los modelos de identidad y de ángulo son los mismos en las dos. Fuente: `reports/results.json` (v2) y `reports/results_v1.json` (v1), generadas por el
 notebook; también en MLflow (experimento `reto2-coil100`, etiquetas `iteracion=v1` / `v2`). B y D: media ±
 desviación de 3 semillas.
 

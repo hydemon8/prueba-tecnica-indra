@@ -54,7 +54,7 @@
 | 17 | Re-ejecutar el notebook para que salidas y código coincidan | Editar la celda sin ejecutar | Reproducibilidad |
 | 18 | Documentar el proceso en `doc/` | Solo el README | Dejar trazables las decisiones, también las descartadas |
 | 19 | Reto 4 antes que el Reto 3 | Agente primero | Las tools del agente envuelven la API de visión |
-| 20 | Despliegue local de un comando | URL pública temporal | El enunciado admite las dos opciones; los alojamientos gratuitos con contenedores ya no lo son |
+| 20 | Despliegue local de un comando | URL pública temporal | El enunciado admite las dos opciones; los alojamientos gratuitos con contenedores ya no lo son. Para la demostración se puede abrir un túnel temporal de ngrok hacia el asistente, fuera del repositorio |
 | 21 | No implementar las correcciones de robustez (v3) | Implementarlas dentro del plazo | Tiempo; quedan diagnosticadas (sección 9.4) y son la fase 1 del plan de proyecto |
 | 22 | Artefacto del modelo (34,6 MB) versionado en git | Git LFS; regenerarlo desde el notebook | Permite levantar el servicio sin ejecutar el notebook; el manifiesto fija su sha256 |
 | 23 | Llevar la alerta de captura al asistente dentro de `get_line_status` | Una tool nueva | No cambia el número de tools ni sus argumentos; el estado de una línea es donde alguien la buscaría |
@@ -76,6 +76,7 @@
 | 11 | Los baselines de la fase 1 se midieron sobre las particiones de los protocolos | Ninguno en la selección: modelos fijos, solo diagnóstico | Transparencia: declarado en la sección 2.4; toda selección y calibración posterior usó validación interna |
 | 12 | La primera evaluación del agente se contaminó con errores 429 del proveedor de LLM (15 peticiones por minuto) | Casos fallidos por cuota, no por el agente | Control de ritmo, reintento tras la espera indicada y anulación de las corridas afectadas; el reporte cuenta solo ejecuciones válidas |
 | 13 | La latencia documentada (1,5–1,7 ms) era por imagen en lote, no por petición | Cifra optimista para una línea que procesa un objeto a la vez | Medida en el servicio: ≈ 28 ms por imagen suelta (sección 12); corregido en los documentos 6 y 8 y en la model card |
+| 14 | La documentación decía que la prueba se evaluó «una sola vez», cuando el control de seguridad se evaluó dos (v1 y v2) | Afirmación inexacta en ocho archivos, entre ellos la model card y los dos PDF | Corregida tras una revisión del reporte técnico: ningún umbral se ajustó con la prueba y los modelos de identidad y de ángulo no cambiaron entre versiones, pero la prueba se evaluó dos veces |
 
 ## 10.4 Pendientes
 

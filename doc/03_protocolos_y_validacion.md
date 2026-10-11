@@ -8,7 +8,9 @@ sistema y el mismo código**; cambia solo con qué fotos se entrena. Por cada pr
 
 1. Se entrena con sus vistas de entrenamiento (clasificador, curvas del plato, galería).
 2. Los umbrales se calibran con validación interna construida solo con vistas de entrenamiento.
-3. Se evalúa **una sola vez** sobre su prueba y se reporta por separado.
+3. Se evalúa sobre su prueba, sin ajustar con ella ningún umbral, y se reporta por separado. El control de seguridad
+   se evaluó dos veces en prueba (v1 y v2, sección 7.5); los modelos de identidad y de ángulo no cambiaron entre las
+   dos.
 
 Regla del enunciado: ningún hiperparámetro se ajusta sobre la prueba; la validación sale exclusivamente de las
 vistas de entrenamiento.

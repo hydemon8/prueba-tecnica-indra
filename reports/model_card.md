@@ -30,7 +30,7 @@ tamaño). Versión de datos: `4e39f8783785bc2d`. Sustituto controlado de las im�
    robot (±10°) se traduce en: conjunto creíble del 90 % ≤ 20°, SKU con cobertura angular
    certificada y ambigüedad bajo un umbral calibrado para que ≥ 99,5 % de los casos ACT queden dentro de ±10°.
 
-## Resultados por protocolo (prueba, evaluada una sola vez; % salvo indicación)
+## Resultados por protocolo (prueba, sin umbrales ajustados con ella; % salvo indicación)
 | protocolo   |   corridas | clase      | ángulo ±tol (clase dada)   | ángulo ±tol (con simetría)   | mediana error (°)   | ACT       | ángulo no certificado   | revisión   | desconocido   | acciones inseguras   | ángulo ±tol cuando actúa   | desconocidos rechazados   | latencia (ms/img)   |
 |:------------|-----------:|:-----------|:---------------------------|:-----------------------------|:--------------------|:----------|:------------------------|:-----------|:--------------|:---------------------|:---------------------------|:--------------------------|:--------------------|
 | A           |          1 | 99.9       | 97.0                       | 97.1                         | 0.5                 | 87.6      | 12.1                    | 0.2        | 0.1           | 0.7                  | 99.2                       | —                         | 0.2                 |

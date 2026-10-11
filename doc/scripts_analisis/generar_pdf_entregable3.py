@@ -153,8 +153,9 @@ bl([f"<b>Identidad</b>: {c('final', 'A', 'class_acc')} % en A, {c('final', 'B', 
     "el objetivo era 0,5 %.",
     "<b>Fuera del laboratorio</b>: un objeto desplazado 8 px produce 10,5 % de acciones inseguras, y un cambio de "
     "brillo de +15 % hace rechazar el 66 % del producto conocido. Son las dos correcciones previas a un piloto."])
-note("Todas las cifras por protocolo salen de reports/results.json, generado por el notebook. La prueba de cada "
-     "protocolo se evaluó una sola vez; ningún umbral se ajustó con ella.")
+note("Todas las cifras por protocolo salen de reports/results.json, generado por el notebook. Ningún umbral se ajustó "
+     "con la prueba, que se evaluó dos veces: con la primera versión del control de seguridad (1,0 % de acciones "
+     "inseguras en A) y con la definitiva.")
 
 # ------------------------------------------------------------------ parte 1
 part("Parte 1 — Reporte por protocolo")

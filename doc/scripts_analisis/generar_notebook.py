@@ -34,7 +34,7 @@ está** (giro sobre el eje vertical, 0–360°), **con qué confianza**, **qué 
 
 **Rigor.** Ningún hiperparámetro ni umbral ve la prueba: todo se fija en **particiones internas** construidas solo
 con vistas de entrenamiento que imitan cada protocolo. El criterio de selección está **pre-registrado** en
-`configs/model.yaml`. Cada protocolo se evalúa **una sola vez**. Todo queda registrado en MLflow.
+`configs/model.yaml`. Ningún umbral se ajusta con la prueba; el control de seguridad se evaluó en ella dos veces (v1 y v2). Todo queda registrado en MLflow.
 
 | Sección | Contenido |
 |---|---|

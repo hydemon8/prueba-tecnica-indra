@@ -83,7 +83,7 @@ tamaño). Versión de datos: `{data_version}`. Sustituto controlado de las imág
    robot (±{tol:.0f}°) se traduce en: conjunto creíble del 90 % ≤ {2 * tol:.0f}°, SKU con cobertura angular
    certificada y ambigüedad bajo un umbral calibrado para que ≥ 99,5 % de los casos ACT queden dentro de ±{tol:.0f}°.
 
-## Resultados por protocolo (prueba, evaluada una sola vez; % salvo indicación)
+## Resultados por protocolo (prueba, sin umbrales ajustados con ella; % salvo indicación)
 {table.to_markdown()}
 
 ## Comparación con baseline y referencia moderna
